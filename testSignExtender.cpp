@@ -29,7 +29,7 @@ int main(int argc, char const *argv[])
 {
 	SignExtender se;
 
-	cout << hex << showbase; // print number in hexadecimal format,
+	cout << hex << showbase << uppercase; // print number in hexadecimal format,
 
 	bool all_test_passed = true;
 
