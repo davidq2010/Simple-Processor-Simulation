@@ -44,12 +44,12 @@ class MUX : public ProcessorComponent
 
 		bool getOutput(int _line_id);
 
+		void updateOutput();
+
 	private:
 		bool* m_inputs;
 		bool* m_outputs;
 		bool* m_updated_inputs;
-
-		void updateOutput();
 
 		bool allInputsUpdated();
 };
