@@ -4,13 +4,15 @@
 #include "RegisterFile.h"
 
 
-const int RegisterFile::READ_REG_START_ID[2] = {0, 6}; 
+const int RegisterFile::READ_REG_START_ID[2] = {0, 5}; 
 
 const int RegisterFile::REG_DATA_START_ID[2] = {0, 32};
 
 const std::bitset<RegisterFile::NUM_INPUTS> 
 				RegisterFile::FULL_BIT_MASK_5(0b11111ul);
-		/// All read (non-write) related inputs (input line 10 - 0)
+
+const std::bitset<RegisterFile::NUM_INPUTS> 
+				RegisterFile::FULL_BIT_MASK_32(0xFFFF'FFFFul);
 
 const std::bitset<RegisterFile::NUM_INPUTS>
 				RegisterFile::READ_INPUTS(0x3FFul);
@@ -18,8 +20,18 @@ const std::bitset<RegisterFile::NUM_INPUTS>
 const std::bitset<RegisterFile::NUM_INPUTS>
 				RegisterFile::WRITE_INPUTS = ~READ_INPUTS;
 
+
 RegisterFile::
 RegisterFile() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
+
+
+RegisterFile::
+RegisterFile(unsigned long _data[]) 
+		: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) 
+{
+	for (int i = 0; i < NUM_REGS; i++)
+		m_register_data[i] = _data[i];
+}
 
 
 void
@@ -48,7 +60,7 @@ bool
 RegisterFile::
 isAllReadInputsUpdated()
 {
-	return (m_inputs & READ_INPUTS) == READ_INPUTS;
+	return (m_updated_inputs & READ_INPUTS) == READ_INPUTS;
 }
 
 
@@ -56,7 +68,7 @@ bool
 RegisterFile::
 isAllWriteInputsUpdated()
 {
-	return (m_inputs & WRITE_INPUTS) == WRITE_INPUTS;
+	return (m_updated_inputs & WRITE_INPUTS) == WRITE_INPUTS;
 }
 
 
@@ -76,12 +88,12 @@ updateOutput()
 		int reg_id = ((m_inputs >> start_id) & FULL_BIT_MASK_5).to_ulong();
 
 		// get register data
-		data[port] = m_registerData[reg_id];
+		data[port] = m_register_data[reg_id];
 	}
 
 	// put data into output
 	m_outputs = data[1];
-	m_outputs >> 32;
+	m_outputs <<= 32;
 	m_outputs |= data[0];
 
 	// update
@@ -93,15 +105,19 @@ void
 RegisterFile::
 writeToRegister()
 {
-	if (m_inputs[writeControlID()]) // write if write line is set
-	{
-		// get write register number
-		int reg_id = 
-				((m_inputs >> writeRegStartID()) & FULL_BIT_MASK_5).to_ulong();
-		// get write data
-		unsigned long data = m_inputs >>	
-	}
-	
+	m_updated_inputs &= READ_INPUTS; // clear all update bit of write inputs
+
+	if (!m_inputs[writeControlID()]) // don't write if write line is low
+		return;
+
+	// get write register number
+	int reg_id = 
+			((m_inputs >> writeRegStartID()) & FULL_BIT_MASK_5).to_ulong();
+	// get write data
+	unsigned long data = 
+			((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
+
+	m_register_data[reg_id] = data;
 }
 
 #endif // REGISTER_FILE_CPP_

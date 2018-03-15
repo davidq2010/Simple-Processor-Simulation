@@ -7,11 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 /// Contains 32 registers, as well as 2 read ports and 1 write port.
 /// Input lines: (49 lines)
-/// 	readReg0		[5  - 0 ] (5 lines)
-/// 	readReg1		[10 - 6 ] (5 lines)
-/// 	writeReg 		[15 - 11] (5 lines)
-///		writeData 		[47 - 16] (32 lines)
-/// 	writeControl 	[48]
+/// 	readReg0		[4  - 0 ] (5 lines)
+/// 	readReg1		[9  - 5 ] (5 lines)
+/// 	writeReg 		[14 - 10] (5 lines)
+///		writeData 		[46 - 15] (32 lines)
+/// 	writeControl 	[47]
 /// Output lines: D(64 lines)
 /// 	regData0 		[31 - 0 ] (32 lines)
 /// 	regData1		[63 - 32] (32 lines)
@@ -32,21 +32,21 @@ class RegisterFile : public ProcessorComponent
 		// Constants
 
 		static const int NUM_REGS = 32;
-		static const int NUM_INPUTS = 49;
+		static const int NUM_INPUTS = 48;
 		static const int NUM_OUTPUTS = 64;
 
 		// Input line IDs
 		static const int READ_REG_START_ID[2];
-		static const int WRITE_REG_START_ID = 11;
-		static const int WRITE_DATA_START_ID = 47;
-		static const int WRITE_CONTROL_ID = 48;
+		static const int WRITE_REG_START_ID = 10;
+		static const int WRITE_DATA_START_ID = 15;
+		static const int WRITE_CONTROL_ID = 47;
 
 		// Output line IDs
 		static const int REG_DATA_START_ID[2];
 
 		RegisterFile();
 
-		RegisterFile(unsigned long data[]);
+		RegisterFile(unsigned long _data[]);
 
 		//------------------------------------------------------------------------
 		// Line ID getters
@@ -104,7 +104,7 @@ class RegisterFile : public ProcessorComponent
 
 		//------------------------------------------------------------------------
 		// Memory related
-		unsigned long m_registerData[NUM_REGS];
+		unsigned long m_register_data[NUM_REGS];
 
 		void writeToRegister();
 };
