@@ -9,7 +9,7 @@
 /// sign extends it to a 32-bit signed integer.
 /// Input : 16 lines
 /// Output: 32 lines
-/// Line ID corresponds to the bit index of integer
+/// Line ID corresponds to the bit index in integer
 ////////////////////////////////////////////////////////////////////////////////
 class SignExtender : public ProcessorComponent
 {
@@ -28,7 +28,7 @@ class SignExtender : public ProcessorComponent
 		void updateOutput();
 
 	private:
-		std::bitset<NUM_INPUTS>  m_inputs; /// Input bits
+		std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
 
 		std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 

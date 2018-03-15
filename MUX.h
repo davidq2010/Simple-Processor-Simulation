@@ -8,13 +8,13 @@
 /// inputs and 1 control signal. If the control signal is 0, the output is the
 /// first n-bit input, otherwise the output is the second n-bit input.
 ///
-/// Input format: [2n + 1] lines
+/// Input lines: [2n + 1] lines
 /// 	Control [0]
-///  	Input 0 [1 - n]
-/// 	Input 1 [n+1 - 2n]
-/// Output format: [n] lines
-/// 	Input 0 if control == 0
-/// 	Input 1 if control == 1
+///  	Input_0 [n  - 1]
+/// 	Input_1 [2n - n+1]
+/// Output lines: [n] lines
+/// 	Input_0 if control == 0
+/// 	Input_1 if control == 1
 ////////////////////////////////////////////////////////////////////////////////
 class MUX : public ProcessorComponent
 {
@@ -51,6 +51,9 @@ class MUX : public ProcessorComponent
 		bool* m_outputs;
 		bool* m_updated_inputs;
 
+		////////////////////////////////////////////////////////////////////////
+		/// @return true if all input lines have been updated
+		////////////////////////////////////////////////////////////////////////		
 		bool allInputsUpdated();
 };
 

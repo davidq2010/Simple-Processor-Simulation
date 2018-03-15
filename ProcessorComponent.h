@@ -4,16 +4,20 @@
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Abstract base class for an unit on the processor.
-/// Input to and output from a component is accessed through setInput and 
-/// getOutput methods. An output line of component A can be directly connected 
-/// to an input line of component B by using method A.addOutputComponent. In
-/// this case, whenever A's output is updated, A will automatically set B's
-/// input to the new output.
+/// Abstract base class for a component of the processor.
+/// Each input or and output line can be accessed by its ID. An input line's ID
+/// ranges from 0 to (# of input lines - 1). Similarly, an output line's ID
+/// ranges from 0 to (# of output lines - 1).
+/// 
+/// An output line of component can be directly connected 
+/// to an input line of another component using addOutputComponent method. In
+/// this case, whenever the output line of the 1st component is updated, 
+/// the corresponding input line of the 2nd component is also set.
+///
 /// Unless otherwise specified, output lines of a component are only updated when 
 /// all inputs to that component have been updated (through setInput method).
 /// After updating output, the component waits until all of its input are
-/// updated again before it updates the output a second time. 
+/// updated again before it updates the output again. 
 ////////////////////////////////////////////////////////////////////////////////
 class ProcessorComponent
 {

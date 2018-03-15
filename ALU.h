@@ -12,14 +12,14 @@
 /// - SLT
 /// - BEQ
 /// Input lines:
-/// 	A 		[0 - 31]	First number
-/// 	B 		[32 - 63]	Second number
+/// 	A 		[31 - 0 ]	First number
+/// 	B 		[63 - 32]	Second number
 /// 	Bnegate	[64] 		Set if doing subtraction (SUB, SLT, BEQ)
 /// 	less 	[65] 		Set to check whether result < 0 (SLT) and set that
 /// 						as new result
 /// 	equal 	[66] 		Set to check whether result is 0 (BEQ)
 /// Output lines
-/// 	result 	[0 - 31] 	ALU result
+/// 	result 	[31 - 0] 	ALU result
 /// 	zero 	[32] 		equal == 1 && result == 0
 /// When the control lines don't match exactly any of the instruction supported,
 /// ALU has undefined behavior.
