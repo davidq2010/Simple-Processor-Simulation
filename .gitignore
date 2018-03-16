@@ -1,5 +1,5 @@
-!*.h
-!*.cpp
 *.out
 *.o
 test*
+!*.h
+!*.cpp
