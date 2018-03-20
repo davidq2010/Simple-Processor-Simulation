@@ -4,15 +4,15 @@
 #include "RegisterFile.h"
 
 
-const int RegisterFile::READ_REG_START_ID[2] = {0, 5}; 
+const int RegisterFile::READ_REG_START_ID[2] = {0, 5};
 
 const int RegisterFile::REG_DATA_START_ID[2] = {0, 32};
 
-const std::bitset<RegisterFile::NUM_INPUTS> 
+const std::bitset<RegisterFile::NUM_INPUTS>
 				RegisterFile::FULL_BIT_MASK_5(0b11111ul);
 
-const std::bitset<RegisterFile::NUM_INPUTS> 
-				RegisterFile::FULL_BIT_MASK_32(0xFFFF'FFFFul);
+const std::bitset<RegisterFile::NUM_INPUTS>
+				RegisterFile::FULL_BIT_MASK_32(0xFFFFFFFFul);
 
 const std::bitset<RegisterFile::NUM_INPUTS>
 				RegisterFile::READ_INPUTS(0x3FFul);
@@ -26,8 +26,8 @@ RegisterFile() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
 
 
 RegisterFile::
-RegisterFile(unsigned long _data[]) 
-		: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) 
+RegisterFile(unsigned long _data[])
+		: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS)
 {
 	for (int i = 0; i < NUM_REGS; i++)
 		m_register_data[i] = _data[i];
@@ -72,9 +72,9 @@ isAllWriteInputsUpdated()
 }
 
 
-void 
+void
 RegisterFile::
-updateOutput() 
+updateOutput()
 {
 	unsigned long data[2];
 
@@ -111,10 +111,10 @@ writeToRegister()
 		return;
 
 	// get write register number
-	int reg_id = 
+	int reg_id =
 			((m_inputs >> writeRegStartID()) & FULL_BIT_MASK_5).to_ulong();
 	// get write data
-	unsigned long data = 
+	unsigned long data =
 			((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
 
 	m_register_data[reg_id] = data;

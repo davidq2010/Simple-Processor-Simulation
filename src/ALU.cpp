@@ -14,7 +14,7 @@ ALU::
 setInput(int _line_id, bool _bit)
 {
 	m_inputs.set(_line_id, _bit);
-	
+
 	m_updated_inputs.set(_line_id);
 
 	if (m_updated_inputs.all())
@@ -34,9 +34,9 @@ void
 ALU::
 updateOutput()
 {
-	unsigned long a = 
+	unsigned long a =
 		((m_inputs >> inputStartID(0)) & FULL_BIT_MASK_32).to_ulong();
-	unsigned long b = 
+	unsigned long b =
 		((m_inputs >> inputStartID(1)) & FULL_BIT_MASK_32).to_ulong();
 
 	if (m_inputs[bNegateID()]) b = -b;
