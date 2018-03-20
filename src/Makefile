@@ -18,7 +18,7 @@ DEPDIR := .d
 # -MP says to create .PHONY targets for all dependencies except for the primary
 # .cpp file (MIGHT NOT WANT THIS, TEST IT)
 DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
-CXXFLAGS = -std=c++14 -Wall -Wno-deprecated -Werror -I$(IDIR)
+CXXFLAGS = -std=c++1y -Wall -Wno-deprecated -Werror -I$(IDIR)
 
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
