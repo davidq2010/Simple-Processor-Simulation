@@ -18,7 +18,7 @@ DEPDIR := .d
 # -MP says to create .PHONY targets for all dependencies except for the primary
 # .cpp file (MIGHT NOT WANT THIS, TEST IT)
 DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
-CXXFLAGS = -std=c++11 -Wall -Wno-deprecated -Werror -I$(IDIR)
+CXXFLAGS = -std=c++14 -Wall -Wno-deprecated -Werror -I$(IDIR)
 
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
@@ -44,6 +44,15 @@ OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
 default: library
 
+ifndef ECHO
+  T := $(shell $(MAKE) $(MAKECMDGOALS) --no-print-directory \
+    -nrRf $(firstword $(MAKEFILE_LIST)) \
+    ECHO="COUNTTHIS" | grep -c "COUNTTHIS")
+  N := x
+  C = $(words $N)$(eval N := x $N)
+  ECHO = echo -ne "\r [`expr $C '*' 100 / $T`%]"
+endif
+
 # @ at beginning of line says don't echo
 # $< copies the first listed file right of colon
 # -c says not to run linker.
@@ -62,11 +71,16 @@ $(ODIR)/%.o: %.cpp $(DEPDIR)/%.d
   # dependency file. Then, touch the file since some version of GCC might leave
   # object file older than dependency file, causing unnecessary rebuilds
 	@mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
+	@$(ECHO) Compiling $@
+	@sleep 0.1
+	@touch $@
+
 
 library: $(PROCLIBFILE)
 
 # ar rcs means create archive file and run contents or something
 $(PROCLIBFILE): $(OBJS)
+	@$(ECHO) All done
 	ar rcs $(PROCLIBFILE) $^
 
 .PHONY: clean

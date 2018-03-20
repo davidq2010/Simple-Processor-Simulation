@@ -42,7 +42,7 @@ updateOutput()
 	if (m_inputs[bNegateID()]) b = -b;
 	unsigned long result = a + b;
 
-	if (m_inputs[lessID()]) result >>= 31; // if SLT, output the signed bit only
+	if (m_inputs[lessID()]) result = result >> 31 & 1ul; // if SLT, output the signed bit only
 	bool zero = m_inputs[equalID()] && (result == 0);
 
 	// put the values into m_outputs
