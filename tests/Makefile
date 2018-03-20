@@ -7,7 +7,7 @@ INCDIR = ../include
 DEPDIR := .d
 
 GCC = g++
-CXXFLAGS = -std=c++14 -Wall -Wno-deprecated -Werror -I$(INCDIR)
+CXXFLAGS = -std=c++1y -Wall -Wno-deprecated -Werror -I$(INCDIR)
 DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
 
 # -L option says that static lib is in the folder immediately following it
@@ -58,9 +58,12 @@ testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE $(PROC_LIBFILE)
 testPartIntegration.o:      MAKE_PROC_LIBFILE $(PROC_LIBFILE)
 testRegisterFile.o:         MAKE_PROC_LIBFILE $(PROC_LIBFILE)
 
+$(shell mkdir -p $(DEPDIR))
+
 %.o: %.cpp
-%.o: %.cpp $(DEPS)
+%.o: %.cpp $(DEPDIR)/%.d
 	$(GCC) $< $(CXXFLAGS) $(OPTS) $(DEPFLAGS) $(PROCLIBS) -o $@
+	@mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 	@$(ECHO) Linking $@
 	@sleep 0.1
 	@touch $@
@@ -74,3 +77,15 @@ reallyclean:
 	/bin/rm -f $(TESTS)
 	/bin/rm -f $(DEPDIR)/*.d
 	@cd $(SRCDIR); $(MAKE) --no-print-directory clean
+
+# Create pattern rule with an empty recipe so make won't fail if dependency
+# doesn't exist
+$(DEPDIR)/%.d: ;
+
+# Ensure make doesn't automatically delete these %.d files as intermediate files
+.PRECIOUS: $(DEPDIR)/%.d
+
+# Include the dependency files that exist; translate each file listed in src
+# into its dependency file.
+# wildcard omits dependency files that don't exist
+include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCDIR))))

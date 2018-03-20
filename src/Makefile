@@ -22,7 +22,6 @@ CXXFLAGS = -std=c++14 -Wall -Wno-deprecated -Werror -I$(IDIR)
 
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
-PROCLIBS = -L$(SRCDIR) -lproc
 PROCLIBFILE = $(SRCDIR)/libproc.a
 
 # debug = 0 means no debugger
@@ -42,7 +41,17 @@ _OBJS = ALU.o \
         SignExtender.o
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
-default: library
+.PHONY: directories
+
+default: directories library
+
+directories: $(ODIR) $(DEPDIR)
+
+$(ODIR):
+	@mkdir -p $@
+
+$(DEPDIR):
+	@mkdir -p $@
 
 ifndef ECHO
   T := $(shell $(MAKE) $(MAKECMDGOALS) --no-print-directory \
