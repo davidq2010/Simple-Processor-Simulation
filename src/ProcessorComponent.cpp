@@ -6,14 +6,14 @@
 ProcessorComponent::
 ProcessorComponent(int _n_inputs, int _n_outputs)
 				: m_num_inputs(_n_inputs), m_num_outputs(_n_outputs)
-{	
+{
 	m_output_lines = new std::vector<OutputLine> [m_num_outputs];
 }
 
 ProcessorComponent::
 ~ProcessorComponent()
 {
-	delete m_output_lines;
+	delete[] m_output_lines;
 }
 
 void
@@ -26,7 +26,7 @@ addOutputComponent(int _output_id, ProcessorComponent& _output_component, int _i
 
 void
 ProcessorComponent::
-fireAllOutputs() 
+fireAllOutputs()
 {
 	for (int i = 0; i < numOutputs(); i++)
 	{

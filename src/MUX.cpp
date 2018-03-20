@@ -4,7 +4,7 @@
 #include "MUX.h"
 
 MUX::
-MUX(int _n_bits) : ProcessorComponent(2 * _n_bits + 1, _n_bits) 
+MUX(int _n_bits) : ProcessorComponent(2 * _n_bits + 1, _n_bits)
 {
 	m_inputs = new bool[m_num_inputs];
 	m_outputs = new bool[m_num_outputs];
@@ -15,8 +15,9 @@ MUX(int _n_bits) : ProcessorComponent(2 * _n_bits + 1, _n_bits)
 MUX::
 ~MUX()
 {
-	delete m_inputs;
-	delete m_outputs;
+	delete[] m_inputs;
+	delete[] m_outputs;
+  delete[] m_updated_inputs;
 }
 
 

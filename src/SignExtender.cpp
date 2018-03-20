@@ -17,7 +17,7 @@ setInput(int _line_id, bool _bit)
 	
 	m_updated_inputs.set(_line_id);
 	if (m_updated_inputs.all())
-		update();
+		updateOutput();
 }
 
 bool
@@ -29,7 +29,7 @@ getOutput(int _line_id)
 
 void
 SignExtender::
-update()
+updateOutput()
 {
 	for (int i = 0; i < NUM_INPUTS; i++)
 		m_outputs[i] = m_inputs[i];
@@ -41,11 +41,6 @@ update()
 	m_updated_inputs.reset();
 
 	fireAllOutputs();
-
-	// TODO: Delele this
-	/*std::cout << std::hex << std::showbase;
-	std::cout << "Update SignExtender: " << m_inputs.to_ulong() << " "
-	<< m_outputs.to_ulong() << " " << m_updated_inputs.to_ulong() << std::endl;*/
 }
 
 #endif // SIGN_EXTENDER_CPP_

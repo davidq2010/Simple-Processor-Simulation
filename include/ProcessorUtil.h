@@ -5,9 +5,9 @@
 
 namespace ioutil
 {
-	void setInputs(ProcessorComponent& _comp, unsigned long _input);
+	void setInputs(ProcessorComponent& _comp, unsigned long long _input);
 
-	unsigned long getOutputs(ProcessorComponent& _comp);
+	unsigned long long getOutputs(ProcessorComponent& _comp);
 };
 
 #endif // PROCESSOR_UTIL_H_
