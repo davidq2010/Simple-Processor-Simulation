@@ -70,7 +70,7 @@ $(shell mkdir -p $(DEPDIR))
 
 .PHONY: clean
 clean:
-	/bin/rm -f %.o
+	/bin/rm -f *.o
 
 .PHONY: reallyclean
 reallyclean:
