@@ -52,11 +52,11 @@ TESTS = \
 .PHONY: all
 all: $(TESTS)
 
-testALU.o:                  MAKE_PROC_LIBFILE $(PROC_LIBFILE)
-testSignExtender.o:         MAKE_PROC_LIBFILE $(PROC_LIBFILE)
-testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE $(PROC_LIBFILE)
-testPartIntegration.o:      MAKE_PROC_LIBFILE $(PROC_LIBFILE)
-testRegisterFile.o:         MAKE_PROC_LIBFILE $(PROC_LIBFILE)
+testALU.o:                  MAKE_PROC_LIBFILE 
+testSignExtender.o:         MAKE_PROC_LIBFILE 
+testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE 
+testPartIntegration.o:      MAKE_PROC_LIBFILE 
+testRegisterFile.o:         MAKE_PROC_LIBFILE 
 
 $(shell mkdir -p $(DEPDIR))
 
