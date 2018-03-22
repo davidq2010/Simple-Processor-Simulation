@@ -10,11 +10,11 @@ const std::bitset<DataMemory::NUM_INPUTS> DataMemory::FULL_BIT_MASK_32 (0xFFFFFF
 DataMemory::
 DataMemory(long* _data, unsigned long _start_address, unsigned long _end_address)
 	: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), 
-	  m_start_address(_start_address).
-	  m_end_address(_end_adress) 
+	  m_start_address(_start_address),
+	  m_end_address(_end_address) 
 {
 	m_data = new unsigned long[m_end_address - m_start_address + 1];
-	for (int i = 0; i < m_end_address - m_start_address; i++)
+	for (int i = 0; i < (int)(m_end_address - m_start_address); i++)
 	{
 		m_data[i] = _data[i];
 	}
@@ -42,7 +42,7 @@ bool
 DataMemory::
 getOutput(int _line_id)
 {
-	m_outputs.test(_line_id);
+	return m_outputs.test(_line_id);
 }
 
 void
@@ -63,7 +63,7 @@ updateOutputs()
 
 	// read
 	unsigned long read_data = m_data[address];
-	m_outputs(read_data);
+	m_outputs = read_data;
 
 	// output update and fire
 	m_updated_inputs.reset();

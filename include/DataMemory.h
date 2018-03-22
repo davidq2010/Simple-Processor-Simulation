@@ -67,6 +67,6 @@ class DataMemory : public ProcessorComponent
 		unsigned long m_start_address;
 		
 		unsigned long m_end_address;
-}
+};
 
 #endif // DATA_MEMORY_H_
