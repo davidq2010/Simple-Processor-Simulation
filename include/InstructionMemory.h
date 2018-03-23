@@ -5,7 +5,7 @@
 #include "ProcessorComponent.h"
 #include "ProcessorSpec.h"
 
-using namespace processor;
+using namespace processorspec;
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Instruction memory unit. Allow reading instruction using 32-bit address
@@ -24,7 +24,7 @@ class InstructionMemory : public ProcessorComponent
 		static const int NUM_INPUTS = 32;
 		static const int NUM_OUTPUTS = 32;
 
-		static const word START_ADDRESS = 0x400'000;
+		static const word START_ADDRESS = 0x400000;
 
 		InstructionMemory(word* _data, int _n_data);
 

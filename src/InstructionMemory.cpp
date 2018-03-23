@@ -5,7 +5,7 @@
 
 InstructionMemory::
 InstructionMemory(word* _data, int _n_data)
-	: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), 
+	: ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) 
 {
 	m_data = new word[_n_data];
 	for (int i = 0; i < _n_data; i++)

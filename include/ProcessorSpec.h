@@ -5,7 +5,7 @@ namespace processorspec
 {
 	typedef uint_fast32_t word;
 	const int WORD_SIZE = 32;
-	const word WORD_MASK = 0xFFFF'FFFFul;	
+	const word WORD_MASK = 0xFFFFFFFFul;
 }
 
 #endif // PROCESSOR_SPEC_H_
