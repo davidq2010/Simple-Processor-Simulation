@@ -31,7 +31,9 @@ class DataMemory : public ProcessorComponent
 		static const int MEM_WRITE_ID        = 33;
 		static const int WRITE_DATA_START_ID = 34;
 
-		DataMemory(long* _data, unsigned long _start_address, unsigned long _end_address);
+		DataMemory(unsigned long* _data, 
+					unsigned long _start_address, 
+					unsigned long _end_address);
 
 		~DataMemory();
 
@@ -67,6 +69,6 @@ class DataMemory : public ProcessorComponent
 		unsigned long m_start_address;
 		
 		unsigned long m_end_address;
-}
+};
 
 #endif // DATA_MEMORY_H_
