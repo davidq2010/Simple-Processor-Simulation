@@ -5,7 +5,7 @@
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Arithmetic and logic unit. Can perform the following opperations on two 
+/// Arithmetic and logic unit. Can perform the following opperations on two
 /// 32-bit signed integers (A and B):
 /// - ADD / ADDI
 /// - SUB
@@ -40,8 +40,8 @@ class ALU : public ProcessorComponent
 
 		ALU();
 
-		int inputStartID(bool inputNum) 
-		{ 
+		int inputStartID(bool inputNum)
+		{
 			return inputNum? B_START_ID : A_START_ID;
 		}
 
@@ -63,7 +63,7 @@ class ALU : public ProcessorComponent
 
 		static const std::bitset<NUM_INPUTS> FULL_BIT_MASK_32;
 
-		std::bitset<NUM_INPUTS>  m_inputs; /// Input bits
+		std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
 
 		std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 

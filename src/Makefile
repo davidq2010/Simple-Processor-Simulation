@@ -38,7 +38,8 @@ _OBJS = ALU.o \
         ProcessorComponent.o \
         ProcessorUtil.o \
         RegisterFile.o \
-        SignExtender.o
+        SignExtender.o \
+        Control.o
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
 .PHONY: directories
