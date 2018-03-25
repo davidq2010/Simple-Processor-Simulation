@@ -17,7 +17,7 @@ MUX::
 {
 	delete[] m_inputs;
 	delete[] m_outputs;
-  delete[] m_updated_inputs;
+	delete[] m_updated_inputs;
 }
 
 
