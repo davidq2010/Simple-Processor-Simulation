@@ -3,22 +3,20 @@
 
 #include "ProcessorComponent.h"
 
-/************************************
-ALU Control unit. Take in an ALU Op and a function field and calculates
-a 3-bit control signal for the ALU.
-The control signal consists of a Bnegate bit and 2 bits to select a MUX output.
-
-Input lines:
-	ALU_OP [1 - 0]
-	FUNC_FIELD [7 - 2]
-
-Output lines:
-	Bnegate: [0]
-	MuxSelect: [2 - 1]
-************************************/
-
-
-
+////////////////////////////////////////////////////////////////////////////////
+/// ALU Control unit. Take in an ALU Op and a function field and calculates
+/// a 3-bit control signal for the ALU.
+/// The control signal consists of a Bnegate bit and 2 bits to select a MUX output.
+///
+/// Input lines:
+/// 	ALUOp 		[1 - 0]
+/// 	func 		[7 - 2]
+/// Output lines:
+/// 	Bnegate 	[0]
+/// 	muxSelect 	[2 - 1]
+/// 
+/// HOW DOES THIS THING WORK? WHICH INPUTS CORRESPOND TO WHICH OUTPUTS?
+////////////////////////////////////////////////////////////////////////////////
 class ALUControl : public ProcessorComponent
 {
 	public:
@@ -31,14 +29,14 @@ class ALUControl : public ProcessorComponent
 		static const int FUNC_FIELD_START_ID = 2;
 
 		// Output line IDs
-		static const int Bnegate;
+		static const int B_NEGATE_ID = 0;
 		static const int MUX_SELECT_ID[2];
 
 		ALUControl();
 
 		void setInput(int _line_id, bool _bit);
 
-		bool get Output(int _line_id);
+		bool getOutput(int _line_id);
 
 		void updateOutput();
 

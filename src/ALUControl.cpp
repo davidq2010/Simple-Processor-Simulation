@@ -3,12 +3,19 @@
 
 #include "ALUControl.h"
 
-ALUControl::ALUControl() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
 
 const int ALU_OP_ID[2] = {0, 1};
+
 const int MUX_SELECT_ID[2] = {1, 2}
 
-void ALU:: setInput(int _line_id, bool _bit)
+
+ALUControl::
+ALUControl() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
+
+
+void 
+ALU:: 
+setInput(int _line_id, bool _bit)
 {
 	m_inputs.set(_line_id, _bit);
 	m_updated_inputs.set(_line_id);
@@ -17,7 +24,10 @@ void ALU:: setInput(int _line_id, bool _bit)
 		updateOutput();
 }
 
-void ALUControl::updateOutput()
+
+void 
+ALUControl::
+updateOutput()
 {
 	if (m_inputs[ALU_OP_ID[1]]) //ADD, SUB, SLT
 	{
@@ -63,8 +73,4 @@ void ALUControl::updateOutput()
 	m_outputs[0] = Bnegate;
 	m_outputs[1] = MUX_SELECT_ID[0];
 	m_outputs[2] = MUX_SELECT_ID[1];
-
-
-
-
 }
