@@ -84,7 +84,6 @@ class ProcessorComponent
 
 		/// Map each output ID to its output components
 		std::vector<OutputLine>* m_output_lines;
-
 };
 
 #endif // PROCESSOR_COMPONENT_H_

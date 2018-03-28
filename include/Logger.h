@@ -11,6 +11,14 @@ class Logger
 		~Logger();
 
 		void log(std::string msg);
+
+		void log(std::string label, std::string value);
+
+		void log(std::string label, unsigned long value);
+
+	private:
+
+		long ulongToLong(unsigned long x);
 }
 
 
