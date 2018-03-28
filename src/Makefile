@@ -37,6 +37,7 @@ _OBJS = ALU.o \
         ALUControl.o \
         ANDGate.o \
         DataMemory.o \
+        HardwiredConstant.o \
         InstructionMemory.o \
         MUX.o \
         ProcessorComponent.o \
