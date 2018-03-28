@@ -1,4 +1,4 @@
-# This Makefile should be in test directory
+# This Makefile should be in apps directory
 
 debug = 0
 
@@ -15,8 +15,7 @@ DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
 PROCLIBS = -L$(SRCDIR) -lproc
 PROC_LIBFILE = $(SRCDIR)/libproc.a
 
-default:
-	@echo No default target.
+all: $(APPS)
 
 .PHONY: MAKE_PROC_LIBFILE
 MAKE_PROC_LIBFILE:
@@ -42,29 +41,24 @@ ifndef ECHO
   ECHO = echo "`expr " [\`expr $C '*' 100 / $T\`" : '.*\(....\)$$'`%]"
 endif
 
-TESTS = \
-        testALU.o \
-        testIntegration.o \
-        testPartIntegration.o \
-        testRegisterFile.o \
-        testSignExtender.o \
-        testSignExtenderAndMUX.o
+APPS = Processor
 
-.PHONY: all
-all: $(TESTS)
+OBJECTS = \
+          Integration.o
 
-testALU.o:                  MAKE_PROC_LIBFILE
-testIntegration.o:          MAKE_PROC_LIBFILE
-testPartIntegration.o:      MAKE_PROC_LIBFILE
-testRegisterFile.o:         MAKE_PROC_LIBFILE
-testSignExtender.o:         MAKE_PROC_LIBFILE
-testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE
+Integration.o:         MAKE_PROC_LIBFILE
 
 $(shell mkdir -p $(DEPDIR))
 
+Processor: Integration.o
+	$(GCC) $< $(CXXFLAGS) -o $@
+	@$(ECHO) Creating executable $@
+	@sleep 0.1
+	@touch $@
+
 %.o: %.cpp
 %.o: %.cpp $(DEPDIR)/%.d
-	$(GCC) $< $(CXXFLAGS) $(OPTS) $(DEPFLAGS) $(PROCLIBS) -o $@
+	$(GCC) $< $(CXXFLAGS) -c $(OPTS) $(DEPFLAGS) $(PROCLIBS) -o $@
 	@mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
 	@$(ECHO) Linking $@
 	@sleep 0.1
@@ -72,13 +66,7 @@ $(shell mkdir -p $(DEPDIR))
 
 .PHONY: clean
 clean:
-	/bin/rm -f *.o
-
-.PHONY: reallyclean
-reallyclean:
-	/bin/rm -f $(TESTS)
-	/bin/rm -f $(DEPDIR)/*.d
-	@cd $(SRCDIR); $(MAKE) --no-print-directory clean
+	/bin/rm -f $(APPS)
 
 # Create pattern rule with an empty recipe so make won't fail if dependency
 # doesn't exist

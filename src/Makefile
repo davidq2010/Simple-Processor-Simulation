@@ -36,6 +36,7 @@ endif
 _OBJS = ALU.o \
         ALUControl.o \
         ANDGate.o \
+        Clock.o \
         DataMemory.o \
         HardwiredConstant.o \
         InstructionMemory.o \
@@ -44,6 +45,7 @@ _OBJS = ALU.o \
         MUX.o \
         ProcessorComponent.o \
         ProcessorUtil.o \
+        ProgramCounter.o \
         RegisterFile.o \
         SignExtender.o \
         Control.o

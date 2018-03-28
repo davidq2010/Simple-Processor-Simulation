@@ -7,12 +7,10 @@ class Clock : public ProcessorComponent
 {
 	public:
 		// Constants
-		static const NUM_INPUTS = 0;
-		static const NUM_OUTPUTS = 1;
+		static const int NUM_INPUTS = 0;
+		static const int NUM_OUTPUTS = 1;
 
 		Clock();
-
-		void setInput(int _line_id, int _bit) {};
 
 		bool getOutput(int _line_id = 0);
 
@@ -21,7 +19,7 @@ class Clock : public ProcessorComponent
 		void fall();
 
 	private:
-		bool m_clock_state;	
+		bool m_clock_state;
 };
 
 
