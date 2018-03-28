@@ -2,6 +2,7 @@
 #define ALU_CONTROL_H_
 
 #include "ProcessorComponent.h"
+#include <bitset>
 
 ////////////////////////////////////////////////////////////////////////////////
 /// ALU Control unit. Take in an ALU Op and a function field and calculates
@@ -11,7 +12,7 @@
 /// 	func 		[7 - 2]
 /// Output lines:
 /// 	control 	[3 - 0]
-/// 
+///
 /// Input - output mapping:
 /// 	ALUOp 	func 		ALU Action 					Output
 ///

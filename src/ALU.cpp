@@ -41,9 +41,10 @@ updateOutput()
 	unsigned long b =
 		((m_inputs >> inputStartID(1)) & FULL_BIT_MASK_32).to_ulong();
 
-	unsigned long control = 
+	unsigned long control =
 		((m_inputs >> controlStartID()) & CONTROL_BIT_MASK).to_ulong();
 
+  unsigned long result;
 	switch (control)
 	{
 		case 0b0010: result = a + b; break;

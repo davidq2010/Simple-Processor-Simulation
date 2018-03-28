@@ -11,8 +11,8 @@ ALUControl::
 ALUControl() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
 
 
-void 
-ALU:: 
+void
+ALUControl::
 setInput(int _line_id, bool _bit)
 {
 	m_inputs.set(_line_id, _bit);
@@ -23,7 +23,7 @@ setInput(int _line_id, bool _bit)
 }
 
 
-void 
+void
 ALUControl::
 updateOutputs()
 {
@@ -44,3 +44,5 @@ updateOutputs()
 	m_updated_inputs.reset();
 	fireAllOutputs();
 }
+
+#endif // ALU_CONTROL_CPP_
