@@ -11,9 +11,10 @@ void
 ProgramCounter::
 setInput(int _line_id, bool _bit)
 {
-	if (_line_id == CLOCK_ID)
+	if (_line_id == CLOCK_ID){
 		if (_bit)
 			fireAllOutputs();
+  }
 	else
 		m_address[_line_id] = _bit;
 }

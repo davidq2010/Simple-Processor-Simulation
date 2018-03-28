@@ -1,12 +1,13 @@
 #ifndef CLOCK_CPP_
 #define CLOCK_CPP_
 
+#include "Clock.h"
 
 Clock::
 Clock() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), m_clock_state(0) {}
 
 
-void
+bool
 Clock::
 getOutput(int _line_id)
 {
