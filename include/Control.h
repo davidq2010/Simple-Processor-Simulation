@@ -29,8 +29,8 @@
 class Control : public ProcessorComponent
 {
 	public:
-		static const int NUM_INPUTS = 6;
-		static const int NUM_OUTPUTS = 9;
+		static const int NUM_INPUTS  = 6;
+		static const int NUM_OUTPUTS = 10;
 
     static const int OPCODE_ID = 0;
 		static const int RESULT_ID = 0;

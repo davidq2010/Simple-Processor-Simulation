@@ -31,7 +31,7 @@ class MUX : public ProcessorComponent
 
 		~MUX();
 
-		int controlLineID() { return CONTROL_LINE_ID; }
+		int controlID() { return CONTROL_LINE_ID; }
 
 		////////////////////////////////////////////////////////////////////////
 		/// @param _input_num the 0th or 1st input

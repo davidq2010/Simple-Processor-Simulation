@@ -22,15 +22,20 @@ int main(int argc, char const *argv[])
 {
 	//--------------------------------------------------------------------------
 	// Starting data
-	const int n_insts = 0;
+	int n_cycles = 0; // number of cycles to run
+	
+	// Instructions (address starting at 0x400000)
+	int n_insts = 0;
 	unsigned long instructions[n_insts] {
 
 	}
 
-	unsigned long reg_data[32] {
-		
-	}
+	// Register content
+	unsigned long reg_data[32] {};
+	for (int i = 0; i < 32; i++)
+		reg_data[i] = i;
 
+	// Memory content
 	unsigned long mem_start_address = 0x1000;
 	const int mem_size = 256;
 	unsigned long mem_data[mem_size];
@@ -47,21 +52,26 @@ int main(int argc, char const *argv[])
 	ALUControl alu_ctrl;
 
 	ALU alu_add_4;
-	ALU alu_add_jump
+	ALU alu_add_branch;
 	ALU alu;
+
+	ANDGate and_gate;
 
 	bool arr_add_ctrl[4] = {0, 0, 1, 0};
 	HardwiredConstant const_alu_add(arr_add_ctrl, 4);
 	bool arr_const_4[32] = {}; arr_const_4[2] = 1;
 	HardwiredConstant const_4 (arr_const_4, 32);
+	bool arr_const_00[2] = {0, 0};
+	HardwiredConstant const_00 (arr_const_00, 2);
 
-	SignExtender sign_ext;
 
 	MUX mux_write_reg(5);
 	MUX mux_alu_src(32);
 	MUX mux_mem_to_reg(32);
 	MUX mux_branch(32);
 	MUX mux_jump(32);
+
+	SignExtender sign_ext;
 
 	InstructionMemory inst_mem(instructions, n_insts);
 
@@ -72,10 +82,12 @@ int main(int argc, char const *argv[])
 	//--------------------------------------------------------------------------
 	// Wiring between components
 
+	//--------------------------------------------
 	// Clock dependent components (pc and hardwired constants)
-	clock.addOutputComponent(0, pc, 0);
+	clock.addOutputComponent(0, pc, pc.clockID());
 	clock.addOutputComponent(0, const_alu_add, 0);
 	clock.addOutputComponent(0, const_4, 0);
+	clock.addOutputComponent(0, const_00, 0);
 
 	//--------------------------------------------
 	// Main data cycle
@@ -122,16 +134,66 @@ int main(int argc, char const *argv[])
 	bulkConnect(const_4       , alu_add_4, 0 , alu_add_4.inputStartID(1)  , 32);
 	bulkConnect(const_alu_add , alu_add_4, 0 , alu_add_4.controlStartID() , 4 );
 
-	// 
+	// branching alu
+	bulkConnect(alu_add_4     , alu_add_branch , 0 , alu_add_branch.inputStartID(0)     , 32);
+	bulkConnect(sign_ext      , alu_add_branch , 0 , alu_add_branch.inputStartID(1) + 2 , 30);
+	bulkConnect(const_00      , alu_add_branch , 0 , alu_add_branch.inputStartID(1)     , 2 );
+	bulkConnect(const_alu_add , alu_add_branch , 0 , alu_add_branch.controlStartID()    , 4 );
+
+	// mux add4 vs. branch
+	bulkConnect(alu_add_4      , mux_branch , 0 , mux_branch.startID(0) , 32);
+	bulkConnect(alu_add_branch , mux_branch , 0 , mux_branch.startID(1) , 32);
+
+	// mux add4+branch vs. jump
+	bulkConnect(mux_branch , mux_jump, 0  , mux_jump.startID(0)     , 32);
+
+	bulkConnect(const_00   , mux_jump, 0  , mux_jump.startID(1)     , 2 );
+	bulkConnect(inst_mem   , mux_jump, 0  , mux_jump.startID(1) + 2 , 26);
+	bulkConnect(alu_add_4  , mux_jump, 28 , mux_jump.startID(1) + 28, 4 );
+
+	// cycle back to pc
+	bulkConnect(mux_jump , pc , 0 , 0 , 32);
 
 	//--------------------------------------------
 	// Control and ALU Control
 
+	// beq and-gate (ctrl branch && alu zero)
+	alu.addOutputComponent(alu.zeroID(), and_gate, 1);
+	and_gate.addOutputComponent(0, mux_branch, mux_branch.controlID());
+
+	// control lines
+	ctrl.addOutputComponent( 0, mux_write_reg , mux_write_reg.controlID()  );
+	ctrl.addOutputComponent( 1, mux_jump      , mux_jump.controlID()       );
+	ctrl.addOutputComponent( 2, and_gate      , 0                          );
+	ctrl.addOutputComponent( 3, data_mem      , data_mem.memReadID()       );
+	ctrl.addOutputComponent( 4, mux_mem_to_reg, mux_mem_to_reg.controlID() );
+	ctrl.addOutputComponent( 5, alu_ctrl      , alu_ctrl.aluOpStartID()    );
+	ctrl.addOutputComponent( 6, alu_ctrl      , alu_ctrl.aluOpStartID() + 1);
+	ctrl.addOutputComponent( 7, data_mem      , data_mem.memWriteID()      );
+	ctrl.addOutputComponent( 8, mux_alu_src   , mux_alu_src.controlID()    );
+	ctrl.addOutputComponent( 9, reg_file      , reg_file.writeControlID()  );
+
+	// alu control lines
+	bulkConnect(alu_ctrl, alu, 0, alu.controlStartID());
 
 
+	//--------------------------------------------------------------------------
+	// Run
 
+	// Put starting instruction's address into PC
+	for (int i = 0; i < 32; i++)
+		pc.setInput(i, (InstructionMemory::START_ADDRESS >> i) & 1ul);
 
-
+	Logger logger = LoggerFactory::getLogger();
+	// Repeat cycles
+	for (int i = 0; i < n_cycles; i++)
+	{
+		logger.log("========================================================================");
+		logger.log(std::string("Cycle") + std::to_string(i));
+		logger.log("========================================================================");
+		clock.rise();
+		clock.fall();
+	}
 
 }
 
