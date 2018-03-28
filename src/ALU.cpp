@@ -5,6 +5,8 @@
 
 const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
 
+const std::bitset<ALU::NUM_INPUTS> ALU::CONTROL_BIT_MASK (0xFul);
+
 ALU::
 ALU() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
 
@@ -39,15 +41,21 @@ updateOutput()
 	unsigned long b =
 		((m_inputs >> inputStartID(1)) & FULL_BIT_MASK_32).to_ulong();
 
-	if (m_inputs[bNegateID()]) b = -b;
-	unsigned long result = a + b;
+	unsigned long control = 
+		((m_inputs >> controlStartID()) & CONTROL_BIT_MASK).to_ulong();
 
-	if (m_inputs[lessID()]) result = result >> 31 & 1ul; // if SLT, output the signed bit only
-	bool zero = m_inputs[equalID()] && (result == 0);
+	switch (control)
+	{
+		case 0b0010: result = a + b; break;
+		case 0b0110: result = a - b; break;
+		case 0b0111: result = a < b; break;
+		default: result = -1;
+	}
+
+	bool zero = (result == 0);
 
 	// put the values into m_outputs
-	for (int i = 0; i < 32; i++)
-		m_outputs[i] = (result >> i) & 1ul;
+	m_outputs = result;
 	m_outputs[zeroID()] = zero;
 
 	// update

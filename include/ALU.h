@@ -6,35 +6,31 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Arithmetic and logic unit. Can perform the following opperations on two
-/// 32-bit signed integers (A and B):
-/// - ADD / ADDI
-/// - SUB
-/// - SLT
-/// - BEQ
+/// 32-bit signed integers: ADD (ADDI), SUB, SLT, BEQ. The operations can be
+/// specified using 4-bit opcode:
+/// 	0010	Add
+/// 	0110	Subtract
+/// 	0111 	Set on less than
+///
 /// Input lines:
 /// 	A 		[31 - 0 ]	First number
 /// 	B 		[63 - 32]	Second number
-/// 	Bnegate	[64] 		Set if doing subtraction (SUB, SLT, BEQ)
-/// 	less 	[65] 		Set to check whether result < 0 (SLT) and set that
-/// 						as new result
-/// 	equal 	[66] 		Set to check whether result is 0 (BEQ)
+/// 	control	[67 - 64] 	Specifies which operation to perform
 /// Output lines
 /// 	result 	[31 - 0] 	ALU result
-/// 	zero 	[32] 		equal == 1 && result == 0
+/// 	zero 	[32] 		set if result == 0
 /// When the control lines don't match exactly any of the instruction supported,
 /// ALU has undefined behavior.
 ////////////////////////////////////////////////////////////////////////////////
 class ALU : public ProcessorComponent
 {
 	public:
-		static const int NUM_INPUTS = 67;
+		static const int NUM_INPUTS = 68;
 		static const int NUM_OUTPUTS = 33;
 
 		static const int A_START_ID = 0;
 		static const int B_START_ID = 32;
-		static const int B_NEGATE_ID = 64;
-		static const int LESS_ID = 65;
-		static const int EQUAL_ID = 66;
+		static const int CONTROL_START_ID = 64;
 
 		static const int ZERO_ID = 32;
 
@@ -45,11 +41,7 @@ class ALU : public ProcessorComponent
 			return inputNum? B_START_ID : A_START_ID;
 		}
 
-		int bNegateID() { return B_NEGATE_ID; }
-
-		int lessID() 	{ return LESS_ID; }
-
-		int equalID() 	{ return EQUAL_ID; }
+		int controlStartID() { return CONTROL_START_ID; }
 
 		int zeroID() 	{ return ZERO_ID; }
 
@@ -62,6 +54,8 @@ class ALU : public ProcessorComponent
 	private:
 
 		static const std::bitset<NUM_INPUTS> FULL_BIT_MASK_32;
+
+		static const std::bitset<NUM_INPUTS> CONTROL_BIT_MASK;
 
 		std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
 
