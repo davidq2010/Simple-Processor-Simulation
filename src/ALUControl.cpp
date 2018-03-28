@@ -4,9 +4,7 @@
 #include "ALUControl.h"
 
 
-const int ALU_OP_ID[2] = {0, 1};
-
-const int MUX_SELECT_ID[2] = {1, 2}
+const std::bitset<ALUControl::NUM_INPUTS> ALUControl::ALU_OP_MASK (0b11);
 
 
 ALUControl::
@@ -21,56 +19,28 @@ setInput(int _line_id, bool _bit)
 	m_updated_inputs.set(_line_id);
 
 	if (m_updated_inputs.all())
-		updateOutput();
+		updateOutputs();
 }
 
 
 void 
 ALUControl::
-updateOutput()
+updateOutputs()
 {
-	if (m_inputs[ALU_OP_ID[1]]) //ADD, SUB, SLT
+	unsigned long aluOp = (m_inputs >> aluOpStartID() & ALU_OP_MASK).to_ulong();
+	unsigned long func  = (m_inputs >> funcStartID()).to_ulong();
+	switch (aluOp)
 	{
-		if (m_inputs[FUNC_FIELD_START_ID + 1] && m_inputs[FUNC_FIELD_START_ID + 3])
+		case OP_ADD: m_outputs = OUT_ADD; break;
+		case OP_SUB: m_outputs = OUT_SUB; break;
+		default: switch (func)
 		{
-			//output = 111
-			Bnegate = 1;
-			MUX_SELECT_ID[0] = 1;
-			MUX_SELECT_ID[1] = 1;
-		}
-		else if (m_inputs[FUNC_FIELD_START_ID + 1])
-		{
-			//output = 110
-			Bnegate = 1;
-			MUX_SELECT_ID[0] = 1;
-			MUX_SELECT_ID[1] = 0;
-		}
-		else
-		{
-			//output = 010
-			Bnegate = 0;
-			MUX_SELECT_ID[0] = 1;
-			MUX_SELECT_ID[1] = 0;
+			case FUNC_ADD: m_outputs = OUT_ADD; break;
+			case FUNC_SUB: m_outputs = OUT_SUB; break;
+			case FUNC_SLT: m_outputs = OUT_SLT; break;
 		}
 	}
 
-	else if ( ! (m_inputs[ALU_OP_ID[0]]) || (m_inputs[ALU_OP_ID[1]])) //LW, SW, ADDI
-	{
-		//output = 010
-		Bnegate = 0;
-		MUX_SELECT_ID[0] = 1;
-		MUX_SELECT_ID[1] = 0;
-	}
-
-	else if (m_inputs[ALU_OP_ID[0]]) //BEQ
-	{
-		//output = 110
-		Bnegate = 1;
-		MUX_SELECT_ID[0] = 1;
-		MUX_SELECT_ID[1] = 0;
-	}
-
-	m_outputs[0] = Bnegate;
-	m_outputs[1] = MUX_SELECT_ID[0];
-	m_outputs[2] = MUX_SELECT_ID[1];
+	m_updated_inputs.reset();
+	fireAllOutputs();
 }
