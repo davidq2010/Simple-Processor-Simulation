@@ -2,6 +2,8 @@
 #define ALU_CPP_
 
 #include "ALU.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 
 const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
 
@@ -31,11 +33,15 @@ getOutput(int _line_id)
 	return m_outputs.test(_line_id);
 }
 
-
 void
 ALU::
 updateOutput()
 {
+	Logger logger = LoggerFactory::getLogger();
+	logger.log("--------------------------------------------------");
+	logger.log("ALU");
+	logger.log("  Input:");
+
 	unsigned long a =
 		((m_inputs >> inputStartID(0)) & FULL_BIT_MASK_32).to_ulong();
 	unsigned long b =
@@ -44,12 +50,25 @@ updateOutput()
 	unsigned long control =
 		((m_inputs >> controlStartID()) & CONTROL_BIT_MASK).to_ulong();
 
+	logger.log("  A", a);
+	logger.log("  B", b);
+	logger.log("  control", std::bitset<4>(control).to_string());
+
   unsigned long result;
 	switch (control)
 	{
-		case 0b0010: result = a + b; break;
-		case 0b0110: result = a - b; break;
-		case 0b0111: result = a < b; break;
+		case 0b0010: 
+			result = a + b; 
+			logger.log("  action", "ADD")
+			break;
+		case 0b0110: 
+			result = a - b; 
+			logger.log("  action", "SUB")
+			break;
+		case 0b0111: 
+			result = a < b; 
+			logger.log("  action", "SLT")
+			break;
 		default: result = -1;
 	}
 
@@ -58,6 +77,11 @@ updateOutput()
 	// put the values into m_outputs
 	m_outputs = result;
 	m_outputs[zeroID()] = zero;
+
+	// log output
+	logger.log("  Output:");
+	logger.log("  result", result);
+	logger.log("  zero", zero? "1" : "0");
 
 	// update
 	m_updated_inputs.reset();

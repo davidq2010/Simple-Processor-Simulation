@@ -41,6 +41,17 @@ updateOutputs()
 		}
 	}
 
+
+	// log input/output
+	Logger logger = LoggerFactory::getLogger();
+	logger.log("--------------------------------------------------");
+	logger.log("ALU CONTROL");
+	logger.log("  Input:");
+	logger.log("  aluOp", std::bitset<2>(aluOp).to_string());
+	logger.log("  func" , std::bitset<6>(func).to_string());
+	logger.log("  Output:");
+	logger.log("  output", m_outputs.to_string());
+
 	m_updated_inputs.reset();
 	fireAllOutputs();
 }

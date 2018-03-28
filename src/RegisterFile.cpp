@@ -1,6 +1,7 @@
 #ifndef REGISTER_FILE_CPP_
 #define REGISTER_FILE_CPP_
 
+#include <string>
 #include "RegisterFile.h"
 
 
@@ -76,7 +77,8 @@ void
 RegisterFile::
 updateOutput()
 {
-	unsigned long data[2];
+	unsigned long reg_id[2];
+	unsigned long reg_data[2];
 
 	// intepret input and get appropiate register data
 	for (int port = 0; port <= 1; port++)
@@ -85,16 +87,34 @@ updateOutput()
 		int start_id = readRegStartID(port);
 
 		// get register number from input
-		int reg_id = ((m_inputs >> start_id) & FULL_BIT_MASK_5).to_ulong();
+		reg_id[port] = ((m_inputs >> start_id) & FULL_BIT_MASK_5).to_ulong();
 
 		// get register data
-		data[port] = m_register_data[reg_id];
+		reg_data[port] = m_register_data[reg_id];
 	}
 
 	// put data into output
-	m_outputs = data[1];
+	m_outputs = reg_data[1];
 	m_outputs <<= 32;
-	m_outputs |= data[0];
+	m_outputs |= reg_data[0];
+
+
+	// Log input and output
+	Logger logger = LoggerFactory::getLogger();
+	logger.log("--------------------------------------------------");
+	logger.log("Register File Read");
+	logger.log("  Content:");
+
+	for (int i = 0; i < NUM_REGS; i++)
+		logger.log(std::string("    Reg") + std::to_string(i), m_register_data[i]);
+
+	logger.log("  Input:");
+	logger.log("  Reg1", reg_id[0]);
+	logger.log("  Reg2", reg_id[1]);
+	logger.log("  Output:");
+	logger.log("  Data1", reg_data[0]);
+	logger.log("  Data2", reg_data[1]);
+
 
 	// update
 	m_updated_inputs &= WRITE_INPUTS; // clear all update bits of read inputs

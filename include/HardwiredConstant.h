@@ -15,22 +15,21 @@
 class HardwiredConstant : public ProcessorComponent
 {
 	public:
+		static const int NUM_INPUTS = 1;
+
 		HardwiredConstant(bool* _constant, int _n_bits); // An integer expressed as a bool array
 
-    ~HardwiredConstant();
+		~HardwiredConstant();
 
-		void setInput(int _line_id=0, bool _clock=0); ///< Clock == 1 means it fired
+		void setInput(int _line_id = 0, bool _clock = 1); ///< Clock == 1 means it fired
 
-		bool getOutput(int _line_id=0);
+		bool getOutput(int _line_id = 0);
 
-		void updateOutput();
-
-    static const int NUM_INPUTS = 1;
+		void updateOutputs();
 
 	private:
-    bool * m_hardwiredConstant;
-    bool* m_outputs;
-    std::bitset<NUM_INPUTS> m_inputs;
+		bool* m_outputs;
+
 };
 
 #endif // MUX_H_
