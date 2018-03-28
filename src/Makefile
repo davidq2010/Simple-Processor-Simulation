@@ -35,6 +35,7 @@ endif
 # Prepend everything in _OBJS with ./obj/
 _OBJS = ALU.o \
         ALUControl.o \
+        ANDGate.o \
         DataMemory.o \
         InstructionMemory.o \
         MUX.o \
