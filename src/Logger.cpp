@@ -2,6 +2,7 @@
 #define LOGGER_CPP_
 
 #include <iostream>
+#include <iomanip>
 #include "Logger.h"
 
 using namespace std;
@@ -42,12 +43,12 @@ log(string label, unsigned long value)
 }
 
 
-long 
+long
 Logger::
 ulongToLong(unsigned long x)
 {
 	if (x >> 31)
-		x |= (~0xFFFFFFFFul)
+		x |= (~0xFFFFFFFFul);
 	return (long) x;
 }
 

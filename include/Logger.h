@@ -19,7 +19,7 @@ class Logger
 	private:
 
 		long ulongToLong(unsigned long x);
-}
+};
 
 
 #endif // LOGGER_H_

@@ -6,11 +6,11 @@
 class LoggerFactory
 {
 	public:
-		static void getLogger() { return logger }
+		static Logger getLogger();
 
 	private:
 		static Logger logger;
-}
+};
 
 
 #endif // LOGGER_FACTORY_H_
