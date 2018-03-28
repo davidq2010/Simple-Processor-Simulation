@@ -57,18 +57,24 @@ updateOutput()
 	unsigned long in1 = 0;
 	for (int i = 0; i < m_num_outputs; i++)
 	{
-		in0 << 1;
+		in0 <<= 1;
 		in0 |= m_inputs[i + startID(0)];
-		in1 << 1;
+		in1 <<= 1;
 		in1 |= m_inputs[i + startID(1)];
 	}
 
 	logger.log("  input0", in0);
 	logger.log("  input1", in1);
 	logger.log("  control", m_inputs[0]? "1" : "0");
-	
+
 	logger.log("  Output:");
-	logger.log("  output", m_outputs.to_ulong());
+  unsigned long out = 0;
+  for(int i = 0; i < m_num_outputs; i++)
+  {
+    out <<= 1;
+    out |= m_outputs[i];
+  }
+	logger.log("  output", out);
 
 	// fire
 	fireAllOutputs();

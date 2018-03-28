@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include "ProcessorComponent.h"
+#include "LoggerFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Contains 32 registers, as well as 2 read ports and 1 write port.
@@ -20,7 +21,7 @@
 /// Writing occurs if writeReg, writeData, writeControl are all updated and
 /// writeControl line is high.
 /// Note that registerData ouput lines do not get automatically updated after
-/// a write has been done. To get up-to-date output after a write, simply set 
+/// a write has been done. To get up-to-date output after a write, simply set
 /// all readRegister lines again. Best practice is to read before write in
 /// a cycle.
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,9 +52,9 @@ class RegisterFile : public ProcessorComponent
 		//------------------------------------------------------------------------
 		// Line ID getters
 
-		int readRegStartID(bool _port_num) 
-		{ 
-			return READ_REG_START_ID[_port_num]; 
+		int readRegStartID(bool _port_num)
+		{
+			return READ_REG_START_ID[_port_num];
 		}
 
 		int writeRegStartID()  { return WRITE_REG_START_ID; }
@@ -77,7 +78,7 @@ class RegisterFile : public ProcessorComponent
 		void updateOutput();
 
 	private:
-		
+
 		//------------------------------------------------------------------------
 		// IO related
 		std::bitset<NUM_INPUTS>  m_inputs;

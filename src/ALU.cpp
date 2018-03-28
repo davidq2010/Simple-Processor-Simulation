@@ -57,17 +57,17 @@ updateOutput()
   unsigned long result;
 	switch (control)
 	{
-		case 0b0010: 
-			result = a + b; 
-			logger.log("  action", "ADD")
+		case 0b0010:
+			result = a + b;
+			logger.log("  action", "ADD");
 			break;
-		case 0b0110: 
-			result = a - b; 
-			logger.log("  action", "SUB")
+		case 0b0110:
+			result = a - b;
+			logger.log("  action", "SUB");
 			break;
-		case 0b0111: 
-			result = a < b; 
-			logger.log("  action", "SLT")
+		case 0b0111:
+			result = a < b;
+			logger.log("  action", "SLT");
 			break;
 		default: result = -1;
 	}

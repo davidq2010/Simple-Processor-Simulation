@@ -2,6 +2,8 @@
 #define ALU_CONTROL_H_
 
 #include "ProcessorComponent.h"
+#include "Logger.h"
+#include "LoggerFactory.h"
 #include <bitset>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -90,7 +90,7 @@ updateOutput()
 		reg_id[port] = ((m_inputs >> start_id) & FULL_BIT_MASK_5).to_ulong();
 
 		// get register data
-		reg_data[port] = m_register_data[reg_id];
+		reg_data[port] = m_register_data[reg_id[port]];
 	}
 
 	// put data into output

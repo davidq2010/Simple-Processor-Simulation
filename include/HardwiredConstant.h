@@ -25,7 +25,7 @@ class HardwiredConstant : public ProcessorComponent
 
 		bool getOutput(int _line_id = 0);
 
-		void updateOutputs();
+		void updateOutput();
 
 	private:
 		bool* m_outputs;
