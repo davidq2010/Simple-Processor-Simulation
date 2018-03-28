@@ -2,6 +2,7 @@
 #define INSTRUCTION_MEMORY_CPP_
 
 #include "InstructionMemory.h"
+#include "LoggerFactory.h"
 
 InstructionMemory::
 InstructionMemory(word* _data, int _n_data)
@@ -45,8 +46,19 @@ updateOutputs()
 {
 	word address = m_inputs.to_ulong() - START_ADDRESS;
 
-	// output update and fire
+	// output update
 	m_outputs = m_data[address];
+
+	// log inputs and outputs
+	Logger logger = LoggerFactory::getLogger();
+	logger.log("--------------------------------------------------");
+	logger.log("Instruction Memory");
+	logger.log("  Input:");
+	logger.log("  address", m_inputs.to_ulong());
+	logger.log("  Output:");
+	logger.log("  instruction", m_outputs.to_ulong());
+
+	// fire
 	m_updated_inputs.reset();
 	fireAllOutputs();
 }
