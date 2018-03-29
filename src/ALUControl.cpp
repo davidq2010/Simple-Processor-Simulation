@@ -23,6 +23,14 @@ setInput(int _line_id, bool _bit)
 }
 
 
+bool
+ALUControl::
+getOutput(int _line_id)
+{
+	return m_outputs.test(_line_id);
+}
+
+
 void
 ALUControl::
 updateOutputs()

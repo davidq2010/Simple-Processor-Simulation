@@ -7,6 +7,11 @@ Clock::
 Clock() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), m_clock_state(0) {}
 
 
+void 
+Clock::
+setInput(int _line_id, bool _bit) {}
+
+
 bool
 Clock::
 getOutput(int _line_id)

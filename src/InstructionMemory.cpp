@@ -44,10 +44,11 @@ void
 InstructionMemory::
 updateOutputs()
 {
-	word address = m_inputs.to_ulong() - START_ADDRESS;
+	word address = m_inputs.to_ulong();
+	word index = (address - START_ADDRESS) >> 2;
 
 	// output update
-	m_outputs = m_data[address];
+	m_outputs = m_data[index];
 
 	// log inputs and outputs
 	Logger logger = LoggerFactory::getLogger();
@@ -55,6 +56,7 @@ updateOutputs()
 	logger.log("Instruction Memory");
 	logger.log("  Input:");
 	logger.log("  address", m_inputs.to_ulong());
+	logger.log("  inst index", index);
 	logger.log("  Output:");
 	logger.log("  instruction", m_outputs.to_ulong());
 

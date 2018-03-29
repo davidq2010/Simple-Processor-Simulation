@@ -12,6 +12,8 @@ class Clock : public ProcessorComponent
 
 		Clock();
 
+		void setInput(int _line_id, bool _bit);
+
 		bool getOutput(int _line_id = 0);
 
 		void rise();

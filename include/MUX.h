@@ -5,6 +5,8 @@
 #include "Logger.h"
 #include "LoggerFactory.h"
 
+#include <string>
+
 ////////////////////////////////////////////////////////////////////////////////
 /// Simulation of a multiplexor in a processor. This component takes in 2 n-bit
 /// inputs and 1 control signal. If the control signal is 0, the output is the
@@ -27,7 +29,7 @@ class MUX : public ProcessorComponent
 		////////////////////////////////////////////////////////////////////////
 		/// @param _n_bits number of bits of each input and of output
 		////////////////////////////////////////////////////////////////////////
-		MUX(int _n_bits = 1);
+		MUX(int _n_bits, std::string _name);
 
 		~MUX();
 
@@ -52,6 +54,8 @@ class MUX : public ProcessorComponent
 		bool* m_inputs;
 		bool* m_outputs;
 		bool* m_updated_inputs;
+
+		std::string m_name;
 
 		////////////////////////////////////////////////////////////////////////
 		/// @return true if all input lines have been updated

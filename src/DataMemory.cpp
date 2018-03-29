@@ -54,8 +54,14 @@ updateOutputs()
 {
 	unsigned long address = 
 			((m_inputs >> addressStartID()) & FULL_BIT_MASK_32).to_ulong();
-	address -= m_start_address;
-
+	address = (address - m_start_address) >> 2;
+	
+	//read
+	if (m_inputs[memReadID() ])
+		m_outputs = m_data[address];
+	else
+		m_outputs = -1ul;
+	
 	// write
 	if (m_inputs[memWriteID()])
 	{
@@ -64,8 +70,9 @@ updateOutputs()
 		m_data[address] = write_data;
 	}
 
+
 	// output update and fire
-	m_outputs = m_data[address];
+
 	m_updated_inputs.reset();
 	fireAllOutputs();
 }

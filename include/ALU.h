@@ -2,6 +2,7 @@
 #define ALU_H_
 
 #include <bitset>
+#include <string>
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,7 +35,7 @@ class ALU : public ProcessorComponent
 
 		static const int ZERO_ID = 32;
 
-		ALU();
+		ALU(std::string _name);
 
 		int inputStartID(bool inputNum)
 		{
@@ -62,6 +63,8 @@ class ALU : public ProcessorComponent
 		std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 
 		std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
+
+		std::string m_name;
 };
 
 #endif // ALU_H_

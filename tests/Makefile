@@ -45,7 +45,6 @@ endif
 TESTS = \
         testALU.o \
         testIntegration.o \
-        testPartIntegration.o \
         testRegisterFile.o \
         testSignExtender.o \
         testSignExtenderAndMUX.o

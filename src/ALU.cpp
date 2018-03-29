@@ -10,7 +10,7 @@ const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
 const std::bitset<ALU::NUM_INPUTS> ALU::CONTROL_BIT_MASK (0xFul);
 
 ALU::
-ALU() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
+ALU(std::string _name) : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), m_name(_name) {}
 
 
 void
@@ -39,7 +39,7 @@ updateOutput()
 {
 	Logger logger = LoggerFactory::getLogger();
 	logger.log("--------------------------------------------------");
-	logger.log("ALU");
+	logger.log(m_name);
 	logger.log("  Input:");
 
 	unsigned long a =

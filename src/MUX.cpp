@@ -4,7 +4,7 @@
 #include "MUX.h"
 
 MUX::
-MUX(int _n_bits) : ProcessorComponent(2 * _n_bits + 1, _n_bits)
+MUX(int _n_bits, std::string _name) : ProcessorComponent(2 * _n_bits + 1, _n_bits), m_name(_name)
 {
 	m_inputs = new bool[m_num_inputs];
 	m_outputs = new bool[m_num_outputs];
@@ -42,7 +42,7 @@ void
 MUX::
 updateOutput()
 {
-	int start_id = startID(m_inputs[0]);
+	int start_id = startID(m_inputs[controlID()]);
 
 	for (int i = 0; i < m_num_outputs; i++)
 		m_outputs[i] = m_inputs[i + start_id];
@@ -50,12 +50,12 @@ updateOutput()
 	// log inputs and outputs
 	Logger logger = LoggerFactory::getLogger();
 	logger.log("--------------------------------------------------");
-	logger.log("MUX");
+	logger.log(m_name);
 	logger.log("  Input:");
 
 	unsigned long in0 = 0;
 	unsigned long in1 = 0;
-	for (int i = 0; i < m_num_outputs; i++)
+	for (int i = m_num_outputs - 1; i >= 0; i--)
 	{
 		in0 <<= 1;
 		in0 |= m_inputs[i + startID(0)];
@@ -68,14 +68,15 @@ updateOutput()
 	logger.log("  control", m_inputs[0]? "1" : "0");
 
 	logger.log("  Output:");
-  unsigned long out = 0;
-  for(int i = 0; i < m_num_outputs; i++)
-  {
-    out <<= 1;
-    out |= m_outputs[i];
-  }
+	unsigned long out = 0;
+	for (int i = m_num_outputs - 1; i >= 0; i--)
+	{
+		out <<= 1;
+		out |= m_outputs[i];
+	}
 	logger.log("  output", out);
 
+	for(int i = 0; i <= m_num_outputs; m_updated_inputs[i++] = 0);
 	// fire
 	fireAllOutputs();
 }

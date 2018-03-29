@@ -2,6 +2,7 @@
 #define PROCESSOR_COMPONENT_H_
 
 #include <vector>
+#include "LoggerFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Abstract base class for a component of the processor.

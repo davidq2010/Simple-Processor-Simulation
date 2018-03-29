@@ -22,13 +22,15 @@ int main(int argc, char const *argv[])
 {
 	//--------------------------------------------------------------------------
 	// Starting data
-	int n_cycles = 0; // number of cycles to run
+	const int n_cycles = 2; // number of cycles to run
 	
 	// Instructions (address starting at 0x400000)
-	int n_insts = 0;
-	unsigned long instructions[n_insts] {
-
-	}
+	const int n_insts = 2;
+	unsigned long instructions[n_insts] = 
+	{
+		0x00220020ul, // add $0 $1 $2
+		0x00641820ul, // add $3 $3 $4
+	};
 
 	// Register content
 	unsigned long reg_data[32] {};
@@ -51,13 +53,13 @@ int main(int argc, char const *argv[])
 
 	ALUControl alu_ctrl;
 
-	ALU alu_add_4;
-	ALU alu_add_branch;
-	ALU alu;
+	ALU alu_add_4 ("ALU Add 4");
+	ALU alu_add_branch ("ALU Branching");
+	ALU alu ("Main ALU");
 
 	ANDGate and_gate;
 
-	bool arr_add_ctrl[4] = {0, 0, 1, 0};
+	bool arr_add_ctrl[4] = {0, 1, 0, 0};
 	HardwiredConstant const_alu_add(arr_add_ctrl, 4);
 	bool arr_const_4[32] = {}; arr_const_4[2] = 1;
 	HardwiredConstant const_4 (arr_const_4, 32);
@@ -65,11 +67,11 @@ int main(int argc, char const *argv[])
 	HardwiredConstant const_00 (arr_const_00, 2);
 
 
-	MUX mux_write_reg(5);
-	MUX mux_alu_src(32);
-	MUX mux_mem_to_reg(32);
-	MUX mux_branch(32);
-	MUX mux_jump(32);
+	MUX mux_write_reg(5, "MUX DestReg");
+	MUX mux_alu_src(32, "MUX ALUSrc");
+	MUX mux_mem_to_reg(32, "MUX MemToReg");
+	MUX mux_branch(32, "MUX Branch");
+	MUX mux_jump(32, "MUX Jump");
 
 	SignExtender sign_ext;
 
@@ -118,13 +120,14 @@ int main(int argc, char const *argv[])
 	bulkConnect(sign_ext    , mux_alu_src , 0                          , mux_alu_src.startID(1) , 32);
 	bulkConnect(mux_alu_src , alu         , 0                          , alu.inputStartID(1)    , 32);
 
-	// data mem inputs (address from alu, write data from register file)
+	// data memomry inputs (address from alu, write data from register file)
 	bulkConnect(alu      , data_mem , 0                          , data_mem.addressStartID()   , 32);
 	bulkConnect(reg_file , data_mem , reg_file.regDataStartID(1) , data_mem.writeDataStartID() , 32);
 
 	// register file write data (from alu or data memory)
-	bulkConnect(alu      , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(0) , 32);
-	bulkConnect(data_mem , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(1) , 32);
+	bulkConnect(alu            , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(1)  , 32);
+	bulkConnect(data_mem       , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(0)  , 32);
+	bulkConnect(mux_mem_to_reg , reg_file       , 0 , reg_file.writeDataStartID(), 32);
 
 	//--------------------------------------------
 	// PC update cycle
@@ -174,7 +177,7 @@ int main(int argc, char const *argv[])
 	ctrl.addOutputComponent( 9, reg_file      , reg_file.writeControlID()  );
 
 	// alu control lines
-	bulkConnect(alu_ctrl, alu, 0, alu.controlStartID());
+	bulkConnect(alu_ctrl, alu, 0, alu.controlStartID(), 4);
 
 
 	//--------------------------------------------------------------------------
