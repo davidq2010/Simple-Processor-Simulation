@@ -6,7 +6,7 @@
 const Control::opcodeMap Control::OPCODE_TABLE
 ({
  // R-Type instructions
- {std::bitset<NUM_INPUTS>("000000"), std::bitset<NUM_OUTPUTS>("1000100001")},
+ {std::bitset<NUM_INPUTS>("000000"), std::bitset<NUM_OUTPUTS>("1001000001")},
 
  // ADDI
  {std::bitset<NUM_INPUTS>("001000"), std::bitset<NUM_OUTPUTS>("1100000000")},
