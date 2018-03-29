@@ -6,22 +6,22 @@
 const Control::opcodeMap Control::OPCODE_TABLE
 ({
  // R-Type instructions
- {std::bitset<NUM_INPUTS>("000000"), std::bitset<NUM_OUTPUTS>("1000010001")},
+ {std::bitset<NUM_INPUTS>("000000"), std::bitset<NUM_OUTPUTS>("1000100001")},
 
  // ADDI
- {std::bitset<NUM_INPUTS>("001000"), std::bitset<NUM_OUTPUTS>("0000000011")},
+ {std::bitset<NUM_INPUTS>("001000"), std::bitset<NUM_OUTPUTS>("1100000000")},
 
  // LW
- {std::bitset<NUM_INPUTS>("100000"), std::bitset<NUM_OUTPUTS>("0001100011")},
+ {std::bitset<NUM_INPUTS>("100000"), std::bitset<NUM_OUTPUTS>("1100011000")},
 
  // SW (RegDst/MemToReg don't matter)
- {std::bitset<NUM_INPUTS>("101011"), std::bitset<NUM_OUTPUTS>("0000000110")},
+ {std::bitset<NUM_INPUTS>("101011"), std::bitset<NUM_OUTPUTS>("0110000000")},
 
  // BEQ (RegDst/MemToReg don't matter)
- {std::bitset<NUM_INPUTS>("000100"), std::bitset<NUM_OUTPUTS>("0010010000")},
+ {std::bitset<NUM_INPUTS>("000100"), std::bitset<NUM_OUTPUTS>("0000100100")},
 
  // J (No other fields matter but jump)
- {std::bitset<NUM_INPUTS>("000010"), std::bitset<NUM_OUTPUTS>("0100000000")}
+ {std::bitset<NUM_INPUTS>("000010"), std::bitset<NUM_OUTPUTS>("0000000010")}
  });
 
 Control::
