@@ -54,7 +54,7 @@ updateOutput()
 	logger.log("  B", b);
 	logger.log("  control", std::bitset<4>(control).to_string());
 
-  unsigned long result;
+	unsigned long result;
 	switch (control)
 	{
 		case 0b0010:
@@ -66,7 +66,7 @@ updateOutput()
 			logger.log("  action", "SUB");
 			break;
 		case 0b0111:
-			result = a < b;
+			result = ((a >> 31) == (b >> 31))? (a < b) : (a >> 31);
 			logger.log("  action", "SLT");
 			break;
 		default: result = -1;

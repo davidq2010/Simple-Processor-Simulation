@@ -22,20 +22,33 @@ int main(int argc, char const *argv[])
 {
 	//--------------------------------------------------------------------------
 	// Starting data
-	const int n_cycles = 2; // number of cycles to run
+	const int n_cycles = 4; // number of cycles to run
 	
 	// Instructions (address starting at 0x400000)
-	const int n_insts = 2;
+	const int n_insts = 4;
 	unsigned long instructions[n_insts] = 
 	{
-		0x00220020ul, // add $0 $1 $2
-		0x00641820ul, // add $3 $3 $4
+		/*0x00220020ul, // add  $0  $1  $2    (0)
+		0x00641820ul, // add  $3  $3  $4
+		0x20410064ul, // addi $1  $2  100
+		0x202103e8ul, // addi $1  $1  1000
+		0x02bfa822ul, // sub  $21 $21 $31
+		0x0085002aul, // slt  $0  $4  $5    (5)
+		0x0295002aul, // slt  $0  $20 $21
+		0x23de0001ul, // addi $30 $30 1
+		0x13dffffeul, // beq  $30 $31 -2
+		*/
+		
+		0x08100002ul, // j inst2
+		0x08100003ul, // j inst3
+		0x08100001ul, // j inst1
+		
+		
+		0x20000000ul  // addi $0  $0  0   last instruction do not change
 	};
 
 	// Register content
 	unsigned long reg_data[32] {};
-	for (int i = 0; i < 32; i++)
-		reg_data[i] = i;
 
 	// Memory content
 	unsigned long mem_start_address = 0x1000;
@@ -125,8 +138,8 @@ int main(int argc, char const *argv[])
 	bulkConnect(reg_file , data_mem , reg_file.regDataStartID(1) , data_mem.writeDataStartID() , 32);
 
 	// register file write data (from alu or data memory)
-	bulkConnect(alu            , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(1)  , 32);
-	bulkConnect(data_mem       , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(0)  , 32);
+	bulkConnect(alu            , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(0)  , 32);
+	bulkConnect(data_mem       , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(1)  , 32);
 	bulkConnect(mux_mem_to_reg , reg_file       , 0 , reg_file.writeDataStartID(), 32);
 
 	//--------------------------------------------
@@ -192,7 +205,7 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < n_cycles; i++)
 	{
 		logger.log("========================================================================");
-		logger.log(std::string("Cycle") + std::to_string(i));
+		logger.log(std::string("Cycle ") + std::to_string(i+1));
 		logger.log("========================================================================");
 		clock.rise();
 		clock.fall();

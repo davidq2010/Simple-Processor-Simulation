@@ -76,7 +76,7 @@ updateOutput()
 	}
 	logger.log("  output", out);
 
-	for(int i = 0; i <= m_num_outputs; m_updated_inputs[i++] = 0);
+	for(int i = 0; i < m_num_inputs; m_updated_inputs[i++] = 0);
 	// fire
 	fireAllOutputs();
 }
