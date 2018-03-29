@@ -22,10 +22,10 @@ int main(int argc, char const *argv[])
 {
 	//--------------------------------------------------------------------------
 	// Starting data
-	const int n_cycles = 4; // number of cycles to run
+	const int n_cycles = 5; // number of cycles to run
 	
 	// Instructions (address starting at 0x400000)
-	const int n_insts = 4;
+	const int n_insts = 5;
 	unsigned long instructions[n_insts] = 
 	{
 		/*0x00220020ul, // add  $0  $1  $2    (0)
@@ -37,12 +37,15 @@ int main(int argc, char const *argv[])
 		0x0295002aul, // slt  $0  $20 $21
 		0x23de0001ul, // addi $30 $30 1
 		0x13dffffeul, // beq  $30 $31 -2
-		*/
 		
 		0x08100002ul, // j inst2
 		0x08100003ul, // j inst3
 		0x08100001ul, // j inst1
-		
+		*/
+		0x20001000ul, // addi $0  $0  0x1000
+		0x2021abcdul, // addi $1  $1  0xabcd
+		0xac010004ul, // sw   $1  4($0)
+		0x8c020004ul, // lw   $2  4($0)
 		
 		0x20000000ul  // addi $0  $0  0   last instruction do not change
 	};
@@ -52,10 +55,8 @@ int main(int argc, char const *argv[])
 
 	// Memory content
 	unsigned long mem_start_address = 0x1000;
-	const int mem_size = 256;
-	unsigned long mem_data[mem_size];
-	for (int i = 0; i < mem_size; i++) 
-		mem_data[i] = i;
+	const int mem_size = 16;
+	unsigned long mem_data[mem_size] {};
 
 	//--------------------------------------------------------------------------
 	// Init components
@@ -92,7 +93,7 @@ int main(int argc, char const *argv[])
 
 	RegisterFile reg_file(reg_data);
 
-	DataMemory data_mem(mem_data, mem_start_address, mem_start_address + mem_size);
+	DataMemory data_mem(mem_data, mem_start_address, mem_size);
 
 	//--------------------------------------------------------------------------
 	// Wiring between components

@@ -12,7 +12,7 @@ const Control::opcodeMap Control::OPCODE_TABLE
  {std::bitset<NUM_INPUTS>("001000"), std::bitset<NUM_OUTPUTS>("1100000000")},
 
  // LW
- {std::bitset<NUM_INPUTS>("100000"), std::bitset<NUM_OUTPUTS>("1100011000")},
+ {std::bitset<NUM_INPUTS>("100011"), std::bitset<NUM_OUTPUTS>("1100011000")},
 
  // SW (RegDst/MemToReg don't matter)
  {std::bitset<NUM_INPUTS>("101011"), std::bitset<NUM_OUTPUTS>("0110000000")},
@@ -33,9 +33,7 @@ Control::
 setInput(int _line_id, bool _bit)
 {
 	m_inputs.set(_line_id, _bit);
-
 	m_updated_inputs.set(_line_id);
-
 	if (m_updated_inputs.all())
 		updateOutput();
 }
@@ -53,11 +51,12 @@ void
 Control::
 updateOutput()
 {
-  // Check if the input bits match an opcode. If it does, output the correct bit
-  // to the correct wire.
+	// Check if the input bits match an opcode. If it does, output the correct bit
+	// to the correct wire.
 
-  // Look up the output bits for that inputs std::bitset and put into m_outputs
-  m_outputs = OPCODE_TABLE.at(m_inputs);
+	// Look up the output bits for that inputs std::bitset and put into m_outputs
+	LoggerFactory::getLogger().log("Opcode", m_inputs.to_ulong());
+	m_outputs = OPCODE_TABLE.at(m_inputs);
 
 	// update
 	m_updated_inputs.reset();

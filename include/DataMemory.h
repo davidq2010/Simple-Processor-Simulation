@@ -33,7 +33,7 @@ class DataMemory : public ProcessorComponent
 
 		DataMemory(unsigned long* _data, 
 					unsigned long _start_address, 
-					unsigned long _end_address);
+					int _memory_size);
 
 		~DataMemory();
 
