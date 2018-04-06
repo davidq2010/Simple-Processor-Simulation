@@ -11,19 +11,19 @@ void
 ProgramCounter::
 setInput(int _line_id, bool _bit)
 {
-	if (_line_id == CLOCK_ID){
-		if (_bit)
-			fireAllOutputs();
+  if (_line_id == CLOCK_ID){
+    if (_bit)
+      fireAllOutputs();
   }
-	else
-		m_address[_line_id] = _bit;
+  else
+    m_address[_line_id] = _bit;
 }
 
 bool
 ProgramCounter::
 getOutput(int _line_id)
 {
-	return m_address.test(_line_id);
+  return m_address.test(_line_id);
 }
 
 #endif // PROGRAM_COUNTER_CPP_

@@ -13,34 +13,34 @@ void
 SignExtender::
 setInput(int _line_id, bool _bit)
 {
-	m_inputs.set(_line_id, _bit);
-	
-	m_updated_inputs.set(_line_id);
-	if (m_updated_inputs.all())
-		updateOutput();
+  m_inputs.set(_line_id, _bit);
+  
+  m_updated_inputs.set(_line_id);
+  if (m_updated_inputs.all())
+    updateOutput();
 }
 
 bool
 SignExtender::
 getOutput(int _line_id)
 {
-	return m_outputs.test(_line_id);
+  return m_outputs.test(_line_id);
 }
 
 void
 SignExtender::
 updateOutput()
 {
-	for (int i = 0; i < NUM_INPUTS; i++)
-		m_outputs[i] = m_inputs[i];
+  for (int i = 0; i < NUM_INPUTS; i++)
+    m_outputs[i] = m_inputs[i];
 
-	bool sign_bit = m_outputs[NUM_INPUTS - 1];
-	for (int i = NUM_INPUTS; i < NUM_OUTPUTS; i++)
-		m_outputs[i] = sign_bit;
+  bool sign_bit = m_outputs[NUM_INPUTS - 1];
+  for (int i = NUM_INPUTS; i < NUM_OUTPUTS; i++)
+    m_outputs[i] = sign_bit;
 
-	m_updated_inputs.reset();
+  m_updated_inputs.reset();
 
-	fireAllOutputs();
+  fireAllOutputs();
 }
 
 #endif // SIGN_EXTENDER_CPP_

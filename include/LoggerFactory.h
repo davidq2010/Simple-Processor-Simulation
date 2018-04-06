@@ -5,11 +5,11 @@
 
 class LoggerFactory
 {
-	public:
-		static Logger getLogger();
+  public:
+    static Logger getLogger();
 
-	private:
-		static Logger logger;
+  private:
+    static Logger logger;
 };
 
 

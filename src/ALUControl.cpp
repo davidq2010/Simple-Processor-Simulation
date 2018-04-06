@@ -15,11 +15,11 @@ void
 ALUControl::
 setInput(int _line_id, bool _bit)
 {
-	m_inputs.set(_line_id, _bit);
-	m_updated_inputs.set(_line_id);
+  m_inputs.set(_line_id, _bit);
+  m_updated_inputs.set(_line_id);
 
-	if (m_updated_inputs.all())
-		updateOutputs();
+  if (m_updated_inputs.all())
+    updateOutputs();
 }
 
 
@@ -27,7 +27,7 @@ bool
 ALUControl::
 getOutput(int _line_id)
 {
-	return m_outputs.test(_line_id);
+  return m_outputs.test(_line_id);
 }
 
 
@@ -35,33 +35,33 @@ void
 ALUControl::
 updateOutputs()
 {
-	unsigned long aluOp = (m_inputs >> aluOpStartID() & ALU_OP_MASK).to_ulong();
-	unsigned long func  = (m_inputs >> funcStartID()).to_ulong();
-	switch (aluOp)
-	{
-		case OP_ADD: m_outputs = OUT_ADD; break;
-		case OP_SUB: m_outputs = OUT_SUB; break;
-		default: switch (func)
-		{
-			case FUNC_ADD: m_outputs = OUT_ADD; break;
-			case FUNC_SUB: m_outputs = OUT_SUB; break;
-			case FUNC_SLT: m_outputs = OUT_SLT; break;
-		}
-	}
+  unsigned long aluOp = (m_inputs >> aluOpStartID() & ALU_OP_MASK).to_ulong();
+  unsigned long func  = (m_inputs >> funcStartID()).to_ulong();
+  switch (aluOp)
+  {
+    case OP_ADD: m_outputs = OUT_ADD; break;
+    case OP_SUB: m_outputs = OUT_SUB; break;
+    default: switch (func)
+    {
+      case FUNC_ADD: m_outputs = OUT_ADD; break;
+      case FUNC_SUB: m_outputs = OUT_SUB; break;
+      case FUNC_SLT: m_outputs = OUT_SLT; break;
+    }
+  }
 
 
-	// log input/output
-	Logger logger = LoggerFactory::getLogger();
-	logger.log("--------------------------------------------------");
-	logger.log("ALU CONTROL");
-	logger.log("  Input:");
-	logger.log("  aluOp", std::bitset<2>(aluOp).to_string());
-	logger.log("  func" , std::bitset<6>(func).to_string());
-	logger.log("  Output:");
-	logger.log("  output", m_outputs.to_string());
+  // log input/output
+  Logger logger = LoggerFactory::getLogger();
+  logger.log("--------------------------------------------------");
+  logger.log("ALU CONTROL");
+  logger.log("  Input:");
+  logger.log("  aluOp", std::bitset<2>(aluOp).to_string());
+  logger.log("  func" , std::bitset<6>(func).to_string());
+  logger.log("  Output:");
+  logger.log("  output", m_outputs.to_string());
 
-	m_updated_inputs.reset();
-	fireAllOutputs();
+  m_updated_inputs.reset();
+  fireAllOutputs();
 }
 
 #endif // ALU_CONTROL_CPP_

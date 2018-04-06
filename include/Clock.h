@@ -5,23 +5,23 @@
 
 class Clock : public ProcessorComponent
 {
-	public:
-		// Constants
-		static const int NUM_INPUTS = 0;
-		static const int NUM_OUTPUTS = 1;
+  public:
+    // Constants
+    static const int NUM_INPUTS = 0;
+    static const int NUM_OUTPUTS = 1;
 
-		Clock();
+    Clock();
 
-		void setInput(int _line_id, bool _bit);
+    void setInput(int _line_id, bool _bit);
 
-		bool getOutput(int _line_id = 0);
+    bool getOutput(int _line_id = 0);
 
-		void rise();
+    void rise();
 
-		void fall();
+    void fall();
 
-	private:
-		bool m_clock_state;
+  private:
+    bool m_clock_state;
 };
 
 

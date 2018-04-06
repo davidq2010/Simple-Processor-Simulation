@@ -13,26 +13,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 class SignExtender : public ProcessorComponent
 {
-	public:
-		/// Constants
-		static const int NUM_INPUTS = 16;
-		
-		static const int NUM_OUTPUTS = 32;
+  public:
+    /// Constants
+    static const int NUM_INPUTS = 16;
+    
+    static const int NUM_OUTPUTS = 32;
 
-		SignExtender();
+    SignExtender();
 
-		void setInput(int _line_id, bool _bit);
+    void setInput(int _line_id, bool _bit);
 
-		bool getOutput(int _line_id); 
+    bool getOutput(int _line_id); 
 
-		void updateOutput();
+    void updateOutput();
 
-	private:
-		std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
+  private:
+    std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
 
-		std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
+    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 
-		std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
+    std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
 };
 
 #endif // SIGN_EXTENDER_H_
