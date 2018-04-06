@@ -10,10 +10,10 @@
 /// signals to send to the following output processor components:
 ///
 /// Input lines:
-///   Opcode    [5-0]     Instruction opcode
+///   Opcode    [5-0]  Instruction opcode
 ///
 /// Output lines
-/// 	RegDst    [0]
+///   RegDst    [0]
 ///   Jump      [1]
 ///   Branch    [2]
 ///   MemRead   [3]
@@ -28,26 +28,26 @@
 ////////////////////////////////////////////////////////////////////////////////
 class Control : public ProcessorComponent
 {
-	public:
-		static const int NUM_INPUTS  = 6;
-		static const int NUM_OUTPUTS = 10;
+  public:
+    static const int NUM_INPUTS  = 6;
+    static const int NUM_OUTPUTS = 10;
 
     static const int OPCODE_ID = 0;
-		static const int RESULT_ID = 0;
+    static const int RESULT_ID = 0;
 
-		Control();
+    Control();
 
-		int opcodeID() 	{ return OPCODE_ID; }
+    int opcodeID()  { return OPCODE_ID; }
 
-		int resultID() 	{ return RESULT_ID; }
+    int resultID()  { return RESULT_ID; }
 
-		void setInput(int _line_id, bool _bit);
+    void setInput(int _line_id, bool _bit);
 
-		bool getOutput(int _line_id);
+    bool getOutput(int _line_id);
 
-		void updateOutput();
+    void updateOutput();
 
-	private:
+  private:
 
     typedef std::unordered_map<std::bitset<NUM_INPUTS>,std::bitset<NUM_OUTPUTS>>
     opcodeMap;
@@ -55,11 +55,11 @@ class Control : public ProcessorComponent
     static const opcodeMap OPCODE_TABLE;  ///< Hashmap mapping input opcode bits
                                           ///< to which output line to fire
 
-		std::bitset<NUM_INPUTS>  m_inputs;  /// Input bits
+    std::bitset<NUM_INPUTS>  m_inputs;  /// Input bits
 
-		std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
+    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 
-		std::bitset<NUM_INPUTS>  m_updated_inputs;  ///< Keep track of which inputs
+    std::bitset<NUM_INPUTS>  m_updated_inputs;  ///< Keep track of which inputs
                                                 ///< are updated
 };
 

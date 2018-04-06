@@ -13,54 +13,54 @@
 /// first n-bit input, otherwise the output is the second n-bit input.
 ///
 /// Input lines: [2n + 1] lines
-/// 	Control [0]
-///  	Input_0 [n  - 1]
-/// 	Input_1 [2n - n+1]
+///   Control [0]
+///   Input_0 [n  - 1]
+///   Input_1 [2n - n+1]
 /// Output lines: [n] lines
-/// 	Input_0 if control == 0
-/// 	Input_1 if control == 1
+///   Input_0 if control == 0
+///   Input_1 if control == 1
 ////////////////////////////////////////////////////////////////////////////////
 class MUX : public ProcessorComponent
 {
-	public:
-		static const int CONTROL_LINE_ID = 0;
-		static const int INPUT_0_START_ID = 1;
+  public:
+    static const int CONTROL_LINE_ID = 0;
+    static const int INPUT_0_START_ID = 1;
 
-		////////////////////////////////////////////////////////////////////////
-		/// @param _n_bits number of bits of each input and of output
-		////////////////////////////////////////////////////////////////////////
-		MUX(int _n_bits, std::string _name);
+    ////////////////////////////////////////////////////////////////////////
+    /// @param _n_bits number of bits of each input and of output
+    ////////////////////////////////////////////////////////////////////////
+    MUX(int _n_bits, std::string _name);
 
-		~MUX();
+    ~MUX();
 
-		int controlID() { return CONTROL_LINE_ID; }
+    int controlID() { return CONTROL_LINE_ID; }
 
-		////////////////////////////////////////////////////////////////////////
-		/// @param _input_num the 0th or 1st input
-		/// @return the starting id of that input
-		////////////////////////////////////////////////////////////////////////
-		int startID(bool _input_num)
-		{
-			return INPUT_0_START_ID + _input_num * m_num_outputs;
-		}
+    ////////////////////////////////////////////////////////////////////////
+    /// @param _input_num the 0th or 1st input
+    /// @return the starting id of that input
+    ////////////////////////////////////////////////////////////////////////
+    int startID(bool _input_num)
+    {
+      return INPUT_0_START_ID + _input_num * m_num_outputs;
+    }
 
-		void setInput(int _line_id, bool _bit);
+    void setInput(int _line_id, bool _bit);
 
-		bool getOutput(int _line_id);
+    bool getOutput(int _line_id);
 
-		void updateOutput();
+    void updateOutput();
 
-	private:
-		bool* m_inputs;
-		bool* m_outputs;
-		bool* m_updated_inputs;
+  private:
+    bool* m_inputs;
+    bool* m_outputs;
+    bool* m_updated_inputs;
 
-		std::string m_name;
+    std::string m_name;
 
-		////////////////////////////////////////////////////////////////////////
-		/// @return true if all input lines have been updated
-		////////////////////////////////////////////////////////////////////////
-		bool allInputsUpdated();
+    ////////////////////////////////////////////////////////////////////////
+    /// @return true if all input lines have been updated
+    ////////////////////////////////////////////////////////////////////////
+    bool allInputsUpdated();
 };
 
 #endif // MUX_H_

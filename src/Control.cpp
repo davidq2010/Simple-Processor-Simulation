@@ -32,10 +32,10 @@ void
 Control::
 setInput(int _line_id, bool _bit)
 {
-	m_inputs.set(_line_id, _bit);
-	m_updated_inputs.set(_line_id);
-	if (m_updated_inputs.all())
-		updateOutput();
+  m_inputs.set(_line_id, _bit);
+  m_updated_inputs.set(_line_id);
+  if (m_updated_inputs.all())
+    updateOutput();
 }
 
 
@@ -43,7 +43,7 @@ bool
 Control::
 getOutput(int _line_id)
 {
-	return m_outputs.test(_line_id);
+  return m_outputs.test(_line_id);
 }
 
 
@@ -51,16 +51,16 @@ void
 Control::
 updateOutput()
 {
-	// Check if the input bits match an opcode. If it does, output the correct bit
-	// to the correct wire.
+  // Check if the input bits match an opcode. If it does, output the correct bit
+  // to the correct wire.
 
-	// Look up the output bits for that inputs std::bitset and put into m_outputs
-	LoggerFactory::getLogger().log("Opcode", m_inputs.to_ulong());
-	m_outputs = OPCODE_TABLE.at(m_inputs);
+  // Look up the output bits for that inputs std::bitset and put into m_outputs
+  LoggerFactory::getLogger().log("Opcode", m_inputs.to_ulong());
+  m_outputs = OPCODE_TABLE.at(m_inputs);
 
-	// update
-	m_updated_inputs.reset();
-	fireAllOutputs();
+  // update
+  m_updated_inputs.reset();
+  fireAllOutputs();
 }
 
 
