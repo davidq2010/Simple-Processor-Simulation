@@ -68,7 +68,7 @@ class ProcessorComponent
     ////////////////////////////////////////////////////////////////////////
     /// Struct to store an output component and its input line ID
     ////////////////////////////////////////////////////////////////////////
-    struct OutputLine 
+    struct OutputComponent 
     {
       ProcessorComponent& output_component;
       int input_id;
@@ -83,8 +83,8 @@ class ProcessorComponent
 
     int m_num_outputs; ///< Number of output to this component
 
-    /// Map each output ID to its output components
-    std::vector<OutputLine>* m_output_lines;
+    /// Array map each output ID to its output components
+    std::vector<OutputComponent>* m_output_lines;
 };
 
 #endif // PROCESSOR_COMPONENT_H_
