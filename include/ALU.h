@@ -64,7 +64,7 @@ class ALU : public ProcessorComponent
 
     std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
 
-    std::string m_name;
+    std::string m_name; ///< name of the component, for logging
 };
 
 #endif // ALU_H_

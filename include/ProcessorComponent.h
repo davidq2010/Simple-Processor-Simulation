@@ -1,8 +1,9 @@
 #ifndef PROCESSOR_COMPONENT_H_
 #define PROCESSOR_COMPONENT_H_
 
+#include <string>
 #include <vector>
-#include "LoggerFactory.h"
+#include "Logger.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Abstract base class for a component of the processor.
@@ -23,6 +24,11 @@
 class ProcessorComponent
 {
   public:
+
+    //----------------------------------------------------------------------
+    // Constructor / Destructor
+    //----------------------------------------------------------------------
+
     ////////////////////////////////////////////////////////////////////////
     /// Constructor
     /// @param  _n_inputs   number of input lines
@@ -31,6 +37,10 @@ class ProcessorComponent
     ProcessorComponent(int _n_inputs, int _n_outputs);
 
     virtual ~ProcessorComponent();
+
+    //----------------------------------------------------------------------
+    // Input/output methods
+    //----------------------------------------------------------------------
     
     ////////////////////////////////////////////////////////////////////////
     /// @return number of input lines
@@ -43,28 +53,50 @@ class ProcessorComponent
     int numOutputs() { return m_num_outputs; }
 
     ////////////////////////////////////////////////////////////////////////
-    /// Connect the output line of this input to an input line of another
-    /// component.
-    /// @param  _output_id      the ID of the output line
-    /// @param  _output_component   the component to output to
-    /// @param  _input_id       the ID of input line of the output
-    ///               component
-    ////////////////////////////////////////////////////////////////////////
-    void addOutputComponent(int _output_id, 
-                ProcessorComponent& _output_component, 
-                int _input_id);
-
-    ////////////////////////////////////////////////////////////////////////
     /// Set the bit of an input line
+    /// @param  _line_id   ID of input line
+    /// @param  _bit       bit of input line
     ////////////////////////////////////////////////////////////////////////
     virtual void setInput(int _line_id, bool _bit) = 0;
 
     ////////////////////////////////////////////////////////////////////////
     /// Get the bit of an output line
+    /// @param  _line_id   ID of input line
+    /// @return whether the line is high or low
     ////////////////////////////////////////////////////////////////////////
     virtual bool getOutput(int _line_id) = 0;
 
+    ////////////////////////////////////////////////////////////////////////
+    /// Connect an output line of this component to an input line of another
+    /// component.
+    /// @param  _output_id          the ID of the output line
+    /// @param  _output_component   the component to output to
+    /// @param  _input_id           the ID of input line of the output component
+    ////////////////////////////////////////////////////////////////////////
+    void addOutputComponent(int _output_id, 
+                            ProcessorComponent& _output_component, 
+                            int _input_id);
+
+    //----------------------------------------------------------------------
+    // Logging
+    //----------------------------------------------------------------------
+    void setLogger(Logger* _logger)
+
   protected:
+
+    ////////////////////////////////////////////////////////////////////////
+    /// Call setInput method of each component connected to each output line
+    ////////////////////////////////////////////////////////////////////////
+    void fireAllOutputs();
+
+    Logger* m_logger;
+
+  private:
+
+    int m_num_inputs; ///< Number of input to this component
+
+    int m_num_outputs; ///< Number of output to this component
+
     ////////////////////////////////////////////////////////////////////////
     /// Struct to store an output component and its input line ID
     ////////////////////////////////////////////////////////////////////////
@@ -74,17 +106,9 @@ class ProcessorComponent
       int input_id;
     };
 
-    ////////////////////////////////////////////////////////////////////////
-    /// Call setInput method of each component connected to each output line
-    ////////////////////////////////////////////////////////////////////////
-    void fireAllOutputs();
-
-    int m_num_inputs; ///< Number of input to this component
-
-    int m_num_outputs; ///< Number of output to this component
-
-    /// Array map each output ID to its output components
+    /// Array mapping each output ID to its output components
     std::vector<OutputComponent>* m_output_lines;
+
 };
 
 #endif // PROCESSOR_COMPONENT_H_

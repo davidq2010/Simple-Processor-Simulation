@@ -2,8 +2,6 @@
 #define ALU_CPP_
 
 #include "ALU.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
 
 const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
 
@@ -37,7 +35,6 @@ void
 ALU::
 updateOutput()
 {
-  Logger logger = LoggerFactory::getLogger();
   logger.log("--------------------------------------------------");
   logger.log(m_name);
   logger.log("  Input:");
@@ -81,7 +78,7 @@ updateOutput()
   // log output
   logger.log("  Output:");
   logger.log("  result", result);
-  logger.log("  zero", zero? "1" : "0");
+  logger.log("  zero", zero);
 
   // update
   m_updated_inputs.reset();
