@@ -96,6 +96,27 @@ int main(int argc, char const *argv[])
 	DataMemory data_mem(mem_data, mem_start_address, mem_size);
 
 	//--------------------------------------------------------------------------
+	// Logging init
+	Logger logger;
+	clock.setLogger(&logger);
+	pc.setLogger(&logger);
+	ctrl.setLogger(&logger);
+	alu_ctrl.setLogger(&logger);
+	alu_add_4.setLogger(&logger);
+	alu_branch.setLogger(&logger);
+	alu.setLogger(&logger);
+	and_gate.setLogger(&logger);
+	mux_write_reg.setLogger(&logger);
+	mux_alu_src.setLogger(&logger);
+	mux_mem_to_reg.setLogger(&logger);
+	mux_branch.setLogger(&logger);
+	mux_jump.setLogger(&logger);
+	sign_ext.setLogger(&logger);
+	inst_mem.setLogger(&logger);
+	reg_file.setLogger(&logger);
+	data_mem.setLogger(&logger);
+	
+	//--------------------------------------------------------------------------
 	// Wiring between components
 
 	//--------------------------------------------
@@ -201,7 +222,6 @@ int main(int argc, char const *argv[])
 	for (int i = 0; i < 32; i++)
 		pc.setInput(i, (InstructionMemory::START_ADDRESS >> i) & 1ul);
 
-	Logger logger = LoggerFactory::getLogger();
 	// Repeat cycles
 	for (int i = 0; i < n_cycles; i++)
 	{
