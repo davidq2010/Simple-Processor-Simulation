@@ -116,11 +116,11 @@ int main(int argc, char const *argv[])
 	bulkConnect(inst_mem, ctrl, 26, 0, 6);
 
 	//   rs, rt, rd -> (write_reg MUX) -> register file
-	bulkConnect(inst_mem      , reg_file      , 21 , reg_file.readRegStartID(0) , 5);
-	bulkConnect(inst_mem      , reg_file      , 16 , reg_file.readRegStartID(1) , 5);
-	bulkConnect(inst_mem      , mux_write_reg , 16 , mux_write_reg.startID(0)   , 5);
-	bulkConnect(inst_mem      , mux_write_reg , 11 , mux_write_reg.startID(1)   , 5);
-	bulkConnect(mux_write_reg , reg_file      , 0  , reg_file.writeRegStartID() , 5);
+	bulkConnect(inst_mem      , reg_file      , 21 , reg_file.readRegStartID(0)      , 5);
+	bulkConnect(inst_mem      , reg_file      , 16 , reg_file.readRegStartID(1)      , 5);
+	bulkConnect(inst_mem      , mux_write_reg , 16 , mux_write_reg.operandStartID(0) , 5);
+	bulkConnect(inst_mem      , mux_write_reg , 11 , mux_write_reg.operandStartID(1) , 5);
+	bulkConnect(mux_write_reg , reg_file      , 0  , reg_file.writeRegStartID()      , 5);
 
 	//   imm -> sign extender
 	bulkConnect(inst_mem, sign_ext, 0, 0, 16);
@@ -129,44 +129,44 @@ int main(int argc, char const *argv[])
 	bulkConnect(inst_mem, alu_ctrl, 0, alu_ctrl.funcStartID(), 6);
 
 	// alu sources (src1 from register file, src 2 from register file or sign extender)
-	bulkConnect(reg_file    , alu         , reg_file.regDataStartID(0) , alu.inputStartID(0)    , 32);
-	bulkConnect(reg_file    , mux_alu_src , reg_file.regDataStartID(1) , mux_alu_src.startID(0) , 32);
-	bulkConnect(sign_ext    , mux_alu_src , 0                          , mux_alu_src.startID(1) , 32);
-	bulkConnect(mux_alu_src , alu         , 0                          , alu.inputStartID(1)    , 32);
+	bulkConnect(reg_file    , alu         , reg_file.regDataStartID(0) , alu.operandStartID(0)         , 32);
+	bulkConnect(reg_file    , mux_alu_src , reg_file.regDataStartID(1) , mux_alu_src.operandStartID(0) , 32);
+	bulkConnect(sign_ext    , mux_alu_src , 0                          , mux_alu_src.operandStartID(1) , 32);
+	bulkConnect(mux_alu_src , alu         , 0                          , alu.operandStartID(1)         , 32);
 
 	// data memomry inputs (address from alu, write data from register file)
 	bulkConnect(alu      , data_mem , 0                          , data_mem.addressStartID()   , 32);
 	bulkConnect(reg_file , data_mem , reg_file.regDataStartID(1) , data_mem.writeDataStartID() , 32);
 
 	// register file write data (from alu or data memory)
-	bulkConnect(alu            , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(0)  , 32);
-	bulkConnect(data_mem       , mux_mem_to_reg , 0 , mux_mem_to_reg.startID(1)  , 32);
-	bulkConnect(mux_mem_to_reg , reg_file       , 0 , reg_file.writeDataStartID(), 32);
+	bulkConnect(alu            , mux_mem_to_reg , 0 , mux_mem_to_reg.operandStartID(0)  , 32);
+	bulkConnect(data_mem       , mux_mem_to_reg , 0 , mux_mem_to_reg.operandStartID(1)  , 32);
+	bulkConnect(mux_mem_to_reg , reg_file       , 0 , reg_file.writeDataStartID()       , 32);
 
 	//--------------------------------------------
 	// PC update cycle
 
 	// pc and hardwired constants -> add 4 alu
-	bulkConnect(pc            , alu_add_4, 0 , alu_add_4.inputStartID(0)  , 32);
-	bulkConnect(const_4       , alu_add_4, 0 , alu_add_4.inputStartID(1)  , 32);
-	bulkConnect(const_alu_add , alu_add_4, 0 , alu_add_4.controlStartID() , 4 );
+	bulkConnect(pc            , alu_add_4, 0 , alu_add_4.operandStartID(0)  , 32);
+	bulkConnect(const_4       , alu_add_4, 0 , alu_add_4.operandStartID(1)  , 32);
+	bulkConnect(const_alu_add , alu_add_4, 0 , alu_add_4.controlStartID()   , 4 );
 
 	// branching alu
-	bulkConnect(alu_add_4     , alu_add_branch , 0 , alu_add_branch.inputStartID(0)     , 32);
-	bulkConnect(sign_ext      , alu_add_branch , 0 , alu_add_branch.inputStartID(1) + 2 , 30);
-	bulkConnect(const_00      , alu_add_branch , 0 , alu_add_branch.inputStartID(1)     , 2 );
-	bulkConnect(const_alu_add , alu_add_branch , 0 , alu_add_branch.controlStartID()    , 4 );
+	bulkConnect(alu_add_4     , alu_add_branch , 0 , alu_add_branch.operandStartID(0)     , 32);
+	bulkConnect(sign_ext      , alu_add_branch , 0 , alu_add_branch.operandStartID(1) + 2 , 30);
+	bulkConnect(const_00      , alu_add_branch , 0 , alu_add_branch.operandStartID(1)     , 2 );
+	bulkConnect(const_alu_add , alu_add_branch , 0 , alu_add_branch.controlStartID()      , 4 );
 
 	// mux add4 vs. branch
-	bulkConnect(alu_add_4      , mux_branch , 0 , mux_branch.startID(0) , 32);
-	bulkConnect(alu_add_branch , mux_branch , 0 , mux_branch.startID(1) , 32);
+	bulkConnect(alu_add_4      , mux_branch , 0 , mux_branch.operandStartID(0) , 32);
+	bulkConnect(alu_add_branch , mux_branch , 0 , mux_branch.operandStartID(1) , 32);
 
 	// mux add4+branch vs. jump
-	bulkConnect(mux_branch , mux_jump, 0  , mux_jump.startID(0)     , 32);
+	bulkConnect(mux_branch , mux_jump, 0  , mux_jump.operandStartID(0)     , 32);
 
-	bulkConnect(const_00   , mux_jump, 0  , mux_jump.startID(1)     , 2 );
-	bulkConnect(inst_mem   , mux_jump, 0  , mux_jump.startID(1) + 2 , 26);
-	bulkConnect(alu_add_4  , mux_jump, 28 , mux_jump.startID(1) + 28, 4 );
+	bulkConnect(const_00   , mux_jump, 0  , mux_jump.operandStartID(1)     , 2 );
+	bulkConnect(inst_mem   , mux_jump, 0  , mux_jump.operandStartID(1) + 2 , 26);
+	bulkConnect(alu_add_4  , mux_jump, 28 , mux_jump.operandStartID(1) + 28, 4 );
 
 	// cycle back to pc
 	bulkConnect(mux_jump , pc , 0 , 0 , 32);
