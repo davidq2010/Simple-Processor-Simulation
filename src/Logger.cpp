@@ -28,7 +28,7 @@ Logger::
 log(string label, string value)
 {
   cout << setw(20) << left << label
-    << setw(20) << left << value << endl;
+    << setw(15) << left << value << endl;
 }
 
 
@@ -37,8 +37,19 @@ Logger::
 log(string label, unsigned long value)
 {
   cout << setw(20) << left << label
-    << setw(20) << left << hex << value
-    << setw(20) << left << dec << ulongToLong(value)
+    << setw(15) << left << hex << value
+    << setw(15) << left << dec << ulongToLong(value)
+    << endl;
+}
+
+
+void
+Logger::
+log(unsigned long address, unsigned long value)
+{
+  cout << setw(20) << left << ""
+    << setw(10) << left << hex << address
+    << setw(10) << left << hex << value
     << endl;
 }
 

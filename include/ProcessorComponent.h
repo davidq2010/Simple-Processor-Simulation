@@ -80,7 +80,7 @@ class ProcessorComponent
     //----------------------------------------------------------------------
     // Logging
     //----------------------------------------------------------------------
-    void setLogger(Logger* _logger)
+    void setLogger(Logger* _logger);
 
   protected:
 

@@ -5,14 +5,13 @@
 #include "LoggerFactory.h"
 
 InstructionMemory::
-InstructionMemory(word* _data, int _n_data)
-  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) 
+InstructionMemory(unsigned long* _data, int _n_data)
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
+    m_num_data(_n_data)
 {
-  m_data = new word[_n_data];
+  m_data = new unsigned long[_n_data];
   for (int i = 0; i < _n_data; i++)
-  {
     m_data[i] = _data[i];
-  }
 }
 
 
@@ -44,25 +43,47 @@ void
 InstructionMemory::
 updateOutputs()
 {
-  word address = m_inputs.to_ulong();
-  word index = (address - START_ADDRESS) >> 2;
+  unsigned long address = m_inputs.to_ulong();
 
   // output update
-  m_outputs = m_data[index];
+  m_outputs = getData(address);
 
   // log inputs and outputs
-  Logger logger = LoggerFactory::getLogger();
-  logger.log("--------------------------------------------------");
-  logger.log("Instruction Memory");
-  logger.log("  Input:");
-  logger.log("  address", m_inputs.to_ulong());
-  logger.log("  inst index", index);
-  logger.log("  Output:");
-  logger.log("  instruction", m_outputs.to_ulong());
+  m_logger->log("--------------------------------------------------");
+  m_logger->log("Instruction Memory");
+  m_logger->log("  Input:");
+  m_logger->log("  address", address);
+  m_logger->log("  Output:");
+  m_logger->log("  instruction", m_outputs.to_ulong());
+  m_logger->log("  Memory content:");
+  for (int i = 0; i < m_num_data; i++)
+  {
+    unsigned long address_i = (unsigned long)i << 4 + START_ADDRESS;
+    m_logger->log(address_i, m_data[i]);
+  }
 
   // fire
   m_updated_inputs.reset();
   fireAllOutputs();
 }
+
+
+unsigned long 
+DataMemory::
+getData(unsigned long _address)
+{
+  unsigned long index = (address - START_ADDRESS) >> 2;
+  return m_data[index];
+}
+
+
+void
+DataMemory::
+setData(unsigned long _address, unsigned long _data)
+{
+  unsigned long index = (address - START_ADDRESS) >> 2;
+  m_data[index] = _data;
+}
+
 
 #endif // INSTRUCTION_MEMORY_CPP_

@@ -52,31 +52,59 @@ void
 DataMemory::
 updateOutputs()
 {
-  LoggerFactory::getLogger().log("Data Mem");
-
   unsigned long address = 
       ((m_inputs >> addressStartID()) & FULL_BIT_MASK_32).to_ulong();
-  address = (address - m_start_address) >> 2;
+  
+  unsigned long write_data = 
+        ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
   
   //read
   if (m_inputs[ memReadID() ])
-    m_outputs = m_data[address];
+    m_outputs = getData(address);
   else
     m_outputs.reset();
   
   // write
   if (m_inputs[memWriteID()])
+    setData(address, write_data);
+
+  // log
+  m_logger->log("--------------------------------------------------");
+  m_logger->log("Data Memory");
+  m_logger->log("  Input:");
+  m_logger->log("  address" , address);
+  m_logger->log("  memRead" , m_inputs[memReadID()]);
+  m_logger->log("  memWrite", m_inputs[memWriteID()]);
+  m_logger->log("  Output:");
+  m_logger->log("  readData", m_outputs.to_ulong());
+  m_logger->log("  Memory content:");
+  for (unsigned long i = m_start_address; i < m_end_address; i += 4)
   {
-    unsigned long write_data = 
-        ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
-    m_data[address] = write_data;
+    m_logger->log(i, getData(i));
   }
 
-
   // output update and fire
-
   m_updated_inputs.reset();
   fireAllOutputs();
 }
+
+
+unsigned long 
+DataMemory::
+getData(unsigned long _address)
+{
+  unsigned long index = (address - m_start_address) >> 2;
+  return m_data[index];
+}
+
+
+void
+DataMemory::
+setData(unsigned long _address, unsigned long _data)
+{
+  unsigned long index = (address - m_start_address) >> 2;
+  m_data[index] = _data;
+}
+
 
 #endif // DATA_MEMORY_CPP_

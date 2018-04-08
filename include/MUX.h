@@ -9,16 +9,16 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Simulation of a multiplexor in a processor. This component takes in 2 n-bit
-/// inputs and 1 control signal. If the control signal is 0, the output is the
-/// first n-bit input, otherwise the output is the second n-bit input.
+/// operands and 1 control signal. If the control signal is 0, the output is the
+/// first operand, otherwise the output is the second operand.
 ///
-/// Input lines: [2n + 1] lines
-///   Control [0]
-///   Input_0 [n  - 1]
-///   Input_1 [2n - n+1]
+/// Input lines:
+///   control   [0]
+///   operand0  [n  - 1]
+///   operand1  [2n - n+1]
 /// Output lines: [n] lines
-///   Input_0 if control == 0
-///   Input_1 if control == 1
+///   operand0  if control == 0
+///   operand1  if control == 1
 ////////////////////////////////////////////////////////////////////////////////
 class MUX : public ProcessorComponent
 {
@@ -36,19 +36,19 @@ class MUX : public ProcessorComponent
     int controlID() { return CONTROL_LINE_ID; }
 
     ////////////////////////////////////////////////////////////////////////
-    /// @param _input_num the 0th or 1st input
-    /// @return the starting id of that input
+    /// @param _operand_num    specify the 0th or 1st operand
+    /// @return the starting line id of the specified operand
     ////////////////////////////////////////////////////////////////////////
-    int startID(bool _input_num)
+    int operandStartID(bool _operand_num)
     {
-      return INPUT_0_START_ID + _input_num * m_num_outputs;
+      return INPUT_0_START_ID + _operand_num * m_num_outputs;
     }
 
     void setInput(int _line_id, bool _bit);
 
     bool getOutput(int _line_id);
 
-    void updateOutput();
+    void updateOutputs();
 
   private:
     bool* m_inputs;
@@ -60,7 +60,7 @@ class MUX : public ProcessorComponent
     ////////////////////////////////////////////////////////////////////////
     /// @return true if all input lines have been updated
     ////////////////////////////////////////////////////////////////////////
-    bool allInputsUpdated();
+    bool areAllInputsUpdated();
 };
 
 #endif // MUX_H_

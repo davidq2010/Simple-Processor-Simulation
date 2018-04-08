@@ -14,8 +14,8 @@
 ///   0111  Set on less than
 ///
 /// Input lines:
-///   A         [31 - 0 ]   First number
-///   B         [63 - 32]   Second number
+///   operand0  [31 - 0 ]   First number
+///   operand1  [63 - 32]   Second number
 ///   control   [67 - 64]   Specifies which operation to perform
 /// Output lines
 ///   result    [31 - 0 ]   ALU result
@@ -37,7 +37,7 @@ class ALU : public ProcessorComponent
 
     ALU(std::string _name);
 
-    int inputStartID(bool inputNum)
+    int operandStartID(bool inputNum)
     {
       return inputNum? B_START_ID : A_START_ID;
     }
