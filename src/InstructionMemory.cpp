@@ -56,11 +56,8 @@ updateOutputs()
   m_logger->log("  Output:");
   m_logger->log("  instruction", m_outputs.to_ulong());
   m_logger->log("  Memory content:");
-  for (int i = 0; i < m_num_data; i++)
-  {
-    unsigned long address_i = (unsigned long)i << 4 + START_ADDRESS;
-    m_logger->log(address_i, m_data[i]);
-  }
+  for (unsigned long i = START_ADDRESS; i < START_ADDRESS + 4*m_num_data; i += 4)
+    m_logger->log(i, getData(i));
 
   // fire
   m_updated_inputs.reset();
@@ -69,19 +66,19 @@ updateOutputs()
 
 
 unsigned long 
-DataMemory::
+InstructionMemory::
 getData(unsigned long _address)
 {
-  unsigned long index = (address - START_ADDRESS) >> 2;
+  unsigned long index = (_address - START_ADDRESS) >> 2;
   return m_data[index];
 }
 
 
 void
-DataMemory::
+InstructionMemory::
 setData(unsigned long _address, unsigned long _data)
 {
-  unsigned long index = (address - START_ADDRESS) >> 2;
+  unsigned long index = (_address - START_ADDRESS) >> 2;
   m_data[index] = _data;
 }
 

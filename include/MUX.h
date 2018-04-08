@@ -2,8 +2,6 @@
 #define MUX_H_
 
 #include "ProcessorComponent.h"
-#include "Logger.h"
-#include "LoggerFactory.h"
 
 #include <string>
 
@@ -41,7 +39,7 @@ class MUX : public ProcessorComponent
     ////////////////////////////////////////////////////////////////////////
     int operandStartID(bool _operand_num)
     {
-      return INPUT_0_START_ID + _operand_num * m_num_outputs;
+      return INPUT_0_START_ID + _operand_num * numOutputs();
     }
 
     void setInput(int _line_id, bool _bit);

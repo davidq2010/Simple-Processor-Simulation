@@ -40,7 +40,7 @@ class InstructionMemory : public ProcessorComponent
 
     unsigned long getData(unsigned long _address);
 
-    void setData(unsigned long _address);
+    void setData(unsigned long _address, unsigned long _data);
 
   private:
     //------------------------------------------------------------------------

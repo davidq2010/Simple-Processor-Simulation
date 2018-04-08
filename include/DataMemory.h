@@ -62,7 +62,7 @@ class DataMemory : public ProcessorComponent
     // Data access
     unsigned long getData(unsigned long _address);
 
-    void setData(unsigned long _address);
+    void setData(unsigned long _address, unsigned long _data);
 
   private:
     //------------------------------------------------------------------------

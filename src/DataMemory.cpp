@@ -93,7 +93,7 @@ unsigned long
 DataMemory::
 getData(unsigned long _address)
 {
-  unsigned long index = (address - m_start_address) >> 2;
+  unsigned long index = (_address - m_start_address) >> 2;
   return m_data[index];
 }
 
@@ -102,7 +102,7 @@ void
 DataMemory::
 setData(unsigned long _address, unsigned long _data)
 {
-  unsigned long index = (address - m_start_address) >> 2;
+  unsigned long index = (_address - m_start_address) >> 2;
   m_data[index] = _data;
 }
 

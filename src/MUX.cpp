@@ -8,9 +8,9 @@ MUX(int _n_bits, std::string _name)
     : ProcessorComponent(2 * _n_bits + 1, _n_bits), 
       m_name(_name)
 {
-  m_inputs = new bool[m_num_inputs];
-  m_outputs = new bool[m_num_outputs];
-  m_updated_inputs = new bool[m_num_inputs];
+  m_inputs = new bool[numInputs()];
+  m_outputs = new bool[numOutputs()];
+  m_updated_inputs = new bool[numInputs()];
 }
 
 
@@ -48,7 +48,7 @@ updateOutputs()
 {
   // choose operand 0 or 1
   int start_id = operandStartID(m_inputs[controlID()]);
-  for (int i = 0; i < m_num_outputs; i++)
+  for (int i = 0; i < numOutputs(); i++)
     m_outputs[i] = m_inputs[i + start_id];
 
   // log inputs and outputs
@@ -58,7 +58,7 @@ updateOutputs()
 
   unsigned long in0 = 0;
   unsigned long in1 = 0;
-  for (int i = m_num_outputs - 1; i >= 0; i--)
+  for (int i = numOutputs() - 1; i >= 0; i--)
   {
     in0 <<= 1;
     in0 |= m_inputs[i + operandStartID(0)];
@@ -72,7 +72,7 @@ updateOutputs()
 
   m_logger->log("  Output:");
   unsigned long out = 0;
-  for (int i = m_num_outputs - 1; i >= 0; i--)
+  for (int i = numOutputs() - 1; i >= 0; i--)
   {
     out <<= 1;
     out |= m_outputs[i];
@@ -80,7 +80,7 @@ updateOutputs()
   m_logger->log("  output", out);
 
   // clear updated inputs array
-  for(int i = 0; i < m_num_inputs; m_updated_inputs[i++] = 0);
+  for(int i = 0; i < numInputs(); m_updated_inputs[i++] = 0);
   
   // fire
   fireAllOutputs();
@@ -90,7 +90,7 @@ bool
 MUX::
 areAllInputsUpdated()
 {
-  for (int i = 0; i < m_num_inputs; i++)
+  for (int i = 0; i < numInputs(); i++)
     if (!m_updated_inputs[i])
       return false;
   return true;

@@ -35,9 +35,9 @@ ALU::
 updateOutput()
 {
   unsigned long a =
-    ((m_inputs >> inputStartID(0)) & FULL_BIT_MASK_32).to_ulong();
+    ((m_inputs >> operandStartID(0)) & FULL_BIT_MASK_32).to_ulong();
   unsigned long b =
-    ((m_inputs >> inputStartID(1)) & FULL_BIT_MASK_32).to_ulong();
+    ((m_inputs >> operandStartID(1)) & FULL_BIT_MASK_32).to_ulong();
 
   unsigned long control =
     ((m_inputs >> controlStartID()) & CONTROL_BIT_MASK).to_ulong();

@@ -45,7 +45,7 @@ fireAllOutputs()
 
 void
 ProcessorComponent::
-setLogger(Logger _logger)
+setLogger(Logger* _logger)
 {
   m_logger = _logger;
 }

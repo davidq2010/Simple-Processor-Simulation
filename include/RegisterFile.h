@@ -75,7 +75,7 @@ class RegisterFile : public ProcessorComponent
 
     bool getOutput(int _line_id);
 
-    void updateOutput();
+    void updateOutputs();
 
   private:
 
@@ -99,9 +99,9 @@ class RegisterFile : public ProcessorComponent
     /// All write (non-read) related inputs (input line 48 - 11)
     static const std::bitset<NUM_INPUTS> WRITE_INPUTS;
 
-    bool isAllReadInputsUpdated();
+    bool areAllReadInputsUpdated();
 
-    bool isAllWriteInputsUpdated();
+    bool areAllWriteInputsUpdated();
 
     //------------------------------------------------------------------------
     // Memory related
