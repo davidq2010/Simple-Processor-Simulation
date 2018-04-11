@@ -103,7 +103,7 @@ int main(int argc, char const *argv[])
 	ctrl.setLogger(&logger);
 	alu_ctrl.setLogger(&logger);
 	alu_add_4.setLogger(&logger);
-	alu_branch.setLogger(&logger);
+	alu_add_branch.setLogger(&logger);
 	alu.setLogger(&logger);
 	and_gate.setLogger(&logger);
 	mux_write_reg.setLogger(&logger);

@@ -3,7 +3,6 @@
 
 #include <bitset>
 #include "ProcessorComponent.h"
-#include "LoggerFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Contains 32 registers, as well as 2 read ports and 1 write port.

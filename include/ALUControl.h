@@ -3,7 +3,6 @@
 
 #include "ProcessorComponent.h"
 #include "Logger.h"
-#include "LoggerFactory.h"
 #include <bitset>
 
 ////////////////////////////////////////////////////////////////////////////////

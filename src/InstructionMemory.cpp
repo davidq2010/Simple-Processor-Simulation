@@ -2,7 +2,6 @@
 #define INSTRUCTION_MEMORY_CPP_
 
 #include "InstructionMemory.h"
-#include "LoggerFactory.h"
 
 InstructionMemory::
 InstructionMemory(unsigned long* _data, int _n_data)
