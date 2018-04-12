@@ -47,7 +47,8 @@ TESTS = \
         testIntegration.o \
         testRegisterFile.o \
         testSignExtender.o \
-        testSignExtenderAndMUX.o
+        testSignExtenderAndMUX.o \
+				testConfigParser.o
 
 .PHONY: all
 all: $(TESTS)
@@ -58,6 +59,7 @@ testPartIntegration.o:      MAKE_PROC_LIBFILE
 testRegisterFile.o:         MAKE_PROC_LIBFILE
 testSignExtender.o:         MAKE_PROC_LIBFILE
 testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE
+testConfigParser.o:					MAKE_PROC_LIBFILE
 
 $(shell mkdir -p $(DEPDIR))
 
