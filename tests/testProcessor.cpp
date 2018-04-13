@@ -32,7 +32,7 @@ int main(int argc, char const *argv[])
 	unsigned long mem_start_address = 0x1000;
 
 
-	Processor processor (instructions, registers, mem_start_address);
+	Processor processor (instructions, registers, memory,  mem_start_address);
 
 	Logger logger;
 	processor.setLogger(&logger);
@@ -42,7 +42,8 @@ int main(int argc, char const *argv[])
 	// Run
 
 	// Repeat cycles
-	for (int i = 0; i < instructions.size(); i++)
+	int loops = instructions.size();
+	for (int i = 0; i < loops; i++)
 	{
 		logger.log("========================================================================");
 		logger.log(std::string("Cycle ") + std::to_string(i+1));

@@ -55,6 +55,7 @@ InstructionMemory::
 updateOutputs()
 {
   unsigned long address = m_inputs.to_ulong();
+  m_logger->log("ADDRESS: ", address);
 
   // output update
   m_outputs = getData(address);

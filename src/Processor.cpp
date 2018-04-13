@@ -123,9 +123,13 @@ Processor(std::vector<unsigned long> _instructions,
   //----------------------------------------------------------------------------
   // Load firt instruction address before runing processor
   for (int i = 0; i < 32; i++)
-    m_pc.setInput(i, InstructionMemory::START_ADDRESS);  
+    m_pc.setInput(i, (InstructionMemory::START_ADDRESS >> i) & 1UL);  
 
 }
+
+
+Processor::
+~Processor() {}
 
 
 void

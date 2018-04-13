@@ -45,6 +45,7 @@ endif
 TESTS = \
         testALU.o \
         testIntegration.o \
+        testProcessor.o \
         testRegisterFile.o \
         testSignExtender.o \
         testSignExtenderAndMUX.o
@@ -54,7 +55,7 @@ all: $(TESTS)
 
 testALU.o:                  MAKE_PROC_LIBFILE
 testIntegration.o:          MAKE_PROC_LIBFILE
-testPartIntegration.o:      MAKE_PROC_LIBFILE
+testProcessor.o:            MAKE_PROC_LIBFILE
 testRegisterFile.o:         MAKE_PROC_LIBFILE
 testSignExtender.o:         MAKE_PROC_LIBFILE
 testSignExtenderAndMUX.o:   MAKE_PROC_LIBFILE
