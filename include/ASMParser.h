@@ -63,7 +63,7 @@ class ASMParser{
   bool isNumberString(string s);
 
   // Converts a string to an integer.  Assumes s is something like "-231" and produces -231
-  int  cvtNumString2Number(string s);
+  unsigned long cvtNumString2Number(string s);
 
 
   // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding
@@ -77,7 +77,7 @@ class ASMParser{
   string encodeJType(Instruction& i);
 
   // Helper function convert a number to binary string
-  string numberToBinary(int n, int len) {
+  string numberToBinary(unsigned long n, int len) {
   	string s = bitset<32>(n).to_string();
   	return s.substr(32 - len, len);
   }

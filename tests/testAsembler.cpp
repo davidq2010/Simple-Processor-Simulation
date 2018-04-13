@@ -1,4 +1,5 @@
 #include "ASMParser.h"
+#include <bitset>
 #include <iostream>
 
 using namespace std;
@@ -30,9 +31,10 @@ int main(int argc, char *argv[])
 
   //Iterate through instructions, printing each encoding.
   i = parser->getNextInstruction();
+  cout << hex << showbase;
   while( i.getOpcode() != UNDEFINED){
     // cout << i.getString() << endl;
-    cout << i.getEncoding() << endl;
+    cout << bitset<32>(i.getEncoding()).to_ulong() << endl;
     i = parser->getNextInstruction();
   }
   

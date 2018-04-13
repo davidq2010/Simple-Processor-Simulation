@@ -50,10 +50,6 @@ class OpcodeTable {
   int RDposition(Opcode o);
   int IMMposition(Opcode o);
 
-  // Given an Opcode, returns true if instruction expects a label in the instruction.
-  // See "J".
-  bool isIMMLabel(Opcode o);
-
   // Given an Opcode, returns instruction type.
   InstType getInstType(Opcode o);
 
@@ -74,7 +70,6 @@ class OpcodeTable {
     int rsPos;
     int rtPos;
     int immPos;
-    bool immLabel;
 
     InstType instType;
     string op_field;
@@ -83,7 +78,6 @@ class OpcodeTable {
     OpcodeTableEntry(){
       numOps = 0; 
       rdPos = rsPos = rtPos = immPos = -1;
-      immLabel = false;
     };
   };
 

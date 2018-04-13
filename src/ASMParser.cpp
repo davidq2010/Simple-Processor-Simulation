@@ -17,17 +17,15 @@ ASMParser::ASMParser(string filename)
   {
     string line;
     while( getline(in, line)){
+      cout << line << endl;
       string opcode("");
       string operand[80];
       int operand_count = 0;
 
       getTokens(line, opcode, operand, operand_count);
 
-      if(opcode.length() == 0 && operand_count != 0){
-        // No opcode but operands
-        myFormatCorrect = false;
-        break;
-      }
+      if(opcode.length() == 0)
+        continue;
 
       Opcode o = opcodes.getOpcode(opcode);      
       if(o == UNDEFINED){
@@ -50,6 +48,7 @@ ASMParser::ASMParser(string filename)
   }
 
   myIndex = 0;
+
 }
 
 
@@ -122,7 +121,8 @@ void ASMParser::getTokens(string line,
       i++;
     }
 
-    
+    if (numOperands == 0)
+      return;
     idx = operand[numOperands-1].find('(');
     string::size_type idx2 = operand[numOperands-1].find(')');
     
@@ -149,47 +149,26 @@ void ASMParser::getTokens(string line,
 bool ASMParser::isNumberString(string s)
   // Returns true if s represents a valid decimal integer
 {
-    int len = s.length();
-    if (len == 0) return false;
-    if ((isSign(s.at(0)) && len > 1) || isDigit(s.at(0)))
-    {
-  // check remaining characters
-  for (int i=1; i < len; i++)
+  /*int len = s.length();
+  if (len == 0) return false;
+  if ((isSign(s.at(0)) && len > 1) || isDigit(s.at(0)))
   {
-      if (!isdigit(s.at(i))) return false;
-  }
-  return true;
+    // check remaining characters
+    for (int i=1; i < len; i++)
+    {
+        if (!isdigit(s.at(i))) return false;
     }
-    return false;
+    return true;
+  }
+  return false;*/
+  return true;
 }
 
 
-int ASMParser::cvtNumString2Number(string s)
+unsigned long ASMParser::cvtNumString2Number(string s)
   // Converts a string to an integer.  Assumes s is something like "-231" and produces -231
 {
-    if (!isNumberString(s))
-    {
-  cerr << "Non-numberic string passed to cvtNumString2Number"
-      << endl;
-  return 0;
-    }
-    int k = 1;
-    int val = 0;
-    for (int i = s.length()-1; i>0; i--)
-    {
-  char c = s.at(i);
-  val = val + k*((int)(c - '0'));
-  k = k*10;
-    }
-    if (isSign(s.at(0)))
-    {
-  if (s.at(0) == '-') val = -1*val;
-    }
-    else
-    {
-  val = val + k*((int)(s.at(0) - '0'));
-    }
-    return val;
+  return std::stoul(s, 0, 0);
 }
     
 
@@ -199,11 +178,13 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
   // breaks operands apart and stores fields into Instruction.
 {
 
-  if(operand_count != opcodes.numOperands(o))
+  if(operand_count != opcodes.numOperands(o)) {
+    cerr << "Op count: " << operand_count << " [" << opcodes.numOperands(o) << "]" << endl;
     return false;
+  }
 
-  int rs, rt, rd, imm;
-  imm = 0;
+  int rs, rt, rd;
+  unsigned long imm = 0;
   rs = rt = rd = NumRegisters;
 
   int rs_p = opcodes.RSposition(o);
@@ -234,16 +215,7 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
 
   if(imm_p != -1)
   {
-    if(isNumberString(operand[imm_p]))
-    {  // does it have a numeric immediate field?
-      imm = cvtNumString2Number(operand[imm_p]);
-      if(((abs(imm) & 0xFFFF0000) << 1))  // too big a number to fit
-        return false;
-    }
-    else // there is an error
-    { 
-      return false;
-    }
+    imm = cvtNumString2Number(operand[imm_p]);
   }
 
   i.setValues(o, rs, rt, rd, imm);

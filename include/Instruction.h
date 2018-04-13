@@ -18,18 +18,18 @@ class Instruction{
   Instruction();
 
   // You can specify all the fields to initialize the Instruction
-  Instruction(Opcode op, Register rs, Register rt, Register rd, int imm);
+  Instruction(Opcode op, Register rs, Register rt, Register rd, unsigned long imm);
   ~Instruction() {};
 
   // Allows you to specify all the fields of the Instruction
-  void setValues(Opcode op, Register rs, Register rt, Register rd, int imm);
+  void setValues(Opcode op, Register rs, Register rt, Register rd, unsigned long imm);
 
   // Returns the various fields for the Instruction
   Opcode getOpcode()   { return myOpcode;}
   Register getRS()     { return myRS; };
   Register getRD()     { return myRD; };
   Register getRT()     { return myRT; };
-  int getImmediate()   { return myImmediate; };
+  unsigned long getImmediate()   { return myImmediate; };
 
   // Returns a string which represents all of the fields 
   string getString();
@@ -45,7 +45,7 @@ class Instruction{
   Register myRS;
   Register myRT;
   Register myRD;
-  int myImmediate;
+  unsigned long myImmediate;
 
   string myEncoding;
 };

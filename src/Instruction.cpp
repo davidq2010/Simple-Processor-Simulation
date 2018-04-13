@@ -8,13 +8,13 @@ Instruction::Instruction()
   myRS = myRT = myRD = NumRegisters;
 }
 
-Instruction::Instruction(Opcode op, Register rs, Register rt, Register rd, int imm)
+Instruction::Instruction(Opcode op, Register rs, Register rt, Register rd, unsigned long imm)
 // You can specify all the fields to initialize the Instruction
 {
   setValues(op, rs, rt, rd, imm);
 }
 
-void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, int imm)
+void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, unsigned long imm)
 // You can specify all the fields to initialize the Instruction
 {
 
