@@ -11,12 +11,12 @@ using namespace std;
 enum Opcode {
   ADD, 
   ADDI, 
-  MULT,
-  MFLO,
-  SRA,
+  SUB,
   SLT,
-  LB,
-  J, 
+  J,
+  SW,
+  LW,
+  BEQ, 
   UNDEFINED
 };
 
