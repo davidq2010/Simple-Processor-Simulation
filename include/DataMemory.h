@@ -2,7 +2,7 @@
 #define DATA_MEMORY_H_
 
 #include <bitset>
-#include <vector>;
+#include <vector>
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////

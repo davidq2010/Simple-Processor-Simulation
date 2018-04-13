@@ -42,6 +42,7 @@ _OBJS = ALU.o \
         InstructionMemory.o \
         Logger.o \
         MUX.o \
+        Processor.o \
         ProcessorComponent.o \
         ProcessorUtil.o \
         ProgramCounter.o \

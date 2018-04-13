@@ -2,7 +2,19 @@
 #define PROCESSOR_H_
 
 #include <vector>
+#include "ALU.h"
+#include "ALUControl.h"
+#include "ANDGate.h"
+#include "Clock.h"
+#include "Control.h"
+#include "DataMemory.h"
+#include "HardwiredConstant.h"
+#include "InstructionMemory.h"
 #include "Logger.h"
+#include "MUX.h"
+#include "ProgramCounter.h"
+#include "RegisterFile.h"
+#include "SignExtender.h"
 
 class Processor
 {

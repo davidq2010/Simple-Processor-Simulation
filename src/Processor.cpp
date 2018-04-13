@@ -1,19 +1,15 @@
 #include "Processor.h"
 
 
-const bool[4] Processor::CONST_4 = {}
-
-
-
 Processor::
 Processor(std::vector<unsigned long> _instructions,
           std::vector<unsigned long> _register_data,
           std::vector<unsigned long> _memory_data,
-          unsigned long _memory_start_address);
+          unsigned long _memory_start_address)
   : m_alu_add_4      ("ALU PC + 4"),
     m_alu_add_branch ("ALU PC + branch"),
     m_alu            ("ALU Main"),
-    m_const_alu_add  ({0, 1, 0, 0}, 4),
+    m_const_alu_add  (2UL, 4),
     m_const_4        (4UL, 32),
     m_const_00       (0UL, 2),
     m_mux_write_reg  (5, "MUX DestReg"),
@@ -127,7 +123,7 @@ Processor(std::vector<unsigned long> _instructions,
   //----------------------------------------------------------------------------
   // Load firt instruction address before runing processor
   for (int i = 0; i < 32; i++)
-    m_pc.setInput(i, RegisterFile::)  
+    m_pc.setInput(i, InstructionMemory::START_ADDRESS);  
 
 }
 
@@ -160,7 +156,7 @@ void
 Processor::
 step()
 {
-    clock.tick();
+    m_clock.tick();
 }
 
 void 

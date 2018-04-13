@@ -12,7 +12,7 @@ InstructionMemory()
 
 
 InstructionMemory::
-InstructionMemory(std::std::vector<unsigned long> _data)
+InstructionMemory(std::vector<unsigned long> _data)
   : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
     m_data(_data)
 {
@@ -21,7 +21,7 @@ InstructionMemory(std::std::vector<unsigned long> _data)
 
 InstructionMemory::
 InstructionMemory(unsigned long* _data, int _n_data)
-  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS)
 {
   m_data.reserve(_n_data);
   for (int i = 0; i < _n_data; i++)
@@ -67,7 +67,7 @@ updateOutputs()
   m_logger->log("  Output:");
   m_logger->log("  instruction", m_outputs.to_ulong());
   m_logger->log("  Memory content:");
-  for (unsigned long i = START_ADDRESS; i < START_ADDRESS + 4*m_num_data; i += 4)
+  for (unsigned long i = START_ADDRESS; i < START_ADDRESS + 4*m_data.size(); i += 4)
     m_logger->log(i, getData(i));
 
   // fire
