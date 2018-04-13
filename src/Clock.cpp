@@ -22,19 +22,12 @@ getOutput(int _line_id)
 
 void
 Clock::
-rise()
+tick()
 {
-  if (m_clock_state) return;
+  // clock rise
   m_clock_state = 1;
   fireAllOutputs();
-}
-
-
-void
-Clock::
-fall()
-{
-  if (!m_clock_state) return;
+  // clock fall
   m_clock_state = 0;
   fireAllOutputs();
 }

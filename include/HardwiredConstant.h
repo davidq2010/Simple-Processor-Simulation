@@ -19,7 +19,19 @@ class HardwiredConstant : public ProcessorComponent
   public:
     static const int NUM_INPUTS = 1;
 
-    HardwiredConstant(bool* _constant, int _n_bits); // An integer expressed as a bool array
+    ////////////////////////////////////////////////////////////////////////////
+    /// Construct a hardwired constant that always output as specified
+    /// @param _const   bit pattern specify the output of each output line
+    /// @param _n_bits  number of output lines
+    ////////////////////////////////////////////////////////////////////////////
+    HardwiredConstant(unsigned long _constant, int _n_bits);
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Construct a hardwired constant that always output as specified
+    /// @param _const   boolean array specifying the output of each output line
+    /// @param _n_bits  number of output lines
+    ////////////////////////////////////////////////////////////////////////////
+    HardwiredConstant(bool* _constant, int _n_bits);
 
     ~HardwiredConstant();
 

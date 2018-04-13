@@ -2,6 +2,7 @@
 #define DATA_MEMORY_H_
 
 #include <bitset>
+#include <vector>;
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,6 +31,12 @@ class DataMemory : public ProcessorComponent
     static const int MEM_READ_ID         = 32;
     static const int MEM_WRITE_ID        = 33;
     static const int WRITE_DATA_START_ID = 34;
+
+
+    //------------------------------------------------------------------------
+    // Constructors / Destructors
+
+    DataMemory(std::vector<unsigned long> _data, unsigned long _start_address);
 
     DataMemory(unsigned long* _data, 
                unsigned long _start_address, 
@@ -67,7 +74,7 @@ class DataMemory : public ProcessorComponent
   private:
     //------------------------------------------------------------------------
     // IO related
-    std::bitset<NUM_INPUTS> m_inputs; /// Input bits
+    std::bitset<NUM_INPUTS>  m_inputs; /// Input bits
 
     std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 
@@ -79,7 +86,7 @@ class DataMemory : public ProcessorComponent
 
     //------------------------------------------------------------------------
     // Data
-    unsigned long* m_data;
+    std::vector<unsigned long> m_data;
 
     unsigned long m_start_address;
     

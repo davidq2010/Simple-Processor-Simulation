@@ -2,6 +2,7 @@
 #define INSTRUCTION_MEMORY_H_
 
 #include <bitset>
+#include <vector>
 #include "ProcessorComponent.h"
 #include "ProcessorSpec.h"
 
@@ -26,6 +27,10 @@ class InstructionMemory : public ProcessorComponent
 
     static const unsigned long START_ADDRESS = 0x400000;
 
+    InstructionMemory();
+
+    InstructionMemory(std::vector<unsigned long> _data);
+
     InstructionMemory(unsigned long* _data, int _n_data);
 
     ~InstructionMemory();
@@ -42,6 +47,8 @@ class InstructionMemory : public ProcessorComponent
 
     void setData(unsigned long _address, unsigned long _data);
 
+    void resetData(std::vector<unsigned long> _data);
+
   private:
     //------------------------------------------------------------------------
     // IO related
@@ -55,9 +62,7 @@ class InstructionMemory : public ProcessorComponent
 
     //------------------------------------------------------------------------
     // Data
-    unsigned long* m_data;
-
-    int m_num_data;
+    std::vector<unsigned long> m_data;
 };
 
 #endif // INSTRUCTION_MEMORY_H_

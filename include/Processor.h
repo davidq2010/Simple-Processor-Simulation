@@ -1,19 +1,25 @@
 #ifndef PROCESSOR_H_
 #define PROCESSOR_H_
 
+#include <vector>
+#include "Logger.h"
 
 class Processor
 {
   public:
-    Processor();
+    Processor(std::vector<unsigned long> _instructions,
+              std::vector<unsigned long> _register_data,
+              std::vector<unsigned long> _memory_data,
+              unsigned long _memory_start_address);
+    
     ~Processor();
+
+    void setLogger(Logger* logger);
 
     void step();
 
-    void run();
-
   private:
-    //------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Processor Components
     Clock             m_clock;
     ProgramCounter    m_pc;
@@ -35,6 +41,23 @@ class Processor
     InstructionMemory m_inst_mem;
     RegisterFile      m_reg_file;
     DataMemory        m_data_mem;
+
+    //--------------------------------------------------------------------------
+    // Wiring method
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// Connect component 1's output lines to component 2's input lines
+    /// @param c1            component 1
+    /// @param c2            component 2
+    /// @param line_1_start  the first line of component 1 to connect
+    /// @param line_2_start  the first line of component 2 to connect
+    /// @param n_lines       number of lines to connect
+    ////////////////////////////////////////////////////////////////////////////
+    void bulkConnect(ProcessorComponent& c1, 
+                     ProcessorComponent& c2, 
+                     int line1_start, 
+                     int line2_start, 
+                     int n_lines);
 };
 
 #endif // PROCESSOR_H_

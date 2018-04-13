@@ -3,22 +3,34 @@
 
 #include "InstructionMemory.h"
 
+
+InstructionMemory::
+InstructionMemory()
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS)
+{
+}
+
+
+InstructionMemory::
+InstructionMemory(std::std::vector<unsigned long> _data)
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
+    m_data(_data)
+{
+}
+
+
 InstructionMemory::
 InstructionMemory(unsigned long* _data, int _n_data)
   : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
-    m_num_data(_n_data)
 {
-  m_data = new unsigned long[_n_data];
+  m_data.reserve(_n_data);
   for (int i = 0; i < _n_data; i++)
-    m_data[i] = _data[i];
+    m_data.push_back(_data[i]);
 }
 
 
 InstructionMemory::
-~InstructionMemory()
-{
-  delete[] m_data;
-}
+~InstructionMemory() {}
 
 
 void
@@ -79,6 +91,14 @@ setData(unsigned long _address, unsigned long _data)
 {
   unsigned long index = (_address - START_ADDRESS) >> 2;
   m_data[index] = _data;
+}
+
+
+void
+InstructionMemory::
+resetData(std::vector<unsigned long> _data)
+{
+  m_data = _data;
 }
 
 

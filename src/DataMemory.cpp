@@ -8,26 +8,32 @@ const std::bitset<DataMemory::NUM_INPUTS> DataMemory::FULL_BIT_MASK_32 (0xFFFFFF
 
 
 DataMemory::
+DataMemory(std::vector<unsigned long> _data, unsigned long _start_address)
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
+    m_data(_data),
+    m_start_address(_start_address),
+    m_end_address(_start_address + _data.size() * 4)
+{
+}
+
+
+
+DataMemory::
 DataMemory(unsigned long* _data, 
-      unsigned long _start_address, 
-      int _memory_size)
+           unsigned long _start_address, 
+           int _memory_size)
   
   : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), 
+    m_data(_data, _data + _memory_size),
     m_start_address(_start_address),
     m_end_address(_start_address + 4 * _memory_size) 
 {
-  m_data = new unsigned long[_memory_size];
-  for (int i = 0; i < _memory_size; i++)
-  {
-    m_data[i] = _data[i];
-  }
 }
 
 
 DataMemory::
 ~DataMemory()
 {
-  delete[] m_data;
 }
 
 
