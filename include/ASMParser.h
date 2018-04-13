@@ -1,6 +1,8 @@
 #ifndef __ASMPARSER_H__
 #define __ASMPARSER_H__
 
+using namespace std;
+
 #include <iostream>
 #include <fstream>
 #include "Instruction.h"
@@ -9,8 +11,7 @@
 #include <vector>
 #include <sstream>
 #include <stdlib.h>
-
-using namespace std;
+#include <bitset>
 
 /* This class reads in a MIPS assembly file and checks its syntax.  If
  * the file is syntactically correct, this class will retain a list 
@@ -69,6 +70,17 @@ class ASMParser{
   // of that instruction.
   string encode(Instruction i);
 
+  string encodeRType(Instruction& i);
+
+  string encodeIType(Instruction& i);
+  
+  string encodeJType(Instruction& i);
+
+  // Helper function convert a number to binary string
+  string numberToBinary(int n, int len) {
+  	string s = bitset<32>(n).to_string();
+  	return s.substr(32 - len, len);
+  }
 };
 
 #endif
