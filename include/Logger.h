@@ -16,6 +16,8 @@ class Logger
 
     void log(std::string label, unsigned long value);
 
+    void log(unsigned long label, unsigned long value);
+
   private:
 
     long ulongToLong(unsigned long x);

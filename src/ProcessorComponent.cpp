@@ -10,19 +10,23 @@ ProcessorComponent(int _n_inputs, int _n_outputs)
   m_output_lines = new std::vector<OutputComponent> [m_num_outputs];
 }
 
+
 ProcessorComponent::
 ~ProcessorComponent()
 {
   delete[] m_output_lines;
 }
 
+
 void
 ProcessorComponent::
-addOutputComponent(int _output_id, ProcessorComponent& _output_component, int _input_id)
+addOutputComponent(int _output_id, 
+        ProcessorComponent& _output_component, int _input_id)
 {
   OutputComponent out_line = {_output_component, _input_id};
   m_output_lines[_output_id].push_back(out_line);
 }
+
 
 void
 ProcessorComponent::
@@ -37,5 +41,14 @@ fireAllOutputs()
     }
   }
 }
+
+
+void
+ProcessorComponent::
+setLogger(Logger* _logger)
+{
+  m_logger = _logger;
+}
+
 
 #endif // PROCESSOR_COMPONENTS_CPP_

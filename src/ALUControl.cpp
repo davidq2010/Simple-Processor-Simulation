@@ -17,7 +17,6 @@ setInput(int _line_id, bool _bit)
 {
   m_inputs.set(_line_id, _bit);
   m_updated_inputs.set(_line_id);
-
   if (m_updated_inputs.all())
     updateOutputs();
 }
@@ -51,14 +50,13 @@ updateOutputs()
 
 
   // log input/output
-  Logger logger = LoggerFactory::getLogger();
-  logger.log("--------------------------------------------------");
-  logger.log("ALU CONTROL");
-  logger.log("  Input:");
-  logger.log("  aluOp", std::bitset<2>(aluOp).to_string());
-  logger.log("  func" , std::bitset<6>(func).to_string());
-  logger.log("  Output:");
-  logger.log("  output", m_outputs.to_string());
+  m_logger->log("--------------------------------------------------");
+  m_logger->log("ALU CONTROL");
+  m_logger->log("  Input:");
+  m_logger->log("  aluOp", aluOp);
+  m_logger->log("  func" , func);
+  m_logger->log("  Output:");
+  m_logger->log("  output", m_outputs.to_ulong());
 
   m_updated_inputs.reset();
   fireAllOutputs();

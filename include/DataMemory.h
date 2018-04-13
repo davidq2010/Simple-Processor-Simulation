@@ -37,6 +37,10 @@ class DataMemory : public ProcessorComponent
 
     ~DataMemory();
 
+    
+    //------------------------------------------------------------------------
+    // Line IDs
+    
     int addressStartID() { return ADDRESS_START_ID; }
 
     int memReadID() { return MEM_READ_ID; }
@@ -45,9 +49,20 @@ class DataMemory : public ProcessorComponent
     
     int writeDataStartID() { return WRITE_DATA_START_ID; }
 
+    
+    //------------------------------------------------------------------------
+    // IO methods
+
     void setInput(int _line_id, bool _bit);
 
     bool getOutput(int _line_id);
+
+
+    //------------------------------------------------------------------------
+    // Data access
+    unsigned long getData(unsigned long _address);
+
+    void setData(unsigned long _address, unsigned long _data);
 
   private:
     //------------------------------------------------------------------------

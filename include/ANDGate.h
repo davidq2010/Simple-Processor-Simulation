@@ -22,7 +22,7 @@ class ANDGate : public ProcessorComponent
 
     bool getOutput(int _line_id=0);
 
-    void updateOutput();
+    void updateOutputs();
 
     static const int NUM_INPUTS = 2;
     static const int NUM_OUTPUTS = 1;
@@ -35,7 +35,7 @@ class ANDGate : public ProcessorComponent
     ////////////////////////////////////////////////////////////////////////
     /// @return true if all input lines have been updated
     ////////////////////////////////////////////////////////////////////////
-    bool allInputsUpdated();
+    bool areAllInputsUpdated();
 };
 
 #endif // MUX_H_

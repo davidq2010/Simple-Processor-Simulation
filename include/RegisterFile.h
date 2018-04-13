@@ -3,7 +3,6 @@
 
 #include <bitset>
 #include "ProcessorComponent.h"
-#include "LoggerFactory.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// Contains 32 registers, as well as 2 read ports and 1 write port.
@@ -75,7 +74,7 @@ class RegisterFile : public ProcessorComponent
 
     bool getOutput(int _line_id);
 
-    void updateOutput();
+    void updateOutputs();
 
   private:
 
@@ -99,9 +98,9 @@ class RegisterFile : public ProcessorComponent
     /// All write (non-read) related inputs (input line 48 - 11)
     static const std::bitset<NUM_INPUTS> WRITE_INPUTS;
 
-    bool isAllReadInputsUpdated();
+    bool areAllReadInputsUpdated();
 
-    bool isAllWriteInputsUpdated();
+    bool areAllWriteInputsUpdated();
 
     //------------------------------------------------------------------------
     // Memory related

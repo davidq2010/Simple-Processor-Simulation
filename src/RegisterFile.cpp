@@ -42,9 +42,9 @@ setInput(int _line_id, bool _bit)
   m_inputs.set(_line_id, _bit);
   m_updated_inputs.set(_line_id);
 
-  if (isAllReadInputsUpdated())
-    updateOutput();
-  else if (isAllWriteInputsUpdated())
+  if (areAllReadInputsUpdated())
+    updateOutputs();
+  else if (areAllWriteInputsUpdated())
     writeToRegister();
 }
 
@@ -59,7 +59,7 @@ getOutput(int _line_id)
 
 bool
 RegisterFile::
-isAllReadInputsUpdated()
+areAllReadInputsUpdated()
 {
   return (m_updated_inputs & READ_INPUTS) == READ_INPUTS;
 }
@@ -67,7 +67,7 @@ isAllReadInputsUpdated()
 
 bool
 RegisterFile::
-isAllWriteInputsUpdated()
+areAllWriteInputsUpdated()
 {
   return (m_updated_inputs & WRITE_INPUTS) == WRITE_INPUTS;
 }
@@ -75,7 +75,7 @@ isAllWriteInputsUpdated()
 
 void
 RegisterFile::
-updateOutput()
+updateOutputs()
 {
   unsigned long reg_id[2];
   unsigned long reg_data[2];
@@ -100,20 +100,19 @@ updateOutput()
 
 
   // Log input and output
-  Logger logger = LoggerFactory::getLogger();
-  logger.log("--------------------------------------------------");
-  logger.log("Register File Read");
-  logger.log("  Content:");
+  m_logger->log("--------------------------------------------------");
+  m_logger->log("Register File Read");
+  m_logger->log("  Content:");
 
   for (int i = 0; i < NUM_REGS; i++)
-    logger.log(std::string("    Reg") + std::to_string(i), m_register_data[i]);
+    m_logger->log(std::string("    Reg") + std::to_string(i), m_register_data[i]);
 
-  logger.log("  Input:");
-  logger.log("  Reg1", reg_id[0]);
-  logger.log("  Reg2", reg_id[1]);
-  logger.log("  Output:");
-  logger.log("  Data1", reg_data[0]);
-  logger.log("  Data2", reg_data[1]);
+  m_logger->log("  Input:");
+  m_logger->log("  Reg1", reg_id[0]);
+  m_logger->log("  Reg2", reg_id[1]);
+  m_logger->log("  Output:");
+  m_logger->log("  Data1", reg_data[0]);
+  m_logger->log("  Data2", reg_data[1]);
 
 
   // update

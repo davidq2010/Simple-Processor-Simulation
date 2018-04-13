@@ -41,7 +41,6 @@ _OBJS = ALU.o \
         HardwiredConstant.o \
         InstructionMemory.o \
         Logger.o \
-        LoggerFactory.o \
         MUX.o \
         ProcessorComponent.o \
         ProcessorUtil.o \

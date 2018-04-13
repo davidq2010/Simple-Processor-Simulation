@@ -24,15 +24,23 @@ class InstructionMemory : public ProcessorComponent
     static const int NUM_INPUTS = 32;
     static const int NUM_OUTPUTS = 32;
 
-    static const word START_ADDRESS = 0x400000;
+    static const unsigned long START_ADDRESS = 0x400000;
 
-    InstructionMemory(word* _data, int _n_data);
+    InstructionMemory(unsigned long* _data, int _n_data);
 
     ~InstructionMemory();
 
     void setInput(int _line_id, bool _bit);
 
     bool getOutput(int _line_id);
+
+
+    //------------------------------------------------------------------------
+    // Data access
+
+    unsigned long getData(unsigned long _address);
+
+    void setData(unsigned long _address, unsigned long _data);
 
   private:
     //------------------------------------------------------------------------
@@ -47,7 +55,9 @@ class InstructionMemory : public ProcessorComponent
 
     //------------------------------------------------------------------------
     // Data
-    word* m_data;
+    unsigned long* m_data;
+
+    int m_num_data;
 };
 
 #endif // INSTRUCTION_MEMORY_H_

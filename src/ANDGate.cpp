@@ -13,8 +13,8 @@ setInput(int _line_id, bool _bit)
 {
   m_inputs[_line_id] = _bit;
   m_updated_inputs[_line_id] = true;
-  if (allInputsUpdated())
-    updateOutput();
+  if (areAllInputsUpdated())
+    updateOutputs();
 }
 
 
@@ -28,7 +28,7 @@ getOutput(int _line_id)
 
 void
 ANDGate::
-updateOutput()
+updateOutputs()
 {
   m_outputs[0] = m_inputs[0] & m_inputs[1];
 
@@ -37,9 +37,9 @@ updateOutput()
 
 bool
 ANDGate::
-allInputsUpdated()
+areAllInputsUpdated()
 {
-  for (int i = 0; i < m_num_inputs; i++)
+  for (int i = 0; i < numInputs(); i++)
     if (!m_updated_inputs[i])
       return false;
   return true;
