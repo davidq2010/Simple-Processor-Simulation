@@ -1,5 +1,5 @@
-#ifndef __ASMPARSER_H__
-#define __ASMPARSER_H__
+#ifndef ASMPARSER_H__
+#define ASMPARSER_H__
 
 using namespace std;
 

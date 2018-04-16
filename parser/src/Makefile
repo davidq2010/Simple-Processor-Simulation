@@ -29,10 +29,11 @@ PARSLIBFILE = $(SRCDIR)/libpars.a
 
 # Prepend everything in _OBJS with ./obj/
 _OBJS = ASMParser.o \
-				ConfigParser.o \
-				Instruction.o \
-				Opcode.o \
-				RegisterTable.o
+        ConfigParser.o \
+        Instruction.o \
+        Opcode.o \
+        RegisterTable.o \
+        MemoryFileParser.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
