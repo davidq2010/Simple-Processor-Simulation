@@ -41,13 +41,15 @@ endif
 
 TESTS = \
         testAssembler.o \
-        testConfigParser.o
+        testConfigParser.o \
+        testMemoryParser.o
 
 .PHONY: all
 all: $(TESTS)
 
 testAssembler.o:            MAKE_PARS_LIBFILE
-testConfigParser.o:					MAKE_PARS_LIBFILE
+testConfigParser.o:	    MAKE_PARS_LIBFILE
+testMemoryParser.o:         MAKE_PARS_LIBFILE
 
 %.o: %.cpp
 	$(GCC) $< $(CXXFLAGS) $(OPTS) $(DEPFLAGS) $(INCLFLAGS) $(PARSLIBS) -o $@
