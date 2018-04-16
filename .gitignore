@@ -1,6 +1,7 @@
 *.out
 *.o
 *.a
+**/Dependencies
 !*.h
 !*.cpp
 Dependencies
