@@ -1,0 +1,11 @@
+program_input=Input.asm
+#Stoopid
+register_file_input=Reg.in #So much stoopid
+output_mode=single_step
+tuan=le
+debug_mode=true
+vghmhkjvhbjk
+huihuguhijfftyuitryu
+print_memory_contents=true
+write_to_file=false
+output_file=Stop.out
