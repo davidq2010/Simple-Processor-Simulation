@@ -3,6 +3,20 @@
 
 #include "HardwiredConstant.h"
 
+
+HardwiredConstant::
+HardwiredConstant(unsigned long _constant, int _n_bits) 
+  : ProcessorComponent(NUM_INPUTS, _n_bits) 
+{
+  m_outputs = new bool[_n_bits];
+  for (int i = 0; i < _n_bits; i++) {
+    m_outputs[i] = _constant & 1UL;
+    _constant >>= 1;
+  }
+
+}
+
+
 HardwiredConstant::
 HardwiredConstant(bool* _constant, int _n_bits) 
   : ProcessorComponent(NUM_INPUTS, _n_bits) 
@@ -11,6 +25,7 @@ HardwiredConstant(bool* _constant, int _n_bits)
   for (int i = 0; i < _n_bits; i++) 
     m_outputs[i] = _constant[i];
 }
+
 
 HardwiredConstant::
 ~HardwiredConstant()

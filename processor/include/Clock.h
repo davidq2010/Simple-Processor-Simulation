@@ -16,9 +16,7 @@ class Clock : public ProcessorComponent
 
     bool getOutput(int _line_id = 0);
 
-    void rise();
-
-    void fall();
+    void tick();
 
   private:
     bool m_clock_state;

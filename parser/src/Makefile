@@ -46,7 +46,6 @@ directories: $(ODIR)
 include $(UTILSDIR)/makefile_defaults/Makefile.defaults
 
 $(ODIR):
-	@echo "Trying"
 	@mkdir -p $@
 
 ifndef ECHO

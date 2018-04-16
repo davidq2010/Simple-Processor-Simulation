@@ -35,6 +35,15 @@ RegisterFile(unsigned long _data[])
 }
 
 
+RegisterFile::
+RegisterFile(std::vector<unsigned long> _data)
+    : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS)
+{
+  for (int i = 0; i < NUM_REGS; i++)
+    m_register_data[i] = _data[i];
+}
+
+
 void
 RegisterFile::
 setInput(int _line_id, bool _bit)

@@ -2,6 +2,7 @@
 #define REGISTER_FILE_H_
 
 #include <bitset>
+#include "vector"
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +48,8 @@ class RegisterFile : public ProcessorComponent
     RegisterFile();
 
     RegisterFile(unsigned long _data[]);
+
+    RegisterFile(std::vector<unsigned long> _data);
 
     //------------------------------------------------------------------------
     // Line ID getters
