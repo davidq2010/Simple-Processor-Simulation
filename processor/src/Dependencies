@@ -1,0 +1,120 @@
+obj/ALU.o: ALU.cpp ../include/ALU.h ../include/ProcessorComponent.h \
+ ../include/Logger.h
+
+../include/ALU.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ALUControl.o: ALUControl.cpp ../include/ALUControl.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/ALUControl.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ANDGate.o: ANDGate.cpp ../include/ANDGate.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/ANDGate.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/Clock.o: Clock.cpp ../include/Clock.h ../include/ProcessorComponent.h \
+ ../include/Logger.h
+
+../include/Clock.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ConfigParser.o: ConfigParser.cpp ../include/ConfigParser.h
+
+../include/ConfigParser.h:
+obj/Control.o: Control.cpp ../include/Control.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/Control.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/DataMemory.o: DataMemory.cpp ../include/DataMemory.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/DataMemory.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/HardwiredConstant.o: HardwiredConstant.cpp \
+ ../include/HardwiredConstant.h ../include/ProcessorComponent.h \
+ ../include/Logger.h
+
+../include/HardwiredConstant.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/InstructionMemory.o: InstructionMemory.cpp \
+ ../include/InstructionMemory.h ../include/ProcessorComponent.h \
+ ../include/Logger.h ../include/ProcessorSpec.h
+
+../include/InstructionMemory.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+
+../include/ProcessorSpec.h:
+obj/Logger.o: Logger.cpp ../include/Logger.h
+
+../include/Logger.h:
+obj/MUX.o: MUX.cpp ../include/MUX.h ../include/ProcessorComponent.h \
+ ../include/Logger.h
+
+../include/MUX.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ProcessorComponent.o: ProcessorComponent.cpp \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ProcessorUtil.o: ProcessorUtil.cpp ../include/ProcessorUtil.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/ProcessorUtil.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/ProgramCounter.o: ProgramCounter.cpp ../include/ProgramCounter.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/ProgramCounter.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/RegisterFile.o: RegisterFile.cpp ../include/RegisterFile.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/RegisterFile.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:
+obj/SignExtender.o: SignExtender.cpp ../include/SignExtender.h \
+ ../include/ProcessorComponent.h ../include/Logger.h
+
+../include/SignExtender.h:
+
+../include/ProcessorComponent.h:
+
+../include/Logger.h:

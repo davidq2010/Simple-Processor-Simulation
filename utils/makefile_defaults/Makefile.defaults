@@ -1,0 +1,21 @@
+# This Makefile should be in makefile_includes directory
+
+ifndef debug
+	debug = 0
+endif
+
+# Compiler options
+GCC = g++
+CXXFLAGS = -std=c++1y -Wall -Wno-deprecated -Werror
+ifeq ($(debug), 0)
+  OPTS = -O3
+else
+  OPTS = -ggdb -O0
+endif
+# ar rcs means create archive file and run contents or something
+AR = ar rcs
+
+# Clean target
+.PHONY: clean
+clean:
+	/bin/rm -f $(CLEAN)
