@@ -1,0 +1,22 @@
+testAssembler.o: testAssembler.cpp ../src/../include/ASMParser.h \
+ ../src/../include/Instruction.h ../src/../include/Opcode.h \
+ ../src/../include/RegisterTable.h
+
+../src/../include/ASMParser.h:
+
+../src/../include/Instruction.h:
+
+../src/../include/Opcode.h:
+
+../src/../include/RegisterTable.h:
+testAssembler.o: testAssembler.cpp ../src/../include/ASMParser.h \
+ ../src/../include/Instruction.h ../src/../include/Opcode.h \
+ ../src/../include/RegisterTable.h
+
+../src/../include/ASMParser.h:
+
+../src/../include/Instruction.h:
+
+../src/../include/Opcode.h:
+
+../src/../include/RegisterTable.h:

@@ -1,15 +1,15 @@
 # This Makefile should be in src directory
 
-debug = 0
-
-GCC = g++
+ifndef debug
+	debug = 0
+endif
 
 # Directories
-IDIR = ../include
 SRCDIR = .
-ODIR = ./obj
+ODIR = $(SRCDIR)/obj
+UTILSDIR = $(SRCDIR)/../../utils
 # Variables defined with := are expanded when defined rather than when used
-DEPDIR := .d
+INCLDIR = $(SRCDIR)/../include
 
 # -MMD Generate dependency info as a side-effect of compilation, not instead of
 # compilation. Omits system headers from dependencies.
@@ -17,26 +17,22 @@ DEPDIR := .d
 # -MT $@ sets the target name in the dependency file to the name left of the :
 # -MP says to create .PHONY targets for all dependencies except for the primary
 # .cpp file (MIGHT NOT WANT THIS, TEST IT)
-DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
-CXXFLAGS = -std=c++1y -Wall -Wno-deprecated -Werror -I$(IDIR)
+DEPFLAGS = -MP -MT $@ -MMD -MF $*.d
+
+# -I(dir) adds directory dir to head of list of directories to search for header
+#  files
+INCLFLAGS = -I$(INCLDIR)
 
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
 PROCLIBFILE = $(SRCDIR)/libproc.a
-
-# debug = 0 means no debugger
-# -O3 is a bunch of optimizations
-ifeq ($(debug), 0)
-  OPTS = -O3
-else
-  OPTS = -ggdb -O0
-endif
 
 # Prepend everything in _OBJS with ./obj/
 _OBJS = ALU.o \
         ALUControl.o \
         ANDGate.o \
         Clock.o \
+        Control.o \
         DataMemory.o \
         HardwiredConstant.o \
         InstructionMemory.o \
@@ -46,9 +42,7 @@ _OBJS = ALU.o \
         ProcessorUtil.o \
         ProgramCounter.o \
         RegisterFile.o \
-        SignExtender.o \
-        Control.o \
-				ConfigParser.o
+        SignExtender.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
@@ -56,12 +50,13 @@ OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
 default: directories library
 
-directories: $(ODIR) $(DEPDIR)
+directories: $(ODIR)
+
+#include makefile defaults
+include $(UTILSDIR)/makefile_defaults/Makefile.defaults
 
 $(ODIR):
-	@mkdir -p $@
-
-$(DEPDIR):
+	@echo "Trying"
 	@mkdir -p $@
 
 ifndef ECHO
@@ -82,15 +77,16 @@ endif
 # name.
 # By having a rule following the form *.o: *.cpp, the implicit build rules are
 # disabled!!
-# Will rebuild %.o if %.cpp or %.d change
+# The -MMD flag will make the dependency file if it's changed.
+# Will recompile if .cpp, .h, .o, or .d are changed
 $(ODIR)/%.o: %.cpp
-$(ODIR)/%.o: %.cpp $(DEPDIR)/%.d
-	$(GCC) $(CXXFLAGS) $(DEPFLAGS) $(OPTS) -c $< -o $@
-  # Rename temporary dependency file to real dependency file. Do this in
-  # separate step so failures during compilation won't leave corrupted
-  # dependency file. Then, touch the file since some version of GCC might leave
-  # object file older than dependency file, causing unnecessary rebuilds
-	@mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
+	$(GCC) $(CXXFLAGS) $(DEPFLAGS) $(INCLFLAGS) $(OPTS) -c $< -o $@
+# This renames temporary dependency file to real dependency file. Does in
+# separate step so failures during compilation won't leave corrupted
+# dependency file. Then, touch the file since some version of GCC might leave
+# object file older than dependency file, causing unnecessary rebuilds
+	cat $*.d >> Dependencies
+	rm -f $*.d
 	@$(ECHO) Compiling $@
 	@sleep 0.1
 	@touch $@
@@ -98,29 +94,17 @@ $(ODIR)/%.o: %.cpp $(DEPDIR)/%.d
 
 library: $(PROCLIBFILE)
 
-# ar rcs means create archive file and run contents or something
 $(PROCLIBFILE): $(OBJS)
 	@$(ECHO) All done
-	ar rcs $(PROCLIBFILE) $^
+	$(AR) $(PROCLIBFILE) $^
 
-.PHONY: clean
-clean:
-	/bin/rm -f $(PROCLIBFILE)
+# clean targets
+CLEAN = $(PROCLIBFILE)
 
 .PHONY: reallyclean
 reallyclean:
 	@$(MAKE) clean
 	/bin/rm -f $(OBJS)
-	/bin/rm -f $(DEPDIR)/*.d
+	/bin/rm -f Dependencies
 
-# Create pattern rule with an empty recipe so make won't fail if dependency
-# doesn't exist
-$(DEPDIR)/%.d: ;
-
-# Ensure make doesn't automatically delete these %.d files as intermediate files
-.PRECIOUS: $(DEPDIR)/%.d
-
-# Include the dependency files that exist; translate each file listed in src
-# into its dependency file.
-# wildcard omits dependency files that don't exist
-include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCDIR))))
+-include Dependencies
