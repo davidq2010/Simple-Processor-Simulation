@@ -1,5 +1,6 @@
 #include "MemoryFileParser.h"
 #include <fstream>
+#include <stdexcept>
 
 using namespace std;
 
@@ -51,7 +52,7 @@ operator() (string _memory_file)
 
 
 string
-MemoryData::
+MemoryFileParser::
 trim(string str)
 {
   const auto str_begin = str.find_first_not_of(" ");
@@ -60,5 +61,5 @@ trim(string str)
 
   const auto str_end = str.find_last_not_of(" ");
 
-  return str.substr(strBegin, strEnd - strBegin + 1);
+  return str.substr(str_begin, str_end - str_begin + 1);
 }
