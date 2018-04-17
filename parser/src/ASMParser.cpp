@@ -1,68 +1,60 @@
 #include "ASMParser.h"
 
-ASMParser::ASMParser(string filename)
-  // Specify a text file containing MIPS assembly instructions. Function
-  // checks syntactic correctness of file and creates a list of Instructions.
+using namespace std;
+
+vector<Instruction>
+ASMParser::
+operator() (string _file_name)
 {
+  vector<Instruction> instructions;
+
   Instruction i;
-  myFormatCorrect = true;
 
-  ifstream in;
-  in.open(filename.c_str());
-  if(in.bad())
+  // Create ifstream
+  ifstream in(_file_name);
+  if(!in)
+    throw invalid_argument( string("File does not exist: ") + _file_name );
+
+  // Parser file
+  int line_number = 0;
+  string line;
+  while( getline(in, line) ) 
   {
-    myFormatCorrect = false;
-  }
-  else
-  {
-    string line;
-    while( getline(in, line)){
-      cout << line << endl;
-      string opcode("");
-      string operand[80];
-      int operand_count = 0;
+    line_number++;
 
-      getTokens(line, opcode, operand, operand_count);
+    string opcode("");
+    string operand[80];
+    int operand_count = 0;
 
-      if(opcode.length() == 0)
-        continue;
+    getTokens(line, opcode, operand, operand_count);
 
-      Opcode o = opcodes.getOpcode(opcode);      
-      if(o == UNDEFINED){
-        // invalid opcode specified
-        myFormatCorrect = false;
-        break;
-      }
+    if(opcode.length() == 0)
+      continue;
 
-      bool success = getOperands(i, o, operand, operand_count);
-      if(!success){
-        myFormatCorrect = false;
-        break;
-      }
-
-      string encoding = encode(i);
-      i.setEncoding(encoding);
-
-      myInstructions.push_back(i);
+    Opcode o = opcodes.getOpcode(opcode);      
+    if(o == UNDEFINED){
+      // invalid opcode specified
+      cerr << _file_name << ":" << line_number 
+           << "Syntax error, skip to next line"  << endl;
+           << "  " << line << endl;
+      continue;
     }
+
+    bool success = getOperands(i, o, operand, operand_count);
+    if(!success){
+      cerr << _file_name << ":" << line_number 
+           << "Syntax error, skip to next line"  << endl;
+           << "  " << line << endl;
+      continue;
+    }
+
+    string encoding = encode(i);
+    i.setEncoding(encoding);
+
+    instructions.push_back(i);
   }
 
-  myIndex = 0;
-
-}
-
-
-Instruction ASMParser::getNextInstruction()
-  // Iterator that returns the next Instruction in the list of Instructions.
-{
-  if(myIndex < (int)(myInstructions.size())){
-    myIndex++;
-    return myInstructions[myIndex-1];
-  }
-  
-  Instruction i;
-  return i;
-
+  return instructions;
 }
 
 void ASMParser::getTokens(string line,

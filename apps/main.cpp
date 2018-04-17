@@ -19,7 +19,8 @@ int main(int argc, char const *argv[])
   ConfigParser config_parser;
   struct Configs configs = config_parser(argv[1]);
 
-  ASMParser asembler;
+  MemoryFileParser mem_parser;
+  struct MemoryData mem_data = mem_parser(configs.)
 
 
   return 0;

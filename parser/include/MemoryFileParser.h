@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-struct MemoryData
+struct MemoryContent
 {
   unsigned long start_address;
   std::vector<unsigned long> data;
@@ -14,7 +14,7 @@ struct MemoryData
 class MemoryFileParser
 {
   public:
-    struct MemoryData operator() (std::string _memory_file);
+    struct MemoryContent operator() (std::string _memory_file);
 
   private:
     std::string trim(std::string str);

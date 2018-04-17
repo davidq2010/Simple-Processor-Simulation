@@ -4,17 +4,17 @@
 
 using namespace std;
 
-struct MemoryData
+struct MemoryContent
 MemoryFileParser::
 operator() (string _memory_file)
 {
   // Try to open file
   ifstream ifs(_memory_file);
-  if(!ifs.is_open())
-    throw invalid_argument("File does not exist");
+  if(!ifs)
+    throw invalid_argument( string("File does not exist: ") + _memory_file );
 
   // Parse file into memory struct
-  struct MemoryData memory;
+  struct MemoryContent memory;
   string line;
   bool is_first_line = true;
 

@@ -61,13 +61,13 @@ setConfigs(struct Configs& _configs,
            const unordered_map<string, string>& _paramMap)
 {
   _configs.program_input          = _paramMap.at("program_input");
+  _configs.program_input          = _paramMap.at("memory_contents_input");
   _configs.register_file_input    = _paramMap.at("register_file_input");
-
   _configs.output_mode            = _paramMap.at("output_mode") == "batch" ?
-                                    Configs::BATCH : Configs::SINGLE_STEP;
+                                        Configs::BATCH : Configs::SINGLE_STEP;
   _configs.debug_mode             = _paramMap.at("debug_mode") == "true";
   _configs.print_memory_contents  = _paramMap.at("print_memory_contents")
-                                                  == "true";
+                                        == "true";
   _configs.write_to_file          = _paramMap.at("write_to_file") == "true";
   _configs.output_file            = _paramMap.at("output_file");
 }
