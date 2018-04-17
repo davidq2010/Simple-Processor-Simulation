@@ -1,6 +1,8 @@
 #include "Instruction.h"
 
-using namespace std;
+#include <sstream>
+
+using std::string;
 
 Instruction::Instruction()
 {

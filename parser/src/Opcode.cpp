@@ -1,5 +1,8 @@
 #include "Opcode.h"
 
+using std::string;
+
+
 OpcodeTable::OpcodeTable()
 // Initializes all the fields for every instruction in Opcode enum
 {

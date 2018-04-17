@@ -3,9 +3,7 @@
 
 #include "Opcode.h"
 #include "RegisterTable.h"
-#include <sstream>
 
-using namespace std;
 
 /* This class provides an internal representation for a MIPS assembly instruction.
  * Any of the fields can be queried.  Additionally, the class stores a 32 bit binary
@@ -13,7 +11,8 @@ using namespace std;
  */
 
 
-class Instruction{
+class Instruction
+{
  public:
   Instruction();
 
@@ -32,13 +31,13 @@ class Instruction{
   unsigned long getImmediate()   { return myImmediate; };
 
   // Returns a string which represents all of the fields 
-  string getString();
+  std::string getString();
 
   // Stores the 32 bit binary encoding of MIPS instruction passed in
-  void setEncoding(string s) { myEncoding = s;};
+  void setEncoding(std::string s) { myEncoding = s;};
 
   // Returns string representing the 32 binary encoding of MIPS instruction
-  string getEncoding() { return myEncoding; };
+  std::string getEncoding() { return myEncoding; };
 
  private:
   Opcode myOpcode;
@@ -47,7 +46,7 @@ class Instruction{
   Register myRD;
   unsigned long myImmediate;
 
-  string myEncoding;
+  std::string myEncoding;
 };
 
 #endif

@@ -13,28 +13,27 @@
 #include <stdexcept>
 #include <vector>
 
-using namespace std;
 
 class ASMParser{
  public:
   // Specify a text file containing MIPS assembly instructions. Function
   // checks syntactic correctness of file and creates a list of Instructions.
-  vector<Instruction> operator() (string filename);
+  vector<Instruction> operator() (std::string _file_name);
 
  private:
-  vector<Instruction> myInstructions;      // list of Instructions
-  bool myFormatCorrect;
+  std::vector<Instruction> myInstructions; // list of Instructions
 
   RegisterTable registers;                 // encodings for registers
   OpcodeTable opcodes;                     // encodings of opcodes
 
   // Decomposes a line of assembly code into strings for the opcode field and operands, 
   // checking for syntax errors and counting the number of operands.
-  void getTokens(string line, string &opcode, string *operand, int &num_operands);
+  void getTokens(std::string line, std::string &opcode, 
+                 std::string *operand, int &num_operands);
 
   // Given an Opcode, a string representing the operands, and the number of operands, 
   // breaks operands apart and stores fields into Instruction.
-  bool getOperands(Instruction &i, Opcode o, string *operand, int operand_count);
+  bool getOperands(Instruction &i, Opcode o, std::string *operand, int operand_count);
 
 
   // Helper functions
@@ -43,24 +42,24 @@ class ASMParser{
   bool isSign(char c)          { return (c == '-' || c == '+'); };
   
   // Returns true if s represents a valid decimal integer
-  bool isNumberString(string s);
+  bool isNumberString(std::string s);
 
   // Converts a string to an integer.  Assumes s is something like "-231" and produces -231
-  unsigned long cvtNumString2Number(string s);
+  unsigned long cvtNumString2Number(std::string s);
 
   // Given a valid instruction, returns a string representing the 32 bit MIPS binary encoding
   // of that instruction.
-  string encode(Instruction i);
+  std::string encode(Instruction i);
 
-  string encodeRType(Instruction& i);
+  std::string encodeRType(Instruction& i);
 
-  string encodeIType(Instruction& i);
+  std::string encodeIType(Instruction& i);
   
-  string encodeJType(Instruction& i);
+  std::string encodeJType(Instruction& i);
 
   // Helper function convert a number to binary string
-  string numberToBinary(unsigned long n, int len) {
-  	string s = bitset<32>(n).to_string();
+  std::string numberToBinary(unsigned long n, int len) {
+  	std::string s = bitset<32>(n).to_string();
   	return s.substr(32 - len, len);
   }
 };

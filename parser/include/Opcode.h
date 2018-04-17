@@ -4,9 +4,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
-
-
 // Listing of all supported MIPS instructions
 enum Opcode {
   ADD, 
@@ -38,7 +35,7 @@ class OpcodeTable {
 
   // Given a valid MIPS assembly mnemonic, returns an Opcode which represents a 
   // template for that instruction.
-  Opcode getOpcode(string str);
+  Opcode getOpcode(std::string str);
 
   // Given an Opcode, returns number of expected operands.
   int numOperands(Opcode o);
@@ -55,16 +52,16 @@ class OpcodeTable {
 
   // Given an Opcode, returns a string representing the binary encoding of the opcode
   // field.
-  string getOpcodeField(Opcode o);
+  std::string getOpcodeField(Opcode o);
 
   // Given an Opcode, returns a string representing the binary encoding of the function
   // field.
-  string getFunctField(Opcode o);
+  std::string getFunctField(Opcode o);
 
 
  private:
   struct OpcodeTableEntry{
-    string name;
+    std::string name;
     int numOps;
     int rdPos;
     int rsPos;
@@ -72,8 +69,8 @@ class OpcodeTable {
     int immPos;
 
     InstType instType;
-    string op_field;
-    string funct_field;
+    std::string op_field;
+    std::string funct_field;
 
     OpcodeTableEntry(){
       numOps = 0; 
