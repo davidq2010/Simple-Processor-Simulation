@@ -15,7 +15,6 @@ INCLFLAGS = -I$(INCLDIR)
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
 PROCLIBS = -L$(SRCDIR) -lproc
-PROC_LIBFILE = $(SRCDIR)/libproc.a
 
 default:
 	@echo No default target.

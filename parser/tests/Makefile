@@ -15,7 +15,6 @@ INCLFLAGS = -I$(INCLDIR)
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
 PARSLIBS = -L$(SRCDIR) -lpars
-PARS_LIBFILE = $(SRCDIR)/libpars.a
 
 default:
 	@echo No default target.

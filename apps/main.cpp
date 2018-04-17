@@ -12,7 +12,7 @@ using namespace std;
 int main(int argc, char const *argv[])
 {
   if (argc != 2) {
-    cerr << "Usage: " << argv[0] << " [config_file]"
+    cerr << "Usage: " << argv[0] << " [config_file]";
     return 0;
   }
 
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[])
   ASMParser assembler;
   vector<Instruction> instructions = assembler(configs.program_input);
   vector<unsigned long> binary_code;
-  binary_code.reserve(instructions.length());
+  binary_code.reserve(instructions.size());
   for (auto& i : instructions)
     binary_code.push_back( bitset<32>(i.getEncoding()).to_ulong() );
 
@@ -40,7 +40,7 @@ int main(int argc, char const *argv[])
 
   //----------------------------------------------------------------------------
   // Init processor
-  Processor processor(binary_code, reg_content.data, 
+  Processor processor(binary_code, reg_content.data,
                       mem_content.data, mem_content.start_address);
 
   Logger logger;

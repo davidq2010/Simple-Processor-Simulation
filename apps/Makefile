@@ -1,35 +1,41 @@
-# This Makefile should be in apps directory
+# This Makefile should be in test directory
 
-debug = 0
+ifndef debug
+	debug = 0
+endif
 
-SRCDIR = ../src
-INCDIR = ../include
-DEPDIR := .d
+# Directories
+PROCSRC = ../processor/src
+PARSSRC = ../parser/src
+UTILSDIR = ../utils
+PROCINCL = $(PROCSRC)/../include
+PARSINCL = $(PARSSRC)/../include
 
-GCC = g++
-CXXFLAGS = -std=c++1y -Wall -Wno-deprecated -Werror -I$(INCDIR)
-DEPFLAGS = -MP -MT $@ -MMD -MF $(DEPDIR)/$*.Td
+DEPFLAGS = -MP -MT $@ -MMD -MF $*.d
+INCLFLAGS = -I$(PROCINCL) -I$(PARSINCL)
 
 # -L option says that static lib is in the folder immediately following it
 # -l option says search library following it when linking
-PROCLIBS = -L$(SRCDIR) -lproc
-PROC_LIBFILE = $(SRCDIR)/libproc.a
+PROCLIBS = -L$(PROCSRC) -lproc
+PARSLIBS = -L$(PARSSRC) -lpars
+LIBFLAGS = $(PROCLIBS) $(PARSLIBS)
 
-all: $(APPS)
+default: main.out
+
+#include makefile defaults
+include $(UTILSDIR)/makefile_defaults/Makefile.defaults
 
 .PHONY: MAKE_PROC_LIBFILE
 MAKE_PROC_LIBFILE:
 	@echo Compiling Processor Library
-	@cd $(SRCDIR); \
+	@cd $(PROCSRC); \
     $(MAKE) --no-print-directory debug=$(debug);
 
-# debug = 0 means no debugger
-# -O3 is a bunch of optimizations
-ifeq ($(debug), 0)
-    OPTS = -O3
-else
-    OPTS = -ggdb -O0
-endif
+.PHONY: MAKE_PARS_LIBFILE
+MAKE_PARS_LIBFILE:
+	@echo Compiling Parser Library
+	@cd $(PARSSRC); \
+    $(MAKE) --no-print-directory debug=$(debug);
 
 ifndef ECHO
   T := $(shell $(MAKE) $(MAKECMDGOALS) --no-print-directory \
@@ -41,41 +47,26 @@ ifndef ECHO
   ECHO = echo "`expr " [\`expr $C '*' 100 / $T\`" : '.*\(....\)$$'`%]"
 endif
 
-APPS = Processor
+main.out:				MAKE_PROC_LIBFILE MAKE_PARS_LIBFILE
 
-OBJECTS = \
-          Integration.o
-
-Integration.o:         MAKE_PROC_LIBFILE
-
-$(shell mkdir -p $(DEPDIR))
-
-Processor: Integration.o
-	$(GCC) $< $(CXXFLAGS) -o $@
-	@$(ECHO) Creating executable $@
-	@sleep 0.1
-	@touch $@
-
-%.o: %.cpp
-%.o: %.cpp $(DEPDIR)/%.d
-	$(GCC) $< $(CXXFLAGS) -c $(OPTS) $(DEPFLAGS) $(PROCLIBS) -o $@
-	@mv -f $(DEPDIR)/$*.Td $(DEPDIR)/$*.d && touch $@
+%.out: %.cpp
+	$(GCC) $< $(CXXFLAGS) $(OPTS) $(DEPFLAGS) $(INCLFLAGS) $(LIBFLAGS) -o $@
+	cat $*.d >> Dependencies
+	rm -f $*.d
 	@$(ECHO) Linking $@
 	@sleep 0.1
 	@touch $@
 
-.PHONY: clean
-clean:
-	/bin/rm -f $(APPS)
+# clean targets
+CLEAN = main.out
 
-# Create pattern rule with an empty recipe so make won't fail if dependency
-# doesn't exist
-$(DEPDIR)/%.d: ;
-
-# Ensure make doesn't automatically delete these %.d files as intermediate files
-.PRECIOUS: $(DEPDIR)/%.d
+.PHONY: reallyclean
+reallyclean:
+	@/bin/rm -f Dependencies
+	@cd $(PROCSRC); $(MAKE) --no-print-directory clean
+	@cd $(PARSSRC); $(MAKE) --no-print-directory clean
 
 # Include the dependency files that exist; translate each file listed in src
 # into its dependency file.
 # wildcard omits dependency files that don't exist
-include $(wildcard $(patsubst %,$(DEPDIR)/%.d,$(basename $(SRCDIR))))
+-include Dependencies

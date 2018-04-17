@@ -23,8 +23,6 @@ DEPFLAGS = -MP -MT $@ -MMD -MF $*.d
 #  files
 INCLFLAGS = -I$(INCLDIR)
 
-# -L option says that static lib is in the folder immediately following it
-# -l option says search library following it when linking
 PROCLIBFILE = $(SRCDIR)/libproc.a
 
 # Prepend everything in _OBJS with ./obj/
