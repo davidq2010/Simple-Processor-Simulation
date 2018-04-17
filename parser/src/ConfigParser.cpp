@@ -61,7 +61,7 @@ setConfigs(struct Configs& _configs,
            const unordered_map<string, string>& _paramMap)
 {
   _configs.program_input          = _paramMap.at("program_input");
-  _configs.program_input          = _paramMap.at("memory_contents_input");
+  _configs.memory_contents_input  = _paramMap.at("memory_contents_input");
   _configs.register_file_input    = _paramMap.at("register_file_input");
   _configs.output_mode            = _paramMap.at("output_mode") == "batch" ?
                                         Configs::BATCH : Configs::SINGLE_STEP;

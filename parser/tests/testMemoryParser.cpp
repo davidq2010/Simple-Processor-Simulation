@@ -13,9 +13,9 @@ int main(int argc, char const *argv[])
   }
 
   MemoryFileParser parser;
-  struct MemoryData data = parser(argv[1]);
-  cout << "Starting address:" << hex << showbase << data.start_address << endl << endl;
-  for (auto i : data.data) 
+  struct MemoryContent content = parser(argv[1]);
+  cout << "Starting address:" << hex << showbase << content.start_address << endl << endl;
+  for (auto i : content.data) 
   {
     cout << i << endl;
   }

@@ -1,6 +1,7 @@
 #include "ASMParser.h"
 #include <bitset>
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -13,30 +14,19 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-  ASMParser *parser;
+  ASMParser parser;
 
   if(argc < 2){
     cerr << "Need to specify an assembly file to translate."<<endl;
     exit(1);
   }
 
-  parser = new ASMParser(argv[1]);
+  vector<Instruction> instructions = parser(argv[1]);
 
-  if(parser->isFormatCorrect() == false){
-    cerr << "Format of input file is incorrect " << endl;
-    exit(1);
-  }
-
-  Instruction i;
-
-  //Iterate through instructions, printing each encoding.
-  i = parser->getNextInstruction();
   cout << hex << showbase;
-  while( i.getOpcode() != UNDEFINED){
-    // cout << i.getString() << endl;
+  for (auto& i : instructions)
+  {  
+  // cout << i.getString() << endl;
     cout << bitset<32>(i.getEncoding()).to_ulong() << endl;
-    i = parser->getNextInstruction();
   }
-  
-  delete parser;
 }

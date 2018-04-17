@@ -26,6 +26,7 @@ void printConfigs(struct Configs _configs)
   cout
   << "ProgramInput: " << _configs.program_input << endl
   << "RegisterFileInput: " << _configs.register_file_input << endl
+  << "MemoryContentIput: " << _configs.memory_contents_input << endl
   << "OutputMode: " << _configs.output_mode << endl
   << "DebugMode: " << _configs.debug_mode << endl
   << "PrintMemContents: " << _configs.print_memory_contents << endl

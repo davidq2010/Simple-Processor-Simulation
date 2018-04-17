@@ -35,7 +35,7 @@ operator() (string _file_name)
     if(o == UNDEFINED){
       // invalid opcode specified
       cerr << _file_name << ":" << line_number 
-           << "Syntax error, skip to next line"  << endl;
+           << "Syntax error, skip to next line"  << endl
            << "  " << line << endl;
       continue;
     }
@@ -43,7 +43,7 @@ operator() (string _file_name)
     bool success = getOperands(i, o, operand, operand_count);
     if(!success){
       cerr << _file_name << ":" << line_number 
-           << "Syntax error, skip to next line"  << endl;
+           << "Syntax error, skip to next line"  << endl
            << "  " << line << endl;
       continue;
     }
