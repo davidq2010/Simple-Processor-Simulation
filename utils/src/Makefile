@@ -1,4 +1,4 @@
-# This Makefile should be in src directory
+# This Makefile should be in utils/src directory
 
 ifndef debug
 	debug = 0
@@ -7,7 +7,7 @@ endif
 # Directories
 SRCDIR = .
 ODIR = $(SRCDIR)/obj
-UTILSDIR = $(SRCDIR)/../../utils
+UTILSDIR = $(SRCDIR)/..
 # Variables defined with := are expanded when defined rather than when used
 INCLDIR = $(SRCDIR)/../include
 
@@ -23,25 +23,13 @@ DEPFLAGS = -MP -MT $@ -MMD -MF $*.d
 #  files
 INCLFLAGS = -I$(INCLDIR)
 
-PROCLIBFILE = $(SRCDIR)/libproc.a
+# -L option says that static lib is in the folder immediately following it
+# -l option says search library following it when linking
+UTILSLIBFILE = $(SRCDIR)/libutils.a
 
 # Prepend everything in _OBJS with ./obj/
-_OBJS = ALU.o \
-        ALUControl.o \
-        ANDGate.o \
-        Clock.o \
-        Control.o \
-        DataMemory.o \
-        HardwiredConstant.o \
-        InstructionMemory.o \
-        Logger.o \
-        MUX.o \
-        Processor.o \
-        ProcessorComponent.o \
-        ProcessorUtil.o \
-        ProgramCounter.o \
-        RegisterFile.o \
-        SignExtender.o
+_OBJS = ConfigParser.o \
+        MemoryFileParser.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
@@ -55,7 +43,6 @@ directories: $(ODIR)
 include $(UTILSDIR)/makefile_defaults/Makefile.defaults
 
 $(ODIR):
-	@echo "Trying"
 	@mkdir -p $@
 
 ifndef ECHO
@@ -91,14 +78,14 @@ $(ODIR)/%.o: %.cpp
 	@touch $@
 
 
-library: $(PROCLIBFILE)
+library: $(UTILSLIBFILE)
 
-$(PROCLIBFILE): $(OBJS)
-	@$(ECHO) Processor libfile ready
-	$(AR) $(PROCLIBFILE) $^
+$(UTILSLIBFILE): $(OBJS)
+	@$(ECHO) Utils libfile ready
+	$(AR) $(UTILSLIBFILE) $^
 
 # clean targets
-CLEAN = $(PROCLIBFILE)
+CLEAN = $(UTILSLIBFILE)
 
 .PHONY: reallyclean
 reallyclean:

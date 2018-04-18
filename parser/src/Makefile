@@ -29,11 +29,9 @@ PARSLIBFILE = $(SRCDIR)/libpars.a
 
 # Prepend everything in _OBJS with ./obj/
 _OBJS = ASMParser.o \
-        ConfigParser.o \
         Instruction.o \
         Opcode.o \
-        RegisterTable.o \
-        MemoryFileParser.o
+        RegisterTable.o
 
 OBJS = $(patsubst %, $(ODIR)/%, $(_OBJS))
 
@@ -75,8 +73,8 @@ $(ODIR)/%.o: %.cpp
 # separate step so failures during compilation won't leave corrupted
 # dependency file. Then, touch the file since some version of GCC might leave
 # object file older than dependency file, causing unnecessary rebuilds
-	cat $*.d >> Dependencies
-	rm -f $*.d
+	@cat $*.d >> Dependencies
+	@rm -f $*.d
 	@$(ECHO) Compiling $@
 	@sleep 0.1
 	@touch $@
@@ -85,7 +83,7 @@ $(ODIR)/%.o: %.cpp
 library: $(PARSLIBFILE)
 
 $(PARSLIBFILE): $(OBJS)
-	@$(ECHO) All done
+	@$(ECHO) Parser libfile ready
 	$(AR) $(PARSLIBFILE) $^
 
 # clean targets
@@ -93,7 +91,7 @@ CLEAN = $(PARSLIBFILE)
 
 .PHONY: reallyclean
 reallyclean:
-	@$(MAKE) clean
+	$(MAKE) clean
 	/bin/rm -f $(OBJS)
 	/bin/rm -f Dependencies
 
