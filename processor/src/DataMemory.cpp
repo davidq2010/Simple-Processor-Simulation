@@ -1,7 +1,7 @@
-#ifndef DATA_MEMORY_CPP_
-#define DATA_MEMORY_CPP_
-
 #include "DataMemory.h"
+
+#include <stdexcept>
+#include <sstream>
 
 
 const std::bitset<DataMemory::NUM_INPUTS> DataMemory::FULL_BIT_MASK_32 (0xFFFFFFFFul);
@@ -100,6 +100,12 @@ DataMemory::
 getData(unsigned long _address)
 {
   unsigned long index = (_address - m_start_address) >> 2;
+  if (index >= m_data.size()) {
+    std::stringstream ss;
+    ss << "DataMemory: address out of bound :";
+    ss << std::hex << std::showbase << std::uppercase << _address; 
+    throw std::out_of_range(ss.str());
+  }
   return m_data[index];
 }
 
@@ -109,8 +115,13 @@ DataMemory::
 setData(unsigned long _address, unsigned long _data)
 {
   unsigned long index = (_address - m_start_address) >> 2;
+  if (index >= m_data.size()) {
+    std::stringstream ss;
+    ss << "DataMemory: address out of bound :";
+    ss << std::hex << "0x" << std::uppercase << _address; 
+    throw std::out_of_range(ss.str());
+  }
+
   m_data[index] = _data;
 }
 
-
-#endif // DATA_MEMORY_CPP_

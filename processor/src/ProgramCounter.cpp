@@ -25,7 +25,7 @@ getOutput(int _line_id)
 
 unsigned long
 ProgramCounter::
-getInstructionAddress(int _line_id)
+getInstructionAddress()
 {
   return m_address.to_ulong();
 }

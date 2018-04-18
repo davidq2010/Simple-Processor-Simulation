@@ -160,7 +160,7 @@ void
 Processor::
 step()
 {
-    m_clock.tick();
+  m_clock.tick();
 }
 
 
@@ -190,6 +190,6 @@ bool
 Processor::
 isFinished()
 {
-  return m_pc.getAddress() == m_inst_mem.getLastAddress();
+  return m_pc.getInstructionAddress() == m_inst_mem.getLastAddress();
 }
 

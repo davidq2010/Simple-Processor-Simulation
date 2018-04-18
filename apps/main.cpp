@@ -6,6 +6,7 @@
 
 #include <bitset>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -48,9 +49,12 @@ int main(int argc, char const *argv[])
 
   //----------------------------------------------------------------------------
   // Run
-
-  while (true) {
+  int i = 1;
+  while (!processor.isFinished()) {
+    logger.log("====================================================================");
+    logger.log(string("Cycle ") + to_string(i));
     processor.step();
+    i++;
   }
 
   return 0;
