@@ -1,6 +1,3 @@
-#ifndef PROGRAM_COUNTER_CPP_
-#define PROGRAM_COUNTER_CPP_
-
 #include "ProgramCounter.h"
 
 ProgramCounter::
@@ -26,4 +23,9 @@ getOutput(int _line_id)
   return m_address.test(_line_id);
 }
 
-#endif // PROGRAM_COUNTER_CPP_
+unsigned long
+ProgramCounter::
+getInstructionAddress(int _line_id)
+{
+  return m_address.to_ulong();
+}

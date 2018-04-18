@@ -163,6 +163,16 @@ step()
     m_clock.tick();
 }
 
+
+void
+Processor::
+run()
+{
+  while (!isFinished())
+    m_clock.tick();
+}
+
+
 void 
 Processor::
 bulkConnect(ProcessorComponent& c1, 
@@ -173,5 +183,13 @@ bulkConnect(ProcessorComponent& c1,
 {
   for (int i = 0; i < n_lines; i++)
     c1.addOutputComponent(i + line1_start, c2, i + line2_start);
+}
+
+
+bool
+Processor::
+isFinished()
+{
+  return m_pc.getAddress() == m_inst_mem.getLastAddress();
 }
 

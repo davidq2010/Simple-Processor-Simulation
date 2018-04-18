@@ -40,17 +40,22 @@ class InstructionMemory : public ProcessorComponent
     bool getOutput(int _line_id);
 
 
-    //------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Data access
 
-    unsigned long getData(unsigned long _address);
+    unsigned long getData(unsigned long _address) const;
 
     void setData(unsigned long _address, unsigned long _data);
 
     void resetData(std::vector<unsigned long> _data);
 
+    ////////////////////////////////////////////////////////////////////////////
+    /// @return the last instruction address + 4
+    ////////////////////////////////////////////////////////////////////////////
+    unsigned long getLastAddress() const;
+
   private:
-    //------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // IO related
     std::bitset<NUM_INPUTS> m_inputs; /// Input bits
 
@@ -60,7 +65,7 @@ class InstructionMemory : public ProcessorComponent
 
     void updateOutputs();
 
-    //------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     // Data
     std::vector<unsigned long> m_data;
 };

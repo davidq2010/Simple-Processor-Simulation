@@ -79,7 +79,7 @@ updateOutputs()
 
 unsigned long 
 InstructionMemory::
-getData(unsigned long _address)
+getData(unsigned long _address) const
 {
   unsigned long index = (_address - START_ADDRESS) >> 2;
   return m_data[index];
@@ -100,6 +100,14 @@ InstructionMemory::
 resetData(std::vector<unsigned long> _data)
 {
   m_data = _data;
+}
+
+
+unsigned long 
+InstructionMemory::
+getLastAddress() const
+{
+  return START_ADDRESS + (4 * m_data.size());
 }
 
 

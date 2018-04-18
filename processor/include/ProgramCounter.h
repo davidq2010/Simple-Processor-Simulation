@@ -32,6 +32,8 @@ class ProgramCounter : public ProcessorComponent
 
     bool getOutput(int _line_id);
 
+    unsigned long getInstructionAddress();
+
   private:
     std::bitset<NUM_OUTPUTS> m_address;
 };
