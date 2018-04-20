@@ -14,49 +14,49 @@ Logger::
 
 void
 Logger::
-log(string msg)
+log(string _msg)
 {
-  m_out << msg << endl;
+  m_out << _msg << endl;
 }
 
 
 void
 Logger::
-log(string label, string value)
+log(string _label, string _value)
 {
-  m_out << setw(20) << left << label
-    << setw(15) << left << value << endl;
+  m_out << setw(20) << left << _label
+    << setw(15) << left << _value << endl;
 }
 
 
 void
 Logger::
-log(string label, unsigned long value)
+log(string _label, unsigned long _value)
 {
-  m_out << setw(20) << left << label
-    << setw(15) << left << hex << value
-    << setw(15) << left << dec << ulongToLong(value)
+  m_out << setw(20) << left << _label
+    << setw(15) << left << hex << _value
+    << setw(15) << left << dec << ulongToLong(_value)
     << endl;
 }
 
 
 void
 Logger::
-log(unsigned long address, unsigned long value)
+log(unsigned long _address, unsigned long _value)
 {
-  m_out 
+  m_out
     << setw(20) << left << ""
-    << setw(10) << left << hex << address
-    << setw(10) << left << hex << value
+    << setw(10) << left << hex << _address
+    << setw(10) << left << hex << _value
     << endl;
 }
 
 
 long
 Logger::
-ulongToLong(unsigned long x)
+ulongToLong(unsigned long _x)
 {
-  if (x >> 31)
-    x |= (~0xFFFFFFFFul);
-  return (long) x;
+  if (_x >> 31)
+    _x |= (~0xFFFFFFFFul);
+  return (long) _x;
 }

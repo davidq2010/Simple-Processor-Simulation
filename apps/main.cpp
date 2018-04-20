@@ -41,9 +41,9 @@ int main(int argc, char const *argv[])
 
   //----------------------------------------------------------------------------
   // Init processor
-  Processor processor(binary_code, 
+  Processor processor(binary_code,
                       reg_content.data,
-                      mem_content.data, 
+                      mem_content.data,
                       mem_content.start_address);
 
   std::ostream* out_stream = &std::cout;
@@ -55,7 +55,7 @@ int main(int argc, char const *argv[])
   }
 
   if (!out_stream->good()) {
-    std::cerr << "Failed to setup logging stream" << std::endl;
+    std::cerr << "Failed to set up logging stream" << std::endl;
     exit(1);
   }
 

@@ -12,18 +12,18 @@ class Logger
 
     ~Logger();
 
-    void log(std::string msg);
+    void log(std::string _msg);
 
-    void log(std::string label, std::string value);
+    void log(std::string _label, std::string _value);
 
-    void log(std::string label, unsigned long value);
+    void log(std::string _label, unsigned long _value);
 
-    void log(unsigned long label, unsigned long value);
+    void log(unsigned long _label, unsigned long _value);
 
   private:
     std::ostream& m_out;
 
-    long ulongToLong(unsigned long x);
+    long ulongToLong(unsigned long _x);
 };
 
 #endif // LOGGER_H_
