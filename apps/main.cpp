@@ -40,12 +40,7 @@ int main(int argc, char const *argv[])
   struct MemoryContent reg_content = mem_parser(configs.register_file_input);
 
   //----------------------------------------------------------------------------
-  // Init processor
-  Processor processor(binary_code,
-                      reg_content.data,
-                      mem_content.data,
-                      mem_content.start_address);
-
+  // Init logger
   std::ostream* out_stream = &std::cout;
   std::ofstream file_out_stream;
   if (configs.write_to_file)
@@ -60,6 +55,15 @@ int main(int argc, char const *argv[])
   }
 
   Logger logger(*out_stream);
+  logger.setPrintOption(Logger::DEBUG, configs.debug_mode);
+  logger.setPrintOption(Logger::MEMORY, configs.print_memory_contents);
+
+  //----------------------------------------------------------------------------
+  // Init processor
+  Processor processor(binary_code,
+                      reg_content.data,
+                      mem_content.data,
+                      mem_content.start_address);
   processor.setLogger(&logger);
 
   //----------------------------------------------------------------------------

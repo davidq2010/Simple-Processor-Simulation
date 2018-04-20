@@ -12,7 +12,7 @@ struct Configs
   std::string program_input;
   std::string memory_contents_input;
   std::string register_file_input;
-  OutputMode output_mode;
+  OutputMode  output_mode;
   bool        debug_mode;
   bool        print_memory_contents;
   bool        write_to_file;
