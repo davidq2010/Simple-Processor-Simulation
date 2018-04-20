@@ -1,12 +1,9 @@
-#ifndef PROCESSOR_UTIL_CPP_
-#define PROCESSOR_UTIL_CPP_
-
 #include "ProcessorUtil.h"
 
 
 namespace ioutil
 {
-  
+
   void setInputs(ProcessorComponent& _comp, unsigned long long _input)
   {
     for (int i = 0; i < _comp.numInputs(); i++)
@@ -28,6 +25,3 @@ namespace ioutil
     return output;
   }
 }
-
-
-#endif // PROCESSOR_UTIL_CPP_

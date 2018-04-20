@@ -1,12 +1,9 @@
-#ifndef HARDWIRED_CONSTANT_CPP_
-#define HARDWIRED_CONSTANT_CPP_
-
 #include "HardwiredConstant.h"
 
 
 HardwiredConstant::
-HardwiredConstant(unsigned long _constant, int _n_bits) 
-  : ProcessorComponent(NUM_INPUTS, _n_bits) 
+HardwiredConstant(unsigned long _constant, int _n_bits)
+  : ProcessorComponent(NUM_INPUTS, _n_bits)
 {
   m_outputs = new bool[_n_bits];
   for (int i = 0; i < _n_bits; i++) {
@@ -18,11 +15,11 @@ HardwiredConstant(unsigned long _constant, int _n_bits)
 
 
 HardwiredConstant::
-HardwiredConstant(bool* _constant, int _n_bits) 
-  : ProcessorComponent(NUM_INPUTS, _n_bits) 
+HardwiredConstant(bool* _constant, int _n_bits)
+  : ProcessorComponent(NUM_INPUTS, _n_bits)
 {
   m_outputs = new bool[_n_bits];
-  for (int i = 0; i < _n_bits; i++) 
+  for (int i = 0; i < _n_bits; i++)
     m_outputs[i] = _constant[i];
 }
 
@@ -57,5 +54,3 @@ updateOutput()
 {
   fireAllOutputs();
 }
-
-#endif // HARDWIRE_CONSTANT

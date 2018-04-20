@@ -1,11 +1,8 @@
-#ifndef MUX_CPP_
-#define MUX_CPP_
-
 #include "MUX.h"
 
 MUX::
-MUX(int _n_bits, std::string _name) 
-    : ProcessorComponent(2 * _n_bits + 1, _n_bits), 
+MUX(int _n_bits, std::string _name)
+    : ProcessorComponent(2 * _n_bits + 1, _n_bits),
       m_name(_name)
 {
   m_inputs  = new bool[numInputs()];
@@ -85,7 +82,7 @@ updateOutputs()
 
   // clear updated inputs array
   for(int i = 0; i < numInputs(); m_updated_inputs[i++] = 0);
-  
+
   // fire
   fireAllOutputs();
 }
@@ -99,6 +96,3 @@ areAllInputsUpdated()
       return false;
   return true;
 }
-
-
-#endif // MUX_CPP_

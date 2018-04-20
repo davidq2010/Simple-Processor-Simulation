@@ -1,6 +1,3 @@
-#ifndef AND_CPP_
-#define AND_CPP_
-
 #include "ANDGate.h"
 
 ANDGate::
@@ -44,6 +41,3 @@ areAllInputsUpdated()
       return false;
   return true;
 }
-
-
-#endif // ANDGate_CPP_

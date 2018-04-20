@@ -1,13 +1,10 @@
-#ifndef CLOCK_CPP_
-#define CLOCK_CPP_
-
 #include "Clock.h"
 
 Clock::
 Clock() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), m_clock_state(0) {}
 
 
-void 
+void
 Clock::
 setInput(int _line_id, bool _bit) {}
 
@@ -31,6 +28,3 @@ tick()
   m_clock_state = 0;
   fireAllOutputs();
 }
-
-
-#endif // CLOCK_CPP_

@@ -123,7 +123,7 @@ Processor(std::vector<unsigned long> _instructions,
   //----------------------------------------------------------------------------
   // Load firt instruction address before runing processor
   for (int i = 0; i < 32; i++)
-    m_pc.setInput(i, (InstructionMemory::START_ADDRESS >> i) & 1UL);  
+    m_pc.setInput(i, (InstructionMemory::START_ADDRESS >> i) & 1UL);
 
 }
 
@@ -173,12 +173,12 @@ run()
 }
 
 
-void 
+void
 Processor::
-bulkConnect(ProcessorComponent& c1, 
-            ProcessorComponent& c2, 
-            int line1_start, 
-            int line2_start, 
+bulkConnect(ProcessorComponent& c1,
+            ProcessorComponent& c2,
+            int line1_start,
+            int line2_start,
             int n_lines)
 {
   for (int i = 0; i < n_lines; i++)
@@ -192,4 +192,3 @@ isFinished()
 {
   return m_pc.getInstructionAddress() == m_inst_mem.getLastAddress();
 }
-
