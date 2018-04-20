@@ -7,9 +7,9 @@
 class Logger
 {
   public:
-    enum LogType {INFO, DEBUG, MEMORY}
+    enum LogType {INFO, DEBUG, MEMORY};
 
-    static const NUM_LOG_TYPE = 3;
+    static const int NUM_LOG_TYPE = 3;
 
     Logger(std::ostream& _out);
 
@@ -28,7 +28,7 @@ class Logger
   private:
     std::ostream& m_out;
 
-    bool[NUM_LOG_TYPE] m_print_log_type;
+    bool m_print_log_type[NUM_LOG_TYPE];
 };
 
 #endif // LOGGER_H_

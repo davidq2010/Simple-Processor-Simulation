@@ -16,8 +16,9 @@ Logger::
 ~Logger() {}
 
 
+void
 Logger::
-setPrintOption(LogType _type, bool _can_print = true)
+setPrintOption(LogType _type, bool _can_print)
 {
   m_print_log_type[_type] = _can_print;
 }
@@ -25,7 +26,7 @@ setPrintOption(LogType _type, bool _can_print = true)
 
 void
 Logger::
-log(string _msg, LogType _type = INFO)
+log(string _msg, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out << _msg << endl;
@@ -34,7 +35,7 @@ log(string _msg, LogType _type = INFO)
 
 void
 Logger::
-log(string _label, string _value, LogType _type = INFO)
+log(string _label, string _value, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out 
@@ -45,7 +46,7 @@ log(string _label, string _value, LogType _type = INFO)
 
 void
 Logger::
-log(string _label, unsigned long _value, LogType _type = INFO)
+log(string _label, unsigned long _value, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out << setw(20) << left << _label
@@ -56,7 +57,7 @@ log(string _label, unsigned long _value, LogType _type = INFO)
 
 void
 Logger::
-log(unsigned long _address, unsigned long _value, LogType _type = INFO)
+log(unsigned long _address, unsigned long _value, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out
