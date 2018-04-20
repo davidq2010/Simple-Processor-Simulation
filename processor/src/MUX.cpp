@@ -8,9 +8,13 @@ MUX(int _n_bits, std::string _name)
     : ProcessorComponent(2 * _n_bits + 1, _n_bits), 
       m_name(_name)
 {
-  m_inputs = new bool[numInputs()];
+  m_inputs  = new bool[numInputs()];
   m_outputs = new bool[numOutputs()];
   m_updated_inputs = new bool[numInputs()];
+  // Initialize arrays with all false
+  for (int i = 0; i < numInputs() ; m_inputs [i++] = 0);
+  for (int i = 0; i < numOutputs(); m_outputs[i++] = 0);
+  for (int i = 0; i < numInputs() ; m_updated_inputs[i++] = 0);
 }
 
 

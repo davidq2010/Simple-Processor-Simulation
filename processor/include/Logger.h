@@ -21,7 +21,7 @@ class Logger
     void log(unsigned long label, unsigned long value);
 
   private:
-  	ostream& m_out;
+    std::ostream& m_out;
 
     long ulongToLong(unsigned long x);
 };
