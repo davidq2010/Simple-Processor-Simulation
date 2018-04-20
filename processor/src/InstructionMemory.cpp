@@ -1,5 +1,7 @@
 #include "InstructionMemory.h"
 
+#include <stdexcept>
+#include <sstream>
 
 InstructionMemory::
 InstructionMemory()
@@ -76,6 +78,12 @@ InstructionMemory::
 getData(unsigned long _address) const
 {
   unsigned long index = (_address - START_ADDRESS) >> 2;
+  if (index >= m_data.size()) {
+    std::stringstream ss;
+    ss << "InstructionMemory: address out of bounds : ";
+    ss << std::hex << "0x" << std::uppercase << _address;
+    throw std::out_of_range(ss.str());
+  }
   return m_data[index];
 }
 
@@ -85,6 +93,12 @@ InstructionMemory::
 setData(unsigned long _address, unsigned long _data)
 {
   unsigned long index = (_address - START_ADDRESS) >> 2;
+  if (index >= m_data.size()) {
+    std::stringstream ss;
+    ss << "InstructionMemory: address out of bounds : ";
+    ss << std::hex << "0x" << std::uppercase << _address;
+    throw std::out_of_range(ss.str());
+  }
   m_data[index] = _data;
 }
 

@@ -18,7 +18,7 @@ operator() (string _file_name)
   // Parser file
   int line_number = 0;
   string line;
-  while( getline(in, line) ) 
+  while( getline(in, line) )
   {
     line_number++;
 
@@ -31,10 +31,10 @@ operator() (string _file_name)
     if(opcode.length() == 0)
       continue;
 
-    Opcode o = opcodes.getOpcode(opcode);      
+    Opcode o = opcodes.getOpcode(opcode);
     if(o == UNDEFINED){
       // invalid opcode specified
-      cerr << _file_name << ":" << line_number 
+      cerr << _file_name << ":" << line_number
            << "Syntax error, skip to next line"  << endl
            << "  " << line << endl;
       continue;
@@ -42,7 +42,7 @@ operator() (string _file_name)
 
     bool success = getOperands(i, o, operand, operand_count);
     if(!success){
-      cerr << _file_name << ":" << line_number 
+      cerr << _file_name << ":" << line_number
            << "Syntax error, skip to next line"  << endl
            << "  " << line << endl;
       continue;
@@ -61,21 +61,21 @@ void ASMParser::getTokens(string line,
              string &opcode,
              string *operand,
              int &numOperands)
-  // Decomposes a line of assembly code into strings for the opcode field and operands, 
+  // Decomposes a line of assembly code into strings for the opcode field and operands,
   // checking for syntax errors and counting the number of operands.
 {
     // locate the start of a comment
     string::size_type idx = line.find('#');
     if (idx != string::npos) // found a '#'
       line = line.substr(0,idx);
-    
+
     int len = line.length();
     opcode = "";
     numOperands = 0;
 
-    if (len == 0) 
+    if (len == 0)
       return;
-    
+
     int p = 0; // position in line
 
     // line.at(p) is whitespace or p >= len
@@ -117,7 +117,7 @@ void ASMParser::getTokens(string line,
       return;
     idx = operand[numOperands-1].find('(');
     string::size_type idx2 = operand[numOperands-1].find(')');
-    
+
     if (idx == string::npos || idx2 == string::npos ||
         ((idx2 - idx) < 2 ))
     { // no () found
@@ -126,7 +126,7 @@ void ASMParser::getTokens(string line,
     { // split string
       string offset = operand[numOperands-1].substr(0,idx);
       string regStr = operand[numOperands-1].substr(idx+1, idx2-idx-1);
-      
+
       operand[numOperands-1] = offset;
       operand[numOperands] = regStr;
       numOperands++;
@@ -160,13 +160,13 @@ bool ASMParser::isNumberString(string s)
 unsigned long ASMParser::cvtNumString2Number(string s)
   // Converts a string to an integer.  Assumes s is something like "-231" and produces -231
 {
-  return std::stoul(s, 0, 0);
+  return stoul(s, 0, 0);
 }
-    
 
-bool ASMParser::getOperands(Instruction &i, Opcode o, 
+
+bool ASMParser::getOperands(Instruction &i, Opcode o,
           string *operand, int operand_count)
-  // Given an Opcode, a string representing the operands, and the number of operands, 
+  // Given an Opcode, a string representing the operands, and the number of operands,
   // breaks operands apart and stores fields into Instruction.
 {
 
@@ -197,7 +197,7 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
     if(rt == NumRegisters)
       return false;
   }
-  
+
   if(rd_p != -1)
   {
     rd = registers.getNum(operand[rd_p]);
@@ -245,7 +245,15 @@ string ASMParser::encodeIType(Instruction& i) {
   string s = opcodes.getOpcodeField(i.getOpcode()); // opcode
   s += numberToBinary( i.getRS(), 5 ); // rs
   s += numberToBinary( i.getRT(), 5 ); // rt
-  s += numberToBinary( i.getImmediate(), 16 ); // immediate
+  unsigned long imm = i.getImmediate();
+  if ( i.getOpcode() == BEQ) {
+    if ( imm >> 15 )
+      imm |= (~0xFFFFul);
+    s += numberToBinary( imm >> 2, 16);
+  }
+  else
+    s += numberToBinary( i.getImmediate(), 16 ); // immediate
+
   return s;
 }
 
