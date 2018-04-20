@@ -1,6 +1,3 @@
-#ifndef INSTRUCTION_MEMORY_CPP_
-#define INSTRUCTION_MEMORY_CPP_
-
 #include "InstructionMemory.h"
 
 
@@ -74,7 +71,7 @@ updateOutputs()
 }
 
 
-unsigned long 
+unsigned long
 InstructionMemory::
 getData(unsigned long _address) const
 {
@@ -100,12 +97,9 @@ resetData(std::vector<unsigned long> _data)
 }
 
 
-unsigned long 
+unsigned long
 InstructionMemory::
 getLastAddress() const
 {
   return START_ADDRESS + (4 * m_data.size());
 }
-
-
-#endif // INSTRUCTION_MEMORY_CPP_

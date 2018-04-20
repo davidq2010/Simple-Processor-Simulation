@@ -19,14 +19,14 @@ DataMemory(std::vector<unsigned long> _data, unsigned long _start_address)
 
 
 DataMemory::
-DataMemory(unsigned long* _data, 
-           unsigned long _start_address, 
+DataMemory(unsigned long* _data,
+           unsigned long _start_address,
            int _memory_size)
-  
-  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), 
+
+  : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
     m_data(_data, _data + _memory_size),
     m_start_address(_start_address),
-    m_end_address(_start_address + 4 * _memory_size) 
+    m_end_address(_start_address + 4 * _memory_size)
 {
 }
 
@@ -58,18 +58,18 @@ void
 DataMemory::
 updateOutputs()
 {
-  unsigned long address = 
+  unsigned long address =
       ((m_inputs >> addressStartID()) & FULL_BIT_MASK_32).to_ulong();
-  
-  unsigned long write_data = 
+
+  unsigned long write_data =
         ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
-  
+
   //read
   if (m_inputs[ memReadID() ])
     m_outputs = getData(address);
   else
     m_outputs.reset();
-  
+
   // write
   if (m_inputs[memWriteID()])
     setData(address, write_data);
@@ -95,7 +95,7 @@ updateOutputs()
 }
 
 
-unsigned long 
+unsigned long
 DataMemory::
 getData(unsigned long _address)
 {
@@ -103,7 +103,7 @@ getData(unsigned long _address)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << std::showbase << std::uppercase << _address; 
+    ss << std::hex << std::showbase << std::uppercase << _address;
     throw std::out_of_range(ss.str());
   }
   return m_data[index];
@@ -118,10 +118,9 @@ setData(unsigned long _address, unsigned long _data)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << "0x" << std::uppercase << _address; 
+    ss << std::hex << "0x" << std::uppercase << _address;
     throw std::out_of_range(ss.str());
   }
 
   m_data[index] = _data;
 }
-

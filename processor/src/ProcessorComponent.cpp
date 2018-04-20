@@ -1,6 +1,3 @@
-#ifndef PROCESSOR_COMPONENTS_CPP_
-#define PROCESSOR_COMPONENTS_CPP_
-
 #include "ProcessorComponent.h"
 
 ProcessorComponent::
@@ -20,7 +17,7 @@ ProcessorComponent::
 
 void
 ProcessorComponent::
-addOutputComponent(int _output_id, 
+addOutputComponent(int _output_id,
         ProcessorComponent& _output_component, int _input_id)
 {
   OutputComponent out_line = {_output_component, _input_id};
@@ -49,6 +46,3 @@ setLogger(Logger* _logger)
 {
   m_logger = _logger;
 }
-
-
-#endif // PROCESSOR_COMPONENTS_CPP_

@@ -1,6 +1,3 @@
-#ifndef CONTROL_CPP_
-#define CONTROL_CPP_
-
 #include "Control.h"
 
 const Control::opcodeMap Control::OPCODE_TABLE
@@ -78,6 +75,3 @@ updateOutput()
   m_updated_inputs.reset();
   fireAllOutputs();
 }
-
-
-#endif

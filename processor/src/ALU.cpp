@@ -1,6 +1,3 @@
-#ifndef ALU_CPP_
-#define ALU_CPP_
-
 #include "ALU.h"
 
 const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
@@ -82,6 +79,3 @@ updateOutput()
   m_updated_inputs.reset();
   fireAllOutputs();
 }
-
-
-#endif // ALU_CPP_

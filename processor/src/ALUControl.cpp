@@ -1,6 +1,3 @@
-#ifndef ALU_CONTROL_CPP_
-#define ALU_CONTROL_CPP_
-
 #include "ALUControl.h"
 
 
@@ -61,5 +58,3 @@ updateOutputs()
   m_updated_inputs.reset();
   fireAllOutputs();
 }
-
-#endif // ALU_CONTROL_CPP_

@@ -1,6 +1,3 @@
-#ifndef REGISTER_FILE_CPP_
-#define REGISTER_FILE_CPP_
-
 #include <string>
 #include "RegisterFile.h"
 
@@ -147,5 +144,3 @@ writeToRegister()
 
   m_register_data[reg_id] = data;
 }
-
-#endif // REGISTER_FILE_CPP_
