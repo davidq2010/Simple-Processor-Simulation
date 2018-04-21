@@ -83,10 +83,10 @@ updateOutputs()
   m_logger->log("  memWrite", m_inputs[memWriteID()]);
   m_logger->log("  Output:");
   m_logger->log("  readData", m_outputs.to_ulong());
-  m_logger->log("  Memory content:");
+  m_logger->log("  Memory content:", Logger::MEMORY);
   for (unsigned long i = m_start_address; i < m_end_address; i += 4)
   {
-    m_logger->log(i, getData(i));
+    m_logger->log(i, getData(i), Logger::MEMORY);
   }
 
   // output update and fire
@@ -103,7 +103,7 @@ getData(unsigned long _address)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << std::showbase << std::uppercase << _address;
+    ss << std::hex << std::showbase << std::lowercase << _address;
     throw std::out_of_range(ss.str());
   }
   return m_data[index];
@@ -118,7 +118,7 @@ setData(unsigned long _address, unsigned long _data)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << "0x" << std::uppercase << _address;
+    ss << std::hex << std::showbase << std::lowercase << _address;
     throw std::out_of_range(ss.str());
   }
 

@@ -50,7 +50,7 @@ log(string _label, unsigned long _value, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out << setw(20) << left << _label
-    << setw(15) << left << hex << _value
+    << setw(15) << left << hex << showbase << _value
     << endl;
 }
 
@@ -61,9 +61,10 @@ log(unsigned long _address, unsigned long _value, LogType _type)
 {
   if (m_print_log_type[_type])
     m_out
-    << setw(20) << left << ""
-    << setw(10) << left << hex << _address
-    << setw(10) << left << hex << _value
+    << setw(10) << left << ""
+    << setw(10) << left << hex << showbase << _address
+    << ": "
+    << setw(10) << left << hex << showbase << _value
     << endl;
 }
 

@@ -63,9 +63,9 @@ updateOutputs()
   m_logger->log("  address", address);
   m_logger->log("  Output:");
   m_logger->log("  instruction", m_outputs.to_ulong());
-  m_logger->log("  Memory content:");
+  m_logger->log("  Memory content:", Logger::MEMORY);
   for (unsigned long i = START_ADDRESS; i < START_ADDRESS + 4*m_data.size(); i += 4)
-    m_logger->log(i, getData(i));
+    m_logger->log(i, getData(i), Logger::MEMORY);
 
   // fire
   m_updated_inputs.reset();

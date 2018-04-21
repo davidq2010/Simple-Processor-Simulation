@@ -108,10 +108,10 @@ updateOutputs()
   // Log input and output
   m_logger->log("--------------------------------------------------");
   m_logger->log("Register File Read");
-  m_logger->log("  Content:");
+  m_logger->log("  Content:", Logger::MEMORY);
 
   for (int i = 0; i < NUM_REGS; i++)
-    m_logger->log(std::string("    Reg") + std::to_string(i), m_register_data[i]);
+    m_logger->log(std::string("    $") + std::to_string(i), m_register_data[i], Logger::MEMORY);
 
   m_logger->log("  Input:");
   m_logger->log("  Reg1", reg_id[0]);
