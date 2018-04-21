@@ -103,7 +103,7 @@ getData(unsigned long _address)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << std::showbase << std::lowercase << _address;
+    ss << std::hex << std::showbase << _address;
     throw std::out_of_range(ss.str());
   }
   return m_data[index];
@@ -118,7 +118,7 @@ setData(unsigned long _address, unsigned long _data)
   if (index >= m_data.size()) {
     std::stringstream ss;
     ss << "DataMemory: address out of bound :";
-    ss << std::hex << std::showbase << std::lowercase << _address;
+    ss << std::hex << std::showbase << _address;
     throw std::out_of_range(ss.str());
   }
 

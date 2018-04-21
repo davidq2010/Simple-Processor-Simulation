@@ -47,23 +47,25 @@ updateOutput()
   m_logger->log("  control" , control);
 
   unsigned long result;
+  std::string   action;
   switch (control)
   {
     case 0b0010:
       result = a + b;
-      m_logger->log("  action", "ADD");
+      action = "ADD";
       break;
     case 0b0110:
       result = a - b;
-      m_logger->log("  action", "SUB");
+      action = "SUB";
       break;
     case 0b0111:
       result = ((a >> 31) == (b >> 31))? (a < b) : (a >> 31);
-      m_logger->log("  action", "SLT");
+      action = "SLT";
       break;
     default: result = -1;
   }
-
+  result &= 0xFFFFFFFFul;
+  
   bool zero = (result == 0);
 
   // put the values into m_outputs
@@ -72,6 +74,7 @@ updateOutput()
 
   // log output
   m_logger->log("  Output:");
+  m_logger->log("  action", action, Logger::DEBUG);
   m_logger->log("  result", result);
   m_logger->log("  zero", zero);
 

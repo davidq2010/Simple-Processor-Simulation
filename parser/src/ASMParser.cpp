@@ -48,6 +48,7 @@ operator() (string _file_name)
       continue;
     }
 
+    i.setString(line);
     string encoding = encode(i);
     i.setEncoding(encoding);
 

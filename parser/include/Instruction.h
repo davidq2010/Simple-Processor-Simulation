@@ -30,8 +30,9 @@ class Instruction
   Register getRT()     { return myRT; };
   unsigned long getImmediate()   { return myImmediate; };
 
+  void setString(std::string asemblyString) { myAsemblyString = asemblyString; }
   // Returns a string which represents all of the fields 
-  std::string getString();
+  std::string getString() { return myAsemblyString; }
 
   // Stores the 32 bit binary encoding of MIPS instruction passed in
   void setEncoding(std::string s) { myEncoding = s;};
@@ -46,6 +47,7 @@ class Instruction
   Register myRD;
   unsigned long myImmediate;
 
+  std::string myAsemblyString; ///< The asembly instruction
   std::string myEncoding;
 };
 

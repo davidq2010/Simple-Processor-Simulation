@@ -13,7 +13,7 @@
 int main(int argc, char const *argv[])
 {
   if (argc != 2) {
-    cerr << "Usage: " << argv[0] << " [config_file]";
+    cerr << "Usage: " << argv[0] << " [config_file]" << endl;
     return 0;
   }
 
@@ -72,6 +72,9 @@ int main(int argc, char const *argv[])
   while (!processor.isFinished()) {
     logger.log("====================================================================");
     logger.log(string("Cycle ") + to_string(i));
+    int instruction_index = 
+        (processor.getNextInstructionAddress() - InstructionMemory::START_ADDRESS) >> 2;
+    logger.log( string("  ") + instructions[instruction_index].getString() );
     try {
       processor.step();
     } catch(std::out_of_range& ex) {

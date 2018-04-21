@@ -43,6 +43,7 @@ void Instruction::setValues(Opcode op, Register rs, Register rt, Register rd, un
 
 }
 
+/*
 string Instruction::getString()
 // Returns a string which represents all of the fields 
 {
@@ -54,4 +55,5 @@ string Instruction::getString()
   return s.str();
   
 }
+*/
 

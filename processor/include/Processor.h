@@ -40,6 +40,8 @@ class Processor
 
     bool isFinished();
 
+    unsigned long getNextInstructionAddress() { return m_pc.getInstructionAddress(); }
+
   private:
     //--------------------------------------------------------------------------
     // Processor Components
