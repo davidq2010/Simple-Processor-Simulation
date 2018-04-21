@@ -8,7 +8,6 @@
 #include <iostream>
 #include <string>
 
-using namespace std;
 
 int main(int argc, char const *argv[])
 {
@@ -24,13 +23,13 @@ int main(int argc, char const *argv[])
   ConfigParser config_parser;
   struct Configs configs = config_parser(argv[1]);
 
-  // Assemble the program
+  // Translate input program to binary code
   ASMParser assembler;
-  vector<Instruction> instructions = assembler(configs.program_input);
-  vector<unsigned long> binary_code;
+  std::vector<Instruction>   instructions = assembler(configs.program_input);
+  std::vector<unsigned long> binary_code;
   binary_code.reserve(instructions.size());
   for (auto& i : instructions)
-    binary_code.push_back( bitset<32>(i.getEncoding()).to_ulong() );
+    binary_code.push_back( std::bitset<32>(i.getEncoding()).to_ulong() );
 
   // read memory input file
   MemoryFileParser mem_parser;
@@ -41,10 +40,23 @@ int main(int argc, char const *argv[])
 
   //----------------------------------------------------------------------------
   // Init processor
-  Processor processor(binary_code, reg_content.data,
-                      mem_content.data, mem_content.start_address);
+  Processor processor(binary_code, 
+                      reg_content.data,
+                      mem_content.data, 
+                      mem_content.start_address);
 
-  Logger logger;
+  std::ostream out_stream;
+  if (configs.write_to_file)
+    out_stream = std::ofstream(configs.output_file);
+  else 
+    out_stream = std::cout;
+
+  if (!out_stream.good()) {
+    std::cerr << "Failed to setup logging stream" << std::endl;
+    exit(1);
+  }
+
+  Logger logger(out_stream);
   processor.setLogger(&logger);
 
   //----------------------------------------------------------------------------

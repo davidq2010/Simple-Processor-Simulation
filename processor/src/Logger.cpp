@@ -1,6 +1,3 @@
-#ifndef LOGGER_CPP_
-#define LOGGER_CPP_
-
 #include <iostream>
 #include <iomanip>
 #include "Logger.h"
@@ -8,7 +5,7 @@
 using namespace std;
 
 Logger::
-Logger() {}
+Logger(ostream& _out) : m_out(_out) {}
 
 
 Logger::
@@ -19,7 +16,7 @@ void
 Logger::
 log(string msg)
 {
-  cout << msg << endl;
+  m_out << msg << endl;
 }
 
 
@@ -27,7 +24,7 @@ void
 Logger::
 log(string label, string value)
 {
-  cout << setw(20) << left << label
+  m_out << setw(20) << left << label
     << setw(15) << left << value << endl;
 }
 
@@ -36,7 +33,7 @@ void
 Logger::
 log(string label, unsigned long value)
 {
-  cout << setw(20) << left << label
+  m_out << setw(20) << left << label
     << setw(15) << left << hex << value
     << setw(15) << left << dec << ulongToLong(value)
     << endl;
@@ -47,7 +44,8 @@ void
 Logger::
 log(unsigned long address, unsigned long value)
 {
-  cout << setw(20) << left << ""
+  m_out 
+    << setw(20) << left << ""
     << setw(10) << left << hex << address
     << setw(10) << left << hex << value
     << endl;
@@ -62,5 +60,3 @@ ulongToLong(unsigned long x)
     x |= (~0xFFFFFFFFul);
   return (long) x;
 }
-
-#endif // LOGGER_CPP_

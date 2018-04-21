@@ -1,12 +1,14 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
+#include <ostream>
 #include <string>
+
 
 class Logger
 {
   public:
-    Logger();
+    Logger(std::ostream& _out);
 
     ~Logger();
 
@@ -19,9 +21,9 @@ class Logger
     void log(unsigned long label, unsigned long value);
 
   private:
+  	ostream& m_out;
 
     long ulongToLong(unsigned long x);
 };
-
 
 #endif // LOGGER_H_
