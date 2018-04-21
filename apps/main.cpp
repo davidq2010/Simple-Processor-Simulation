@@ -87,6 +87,13 @@ int main(int argc, char const *argv[])
       break;
     }
     i++;
+
+    // Prompt key press after each cycle, if single_step option is enabled
+    if (configs.output_mode == Configs::SINGLE_STEP)
+    {
+      cout << endl << "Press ENTER to continue...";
+      cin.ignore();
+    }
   }
 
   file_out_stream.close();
