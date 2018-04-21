@@ -21,7 +21,8 @@ operator() (string _file_name)
   while( getline(in, line) )
   {
     line_number++;
-
+    line = line.trim();
+    
     string opcode("");
     string operand[80];
     int operand_count = 0;

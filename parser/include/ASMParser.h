@@ -62,6 +62,18 @@ class ASMParser{
   	std::string s = bitset<32>(n).to_string();
   	return s.substr(32 - len, len);
   }
+
+  std::string trim(std::string str)
+  {
+    const auto str_begin = str.find_first_not_of(" ");
+    if (str_begin == std::string::npos)
+      return ""; // no content
+
+    const auto str_end = str.find_last_not_of(" ");
+
+    return str.substr(str_begin, str_end - str_begin + 1);
+  }
+
 };
 
 #endif // ASM_PARSER_H_
