@@ -65,11 +65,11 @@ class ASMParser{
 
   std::string trim(std::string str)
   {
-    const auto str_begin = str.find_first_not_of(" ");
+    const auto str_begin = str.find_first_not_of(" \t");
     if (str_begin == std::string::npos)
       return ""; // no content
 
-    const auto str_end = str.find_last_not_of(" ");
+    const auto str_end = str.find_last_not_of(" \t");
 
     return str.substr(str_begin, str_end - str_begin + 1);
   }
