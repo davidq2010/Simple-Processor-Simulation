@@ -77,6 +77,7 @@ unsigned long
 InstructionMemory::
 getData(unsigned long _address) const
 {
+  // convert _address to index in m_data
   unsigned long index = (_address - START_ADDRESS) >> 2;
   if (index >= m_data.size()) {
     std::stringstream ss;

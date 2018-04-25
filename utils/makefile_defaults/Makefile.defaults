@@ -1,4 +1,4 @@
-# This Makefile should be in makefile_includes directory
+# This Makefile should be in utils/makefile_includes directory
 
 ifndef debug
 	debug = 0

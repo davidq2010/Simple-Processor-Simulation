@@ -29,9 +29,12 @@ void
 ProcessorComponent::
 fireAllOutputs()
 {
+  // Get the bit of each output line of current component
   for (int i = 0; i < numOutputs(); i++)
   {
     bool output_bit = getOutput(i);
+
+    // Set the bits for the output components' input lines
     for (OutputComponent& line : m_output_lines[i])
     {
       line.output_component.setInput(line.input_id, output_bit);

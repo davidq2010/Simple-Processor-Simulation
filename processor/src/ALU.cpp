@@ -1,11 +1,14 @@
 #include "ALU.h"
 
+// Initialize static members
 const std::bitset<ALU::NUM_INPUTS> ALU::FULL_BIT_MASK_32 (0xFFFFFFFFul);
 
 const std::bitset<ALU::NUM_INPUTS> ALU::CONTROL_BIT_MASK (0xFul);
 
+
 ALU::
-ALU(std::string _name) : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS), m_name(_name) {}
+ALU(std::string _name) : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
+  m_name(_name) {}
 
 
 void
@@ -65,7 +68,7 @@ updateOutput()
     default: result = -1;
   }
   result &= 0xFFFFFFFFul;
-  
+
   bool zero = (result == 0);
 
   // put the values into m_outputs

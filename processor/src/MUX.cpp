@@ -5,6 +5,8 @@ MUX(int _n_bits, std::string _name)
     : ProcessorComponent(2 * _n_bits + 1, _n_bits),
       m_name(_name)
 {
+  // numInputs: bits for 2 inputs and 1 control line
+
   m_inputs  = new bool[numInputs()];
   m_outputs = new bool[numOutputs()];
   m_updated_inputs = new bool[numInputs()];
@@ -48,6 +50,7 @@ MUX::
 updateOutputs()
 {
   // choose operand 0 or 1
+  // controlID() will determine whether 0 or 1 is chosen
   int start_id = operandStartID(m_inputs[controlID()]);
   for (int i = 0; i < numOutputs(); i++)
     m_outputs[i] = m_inputs[i + start_id];

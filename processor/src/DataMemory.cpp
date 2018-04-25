@@ -17,7 +17,6 @@ DataMemory(std::vector<unsigned long> _data, unsigned long _start_address)
 }
 
 
-
 DataMemory::
 DataMemory(unsigned long* _data,
            unsigned long _start_address,
@@ -62,9 +61,9 @@ updateOutputs()
       ((m_inputs >> addressStartID()) & FULL_BIT_MASK_32).to_ulong();
 
   unsigned long write_data =
-        ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
+      ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
 
-  //read
+  // read
   if (m_inputs[ memReadID() ])
     m_outputs = getData(address);
   else

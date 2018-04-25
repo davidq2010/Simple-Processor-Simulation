@@ -5,11 +5,11 @@
 using namespace std;
 
 Logger::
-Logger(ostream& _out) : m_out(_out) 
+Logger(ostream& _out) : m_out(_out)
 {
   m_out << hex;
   for (int i = 0; i < NUM_LOG_TYPE; m_print_log_type[i++] = false);
-  m_print_log_type[INFO] = true;
+  m_print_log_type[INFO] = true;  // Default is to always log INFO
 }
 
 
@@ -39,7 +39,7 @@ Logger::
 log(string _label, string _value, LogType _type)
 {
   if (m_print_log_type[_type])
-    m_out 
+    m_out
     << setw(20) << left << _label
     << setw(10) << left << _value << endl;
 }
@@ -50,7 +50,7 @@ Logger::
 log(string _label, unsigned long _value, LogType _type)
 {
   if (m_print_log_type[_type])
-    m_out 
+    m_out
     << setw(20) << left << _label
     << "0x" << setw(10) << left << _value
     << endl;

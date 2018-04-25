@@ -6,8 +6,9 @@
 #include "ProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// Control unit. Will use input from instruction opcode to determine what
-/// signals to send to the following output processor components:
+/// @ingroup Processor
+/// @brief Main Control Unit will use input from instruction opcode to determine
+/// what signals to send to the following output processor components:
 ///
 /// Input lines:
 ///   Opcode    [5-0]  Instruction opcode
@@ -29,23 +30,43 @@
 class Control : public ProcessorComponent
 {
   public:
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// @name Constants
+    /// @{
     static const int NUM_INPUTS  = 6;
     static const int NUM_OUTPUTS = 10;
 
-    static const int OPCODE_ID = 0;
-    static const int RESULT_ID = 0;
+    static const int OPCODE_ID = 0; ///< Input line ID
+    static const int RESULT_ID = 0; ///< Output line ID
+
+    /// @}
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// @name Constructor/Destructor
+    /// @{
 
     Control();
+
+    /// @}
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////
+    /// @name Accessors/Manipulators
+    /// @{
 
     int opcodeID()  { return OPCODE_ID; }
 
     int resultID()  { return RESULT_ID; }
 
-    void setInput(int _line_id, bool _bit);
-
     bool getOutput(int _line_id);
 
+    void setInput(int _line_id, bool _bit);
+
     void updateOutput();
+    /// @}
+    ////////////////////////////////////////////////////////////////////////////
 
   private:
 
@@ -55,7 +76,7 @@ class Control : public ProcessorComponent
     static const opcodeMap OPCODE_TABLE;  ///< Hashmap mapping input opcode bits
                                           ///< to which output line to fire
 
-    std::bitset<NUM_INPUTS>  m_inputs;  /// Input bits
+    std::bitset<NUM_INPUTS>  m_inputs;  ///< Input bits
 
     std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
 

@@ -24,6 +24,7 @@ tick()
   // clock rise
   m_clock_state = 1;
   fireAllOutputs();
+
   // clock fall
   m_clock_state = 0;
   fireAllOutputs();

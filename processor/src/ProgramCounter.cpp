@@ -16,12 +16,14 @@ setInput(int _line_id, bool _bit)
     m_address[_line_id] = _bit;
 }
 
+
 bool
 ProgramCounter::
 getOutput(int _line_id)
 {
   return m_address.test(_line_id);
 }
+
 
 unsigned long
 ProgramCounter::

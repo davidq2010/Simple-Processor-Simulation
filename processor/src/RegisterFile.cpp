@@ -89,17 +89,18 @@ updateOutputs()
   // intepret input and get appropiate register data
   for (int port = 0; port <= 1; port++)
   {
-    // get appropiate input line
+    // get appropiate input line start ID
     int start_id = readRegStartID(port);
 
-    // get register number from input
+    // get register numbers from inputs
     reg_id[port] = ((m_inputs >> start_id) & FULL_BIT_MASK_5).to_ulong();
 
     // get register data
     reg_data[port] = m_register_data[reg_id[port]];
   }
 
-  // put data into output
+  // put the two 32-bit data bitsets into m_outputs in the order
+  // [reg_data1, reg_data2]
   m_outputs = reg_data[1];
   m_outputs <<= 32;
   m_outputs |= reg_data[0];
@@ -130,7 +131,7 @@ void
 RegisterFile::
 writeToRegister()
 {
-  m_updated_inputs &= READ_INPUTS; // clear all update bit of write inputs
+  m_updated_inputs &= READ_INPUTS; // clear all update bits of write inputs
 
   if (!m_inputs[writeControlID()]) // don't write if write line is low
     return;

@@ -13,14 +13,14 @@ operator() (string _memory_file)
   if(!ifs)
     throw invalid_argument( string("File does not exist: ") + _memory_file );
 
-  // Parse file into memory struct
+  // Parse file into MemoryContent struct
   struct MemoryContent memory;
   string line;
   bool is_first_line = true;
 
   while(getline(ifs, line))
   {
-    // Ignore comments in config file
+    // Ignore comments in memory file
     size_t index_of_comment = line.find_first_of('#');
     if(index_of_comment != string::npos)
       line = line.substr(0, index_of_comment);
