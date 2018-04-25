@@ -26,21 +26,21 @@ class ASMParser{
   RegisterTable registers;                 // encodings for registers
   OpcodeTable opcodes;                     // encodings of opcodes
 
-  // Decomposes a line of assembly code into strings for the opcode field and operands, 
+  // Decomposes a line of assembly code into strings for the opcode field and operands,
   // checking for syntax errors and counting the number of operands.
-  void getTokens(std::string line, std::string &opcode, 
+  void getTokens(std::string line, std::string &opcode,
                  std::string *operand, int &num_operands);
 
-  // Given an Opcode, a string representing the operands, and the number of operands, 
+  // Given an Opcode, a string representing the operands, and the number of operands,
   // breaks operands apart and stores fields into Instruction.
-  bool getOperands(Instruction &i, Opcode o, std::string *operand, int operand_count);
+  bool getOperands(Instruction &i, Opcode o, std::string *operand, int operand_count, unsigned long inst_address);
 
 
   // Helper functions
   bool isWhitespace(char c)    { return (c == ' '|| c == '\t'); };
   bool isDigit(char c)         { return (c >= '0' && c <= '9'); };
   bool isSign(char c)          { return (c == '-' || c == '+'); };
-  
+
   // Returns true if s represents a valid decimal integer
   bool isNumberString(std::string s);
 
@@ -54,7 +54,7 @@ class ASMParser{
   std::string encodeRType(Instruction& i);
 
   std::string encodeIType(Instruction& i);
-  
+
   std::string encodeJType(Instruction& i);
 
   // Helper function convert a number to binary string

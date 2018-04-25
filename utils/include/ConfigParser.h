@@ -19,6 +19,27 @@ struct Configs
   std::string output_file;
 };
 
+////////////////////////////////////////////////////////////////////////////////
+/// @ingroup Parser
+/// @brief Arithmetic and logic unit. Can perform the following opperations on
+/// two 32-bit signed integers: ADD (ADDI), SUB, SLT, BEQ. The operations can be
+/// specified using 4-bit opcode:
+///   0010  Add
+///   0110  Subtract
+///   0111  Set on less than
+///
+/// @details
+/// Input lines:
+///   operand0  [31 - 0 ]   First number
+///   operand1  [63 - 32]   Second number
+///   control   [67 - 64]   Specifies which operation to perform
+///
+/// Output lines
+///   result    [31 - 0 ]   ALU result
+///   zero      [32]        set if result == 0
+/// When the control lines don't match exactly any of the instruction supported,
+/// ALU's behavior is undefined.
+////////////////////////////////////////////////////////////////////////////////
 class ConfigParser
 {
 

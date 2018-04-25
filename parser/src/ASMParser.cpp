@@ -18,6 +18,7 @@ operator() (string _file_name)
   // Parser file
   int line_number = 0;
   string line;
+  unsigned long inst_address = 0x400000;
   while( getline(in, line) )
   {
     line_number++;
@@ -40,7 +41,7 @@ operator() (string _file_name)
       continue;
     }
 
-    bool success = getOperands(i, o, operand, operand_count);
+    bool success = getOperands(i, o, operand, operand_count, inst_address);
     if(!success){
       cerr << _file_name << ":" << line_number
            << "Syntax error, skip to next line"  << endl
@@ -53,6 +54,7 @@ operator() (string _file_name)
     i.setEncoding(encoding);
 
     instructions.push_back(i);
+    inst_address += 4;
   }
 
   return instructions;
@@ -166,7 +168,7 @@ unsigned long ASMParser::cvtNumString2Number(string s)
 
 
 bool ASMParser::getOperands(Instruction &i, Opcode o,
-          string *operand, int operand_count)
+          string *operand, int operand_count, unsigned long inst_address)
   // Given an Opcode, a string representing the operands, and the number of operands,
   // breaks operands apart and stores fields into Instruction.
 {
@@ -209,6 +211,10 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
   if(imm_p != -1)
   {
     imm = cvtNumString2Number(operand[imm_p]);
+    if (o == BEQ)
+    {
+      imm = (imm - inst_address) >> 2;
+    }
   }
 
   i.setValues(o, rs, rt, rd, imm);
@@ -246,14 +252,7 @@ string ASMParser::encodeIType(Instruction& i) {
   string s = opcodes.getOpcodeField(i.getOpcode()); // opcode
   s += numberToBinary( i.getRS(), 5 ); // rs
   s += numberToBinary( i.getRT(), 5 ); // rt
-  unsigned long imm = i.getImmediate();
-  if ( i.getOpcode() == BEQ) {
-    if ( imm >> 15 )
-      imm |= (~0xFFFFul);
-    s += numberToBinary( imm >> 2, 16);
-  }
-  else
-    s += numberToBinary( i.getImmediate(), 16 ); // immediate
+  s += numberToBinary( i.getImmediate(), 16 ); // immediate
 
   return s;
 }

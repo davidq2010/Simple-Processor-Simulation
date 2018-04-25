@@ -43,12 +43,12 @@ addi $t2, $0, 0					#total             #0x 400'050
 addi $t3, $ra, 0x0		#starting address
 addi $t5, $t1, 0					#store length in $t5
 #sumLoop:
-	beq $t0, $t5, 0x14    # branch to done
+	beq $t0, $t5, 0x400074    # branch to done
 		lw $t4, 0($t3)				#load array value    #0x 400'060
 		add $t2, $t2, $t4			#add to total
 		addi $t3, $t3, 4			#increment address
 		addi $t0, $t0, 1			#increment loop counter
-		beq $0, $0, 0xffe8          #back to sumLoop                    # 0x 400'070
+		beq $0, $0, 0x40005c          #back to sumLoop                    # 0x 400'070
 
 #done
 
