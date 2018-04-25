@@ -1,40 +1,31 @@
-#ifndef SIGN_EXTENDER_H_
-#define SIGN_EXTENDER_H_
+#ifndef SHIFT_LEFTER_H_
+#define SHIFT_LEFTER_H_
 
 #include "ProcessorComponent.h"
 
 // STL
 #include <bitset>
+#include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @ingroup Processor
-/// @brief Processor component that takes in a 16-bit signed integer and sign
-/// extends it to a 32-bit signed integer.
+/// @brief Processor component that takes in a n-bit integer and shift it left 
+/// to a (n+2)-bit integer.
 ///
-/// Input : 16 lines
-/// Output: 32 lines
+/// Input : n   lines
+/// Output: n+2 lines
 /// Line ID corresponds to the bit index in integer
 ////////////////////////////////////////////////////////////////////////////////
-class SignExtender : public ProcessorComponent
+template <std::size_t NUM_INPUTS>
+class ShiftLefter : public ProcessorComponent
 {
   public:
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// @name Constants
-    /// @{
-
-    static const int NUM_INPUTS = 16;
-
-    static const int NUM_OUTPUTS = 32;
-
-    /// @}
-    ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////
     /// @name Constructor/Destructor
     /// @{
 
-    SignExtender();
+    ShiftLefter(std::string _name);
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
@@ -57,9 +48,58 @@ class SignExtender : public ProcessorComponent
 
     std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
 
-    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
-
     std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
+
+    std::string m_name;
 };
 
-#endif // SIGN_EXTENDER_H_
+
+template <std::size_t NUM_INPUTS>
+ShiftLefter<NUM_INPUTS>::
+ShiftLefter(std::string _name) 
+  : ProcessorComponent(NUM_INPUTS, NUM_INPUTS + 2),
+    m_name(_name)    
+{
+}
+
+
+void
+template <std::size_t NUM_INPUTS>
+ShiftLefter<NUM_INPUTS>::
+setInput(int _line_id, bool _bit)
+{
+  m_inputs.set(_line_id, _bit);
+
+  m_updated_inputs.set(_line_id);
+  if (m_updated_inputs.all())
+    updateOutput();
+}
+
+
+void
+template <std::size_t NUM_INPUTS>
+ShiftLefter<NUM_INPUTS>::
+getOutput(int _line_id)
+{
+  return (_line_id < 2)? 0 : m_inputs[_line_id - 2];
+}
+
+
+void
+template <std::size_t NUM_INPUTS>
+ShiftLefter<NUM_INPUTS>::
+updateOutput()
+{
+  m_logger->log("--------------------------------------------------");
+  m_logger->log(m_name);
+  m_logger->log("  Input:");
+  m_logger->log("  input", m_inputs.to_ulong());
+  m_logger->log("  Output:");
+  m_logger->log("  output" , m_inputs.to_ulong() << 2);
+
+  m_updated_inputs.reset();
+
+  fireAllOutputs();
+}
+
+#endif // SHIFT_LEFTER_H_
