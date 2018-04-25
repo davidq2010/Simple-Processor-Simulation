@@ -48,7 +48,7 @@ addi $t5, $t1, 0					#store length in $t5
 		add $t2, $t2, $t4			#add to total
 		addi $t3, $t3, 4			#increment address
 		addi $t0, $t0, 1			#increment loop counter
-		beq $0, $0, 0xffe8          #back to sumLoop                    # 0x 400'070
+		j 0x40005c          #back to sumLoop                    # 0x 400'070
 
 #done
 
