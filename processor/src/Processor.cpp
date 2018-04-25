@@ -6,20 +6,21 @@ Processor(std::vector<unsigned long> _instructions,
           std::vector<unsigned long> _register_data,
           std::vector<unsigned long> _memory_data,
           unsigned long _memory_start_address)
-  : m_alu_add_4      ("ALU PC + 4"),
-    m_alu_add_branch ("ALU PC + branch"),
-    m_alu            ("ALU Main"),
-    m_const_alu_add  (2UL, 4),
-    m_const_4        (4UL, 32),
-    m_const_00       (0UL, 2),
-    m_mux_write_reg  (5, "MUX DestReg"),
-    m_mux_alu_src    (32, "MUX ALUSrc"),
-    m_mux_mem_to_reg (32, "MUX MemToReg"),
-    m_mux_branch     (32, "MUX Branch"),
-    m_mux_jump       (32, "MUX Jump"),
-    m_inst_mem       (_instructions),
-    m_reg_file       (_register_data),
-    m_data_mem       (_memory_data, _memory_start_address)
+  : m_alu_add_4        ("ALU PC + 4"),
+    m_alu_add_branch   ("ALU PC + branch"),
+    m_alu              ("ALU Main"),
+    m_const_alu_add    (2UL, 4),
+    m_const_4          (4UL, 32),
+    m_mux_write_reg    (5, "MUX DestReg"),
+    m_mux_alu_src      (32, "MUX ALUSrc"),
+    m_mux_mem_to_reg   (32, "MUX MemToReg"),
+    m_mux_branch       (32, "MUX Branch"),
+    m_mux_jump         (32, "MUX Jump"),
+    m_shift_left_jump  ("Shift Left Jump"),
+    m_shift_left_branch("Shift Left Branch"),
+    m_inst_mem         (_instructions),
+    m_reg_file         (_register_data),
+    m_data_mem         (_memory_data, _memory_start_address)
 {
   //----------------------------------------------------------------------------
   // Wiring between components
@@ -29,7 +30,6 @@ Processor(std::vector<unsigned long> _instructions,
   m_clock.addOutputComponent(0, m_pc, m_pc.clockID());
   m_clock.addOutputComponent(0, m_const_alu_add, 0);
   m_clock.addOutputComponent(0, m_const_4, 0);
-  m_clock.addOutputComponent(0, m_const_00, 0);
 
   //--------------------------------------------
   // Main data cycle
@@ -78,21 +78,21 @@ Processor(std::vector<unsigned long> _instructions,
   bulkConnect(m_const_alu_add , m_alu_add_4, 0 , m_alu_add_4.controlStartID()   , 4 );
 
   // branching alu
-  bulkConnect(m_alu_add_4     , m_alu_add_branch , 0 , m_alu_add_branch.operandStartID(0)     , 32);
-  bulkConnect(m_sign_ext      , m_alu_add_branch , 0 , m_alu_add_branch.operandStartID(1) + 2 , 30);
-  bulkConnect(m_const_00      , m_alu_add_branch , 0 , m_alu_add_branch.operandStartID(1)     , 2 );
-  bulkConnect(m_const_alu_add , m_alu_add_branch , 0 , m_alu_add_branch.controlStartID()      , 4 );
+  bulkConnect(m_alu_add_4         , m_alu_add_branch    , 0 , m_alu_add_branch.operandStartID(0) , 32);
+  bulkConnect(m_sign_ext          , m_shift_left_branch , 0 , 0                                  , 30);
+  bulkConnect(m_shift_left_branch , m_alu_add_branch    , 0 , m_alu_add_branch.operandStartID(1) , 32);
+  bulkConnect(m_const_alu_add     , m_alu_add_branch    , 0 , m_alu_add_branch.controlStartID()  , 4 );
 
   // mux add4 vs. branch
   bulkConnect(m_alu_add_4      , m_mux_branch , 0 , m_mux_branch.operandStartID(0) , 32);
   bulkConnect(m_alu_add_branch , m_mux_branch , 0 , m_mux_branch.operandStartID(1) , 32);
 
-  // mux add4+branch vs. jump
-  bulkConnect(m_mux_branch , m_mux_jump, 0  , m_mux_jump.operandStartID(0)     , 32);
+  // mux add4 + branch vs. jump
+  bulkConnect(m_mux_branch      , m_mux_jump       , 0  , m_mux_jump.operandStartID(0)      , 32);
 
-  bulkConnect(m_const_00   , m_mux_jump, 0  , m_mux_jump.operandStartID(1)     , 2 );
-  bulkConnect(m_inst_mem   , m_mux_jump, 0  , m_mux_jump.operandStartID(1) + 2 , 26);
-  bulkConnect(m_alu_add_4  , m_mux_jump, 28 , m_mux_jump.operandStartID(1) + 28, 4 );
+  bulkConnect(m_inst_mem        , m_shift_left_jump, 0  , 0                                 , 26);
+  bulkConnect(m_shift_left_jump , m_mux_jump       , 0  , m_mux_jump.operandStartID(1)      , 28);
+  bulkConnect(m_alu_add_4       , m_mux_jump       , 28 , m_mux_jump.operandStartID(1) + 28 , 4 );
 
   // cycle back to pc
   bulkConnect(m_mux_jump , m_pc , 0 , 0 , 32);
@@ -150,6 +150,8 @@ setLogger(Logger* logger)
   m_mux_branch.setLogger(logger);
   m_mux_jump.setLogger(logger);
   m_sign_ext.setLogger(logger);
+  m_shift_left_branch.setLogger(logger);
+  m_shift_left_jump.setLogger(logger);
   m_inst_mem.setLogger(logger);
   m_reg_file.setLogger(logger);
   m_data_mem.setLogger(logger);

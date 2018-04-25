@@ -63,8 +63,8 @@ ShiftLefter(std::string _name)
 }
 
 
-void
 template <std::size_t NUM_INPUTS>
+void
 ShiftLefter<NUM_INPUTS>::
 setInput(int _line_id, bool _bit)
 {
@@ -76,8 +76,8 @@ setInput(int _line_id, bool _bit)
 }
 
 
-void
 template <std::size_t NUM_INPUTS>
+bool
 ShiftLefter<NUM_INPUTS>::
 getOutput(int _line_id)
 {
@@ -85,8 +85,8 @@ getOutput(int _line_id)
 }
 
 
-void
 template <std::size_t NUM_INPUTS>
+void
 ShiftLefter<NUM_INPUTS>::
 updateOutput()
 {

@@ -13,6 +13,7 @@
 #include "MUX.h"
 #include "ProgramCounter.h"
 #include "RegisterFile.h"
+#include "ShiftLefter.h"
 #include "SignExtender.h"
 
 // STL
@@ -22,21 +23,6 @@
 /// @ingroup Processor
 /// @brief Builds the processor
 ///
-/// @details
-/// Input lines:
-///   ALUOp     [1 - 0]
-///   func      [7 - 2]
-/// Output lines:
-///   control   [3 - 0]
-///
-/// Input - output mapping:
-///   ALUOp   func             ALU Action        Output
-///
-///    00    XXXXXX    Add (for LW, SW, ADDI)     0010
-///    01    XXXXXX    Subtract (for BEQ)         0110
-///    10    100000    R-type, Add                0010
-///    10    100010    R-type, Substract          0110
-///    10    101010    R-type, Set on less than   0111
 ////////////////////////////////////////////////////////////////////////////////
 class Processor
 {
@@ -102,13 +88,16 @@ class Processor
     ANDGate           m_and_gate;       ///< And Control branch line with ALU zero line
     HardwiredConstant m_const_alu_add;  ///< Constant for add operation control for ALU
     HardwiredConstant m_const_4;        ///< Constant for the literal 4
-    HardwiredConstant m_const_00;       ///< Constant for the literal 00, used to shift left 2
     MUX               m_mux_write_reg;  ///< Choose rt or rd to write to
     MUX               m_mux_alu_src;    ///< Choose immediate or regiter data for ALU input
     MUX               m_mux_mem_to_reg; ///< Choose ALU result or Memory data to write back
     MUX               m_mux_branch;     ///< Choose PC+4 or PC+branch
     MUX               m_mux_jump;       ///< Choose PC or jump address
+    
     SignExtender      m_sign_ext;
+    ShiftLefter<26>   m_shift_left_jump; ///< Shift the jump address left 2
+    ShiftLefter<30>   m_shift_left_branch; ///< Shift the branch address left 2
+
     InstructionMemory m_inst_mem;
     RegisterFile      m_reg_file;
     DataMemory        m_data_mem;
