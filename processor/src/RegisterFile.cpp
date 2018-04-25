@@ -133,8 +133,7 @@ writeToRegister()
 {
   m_updated_inputs &= READ_INPUTS; // clear all update bits of write inputs
 
-  if (!m_inputs[writeControlID()]) // don't write if write line is low
-    return;
+  bool do_write = m_inputs[writeControlID()];
 
   // get write register number
   int reg_id =
@@ -143,5 +142,15 @@ writeToRegister()
   unsigned long data =
       ((m_inputs >> writeDataStartID()) & FULL_BIT_MASK_32).to_ulong();
 
-  m_register_data[reg_id] = data;
+  m_logger->log("--------------------------------------------------");
+  m_logger->log("Register File Write");
+  m_logger->log("  Input:");
+  m_logger->log("  WriteReg" , reg_id);
+  m_logger->log("  RegWrite" , m_inputs[writeControlID()]);
+  m_logger->log("  WriteData", data);
+  m_logger->log("  Output:");
+  m_logger->log("  action", do_write? "WRITE" : "NOT WRITE", Logger::DEBUG);
+
+  if (do_write)
+    m_register_data[reg_id] = data;
 }

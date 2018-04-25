@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 
 int main(int argc, char const *argv[])
@@ -70,11 +71,14 @@ int main(int argc, char const *argv[])
   // Run
   int i = 1;
   while (!processor.isFinished()) {
-    logger.log("====================================================================");
-    logger.log(string("Cycle ") + to_string(i));
+    logger.log("==================================================");
+    stringstream cycle_header;
+    cycle_header << "Cycle " << i << ": " << endl;
     int instruction_index = 
         (processor.getNextInstructionAddress() - InstructionMemory::START_ADDRESS) >> 2;
-    logger.log( string("  ") + instructions[instruction_index].getString() );
+    cycle_header << instructions[instruction_index].getString();
+    logger.log(cycle_header.str());
+    
     try {
       processor.step();
     } catch(std::out_of_range& ex) {
@@ -83,6 +87,13 @@ int main(int argc, char const *argv[])
       break;
     }
     i++;
+
+    // Prompt key press after each cycle, if single_step option is enabled
+    if (configs.output_mode == Configs::SINGLE_STEP)
+    {
+      cout << endl << "Press ENTER to continue...";
+      cin.ignore();
+    }
   }
 
   file_out_stream.close();

@@ -22,6 +22,7 @@ operator() (string _file_name)
   while( getline(in, line) )
   {
     line_number++;
+    line = trim(line);
 
     string opcode("");
     string operand[80];
@@ -213,7 +214,7 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,
     imm = cvtNumString2Number(operand[imm_p]);
     if (o == BEQ)
     {
-      imm = (imm - inst_address) >> 2;
+      imm = (imm - inst_address - 4) >> 2;
     }
   }
 
