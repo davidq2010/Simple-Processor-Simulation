@@ -3,7 +3,7 @@
 
 #include <bitset>
 #include <unordered_map>
-#include "ProcessorComponent.h"
+#include "AbstractProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @ingroup Processor
@@ -27,7 +27,7 @@
 /// When the control lines don't match exactly any of the instruction supported,
 /// Control Unit has undefined behavior.
 ////////////////////////////////////////////////////////////////////////////////
-class Control : public ProcessorComponent
+class Control : public AbstractProcessorComponent<6, 10>
 {
   public:
 
@@ -60,11 +60,7 @@ class Control : public ProcessorComponent
 
     int resultID()  { return RESULT_ID; }
 
-    bool getOutput(int _line_id);
-
-    void setInput(int _line_id, bool _bit);
-
-    void updateOutput();
+    void updateOutputs();
     /// @}
     ////////////////////////////////////////////////////////////////////////////
 
@@ -74,14 +70,7 @@ class Control : public ProcessorComponent
     opcodeMap;
 
     static const opcodeMap OPCODE_TABLE;  ///< Hashmap mapping input opcode bits
-                                          ///< to which output line to fire
-
-    std::bitset<NUM_INPUTS>  m_inputs;  ///< Input bits
-
-    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
-
-    std::bitset<NUM_INPUTS>  m_updated_inputs;  ///< Keep track of which inputs
-                                                ///< are updated
+                                          ///< to which output line to fireW
 };
 
 #endif

@@ -28,10 +28,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 class ALU : public AbstractProcessorComponent<68, 33>
 {
-  using AbstractProcessorComponent<68, 33>::m_inputs;
-  using AbstractProcessorComponent<68, 33>::m_outputs;
-  using AbstractProcessorComponent<68, 33>::m_logger;
-
   public:
 
     ////////////////////////////////////////////////////////////////////////////

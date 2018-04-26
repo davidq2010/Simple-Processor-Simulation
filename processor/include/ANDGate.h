@@ -1,7 +1,7 @@
-#ifndef AND_H_
-#define AND_H_
+#ifndef AND_GATE_H_
+#define AND_GATE_H_
 
-#include "ProcessorComponent.h"
+#include "AbstractProcessorComponent.h"
 #include <bitset>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -16,7 +16,7 @@
 /// Output lines:
 ///   Result  [0]   Input_0 && Input_1
 ////////////////////////////////////////////////////////////////////////////////
-class ANDGate : public ProcessorComponent
+class ANDGate : public AbstractProcessorComponent<2, 1>
 {
   public:
 
@@ -43,26 +43,11 @@ class ANDGate : public ProcessorComponent
     /// @name Accessors/Manipulators
     /// @{
 
-    void setInput(int _line_id, bool _bit);
-
-    bool getOutput(int _line_id=0);
-
-    /// @brief Updates output bits depending on ALU control code
+    /// @brief Output is the AND of 2 inputs
     void updateOutputs();
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
-
-  private:
-
-    std::bitset<NUM_INPUTS>  m_inputs;  ///< Input bits
-    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
-    std::bitset<NUM_INPUTS>  m_updated_inputs;  ///< Keep track of updated inputs
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// @return true if all input lines have been updated
-    ////////////////////////////////////////////////////////////////////////////
-    bool areAllInputsUpdated();
 };
 
-#endif // MUX_H_
+#endif // AND_GATE_H_

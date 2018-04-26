@@ -21,32 +21,14 @@ const Control::opcodeMap Control::OPCODE_TABLE
   {std::bitset<NUM_INPUTS>("000010"), std::bitset<NUM_OUTPUTS>("0000000010")}
  });
 
+
 Control::
-Control() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {}
+Control() : AbstractProcessorComponent<NUM_INPUTS, NUM_OUTPUTS>() {}
 
 
 void
 Control::
-setInput(int _line_id, bool _bit)
-{
-  m_inputs.set(_line_id, _bit);
-  m_updated_inputs.set(_line_id);
-  if (m_updated_inputs.all())
-    updateOutput();
-}
-
-
-bool
-Control::
-getOutput(int _line_id)
-{
-  return m_outputs.test(_line_id);
-}
-
-
-void
-Control::
-updateOutput()
+updateOutputs()
 {
   // Check if the input bits match an opcode. If it does, output the correct bit
   // to the correct wire.
@@ -70,8 +52,4 @@ updateOutput()
   m_logger->log("  MemWrite", m_outputs[7]);
   m_logger->log("  ALUSrc"  , m_outputs[8]);
   m_logger->log("  RegWrite", m_outputs[9]);
-
-  // update
-  m_updated_inputs.reset();
-  fireAllOutputs();
 }

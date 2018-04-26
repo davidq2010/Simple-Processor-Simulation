@@ -1,8 +1,7 @@
 #ifndef ALU_CONTROL_H_
 #define ALU_CONTROL_H_
 
-#include "ProcessorComponent.h"
-#include "Logger.h"
+#include "AbstractProcessorComponent.h"
 
 // STL
 #include <bitset>
@@ -29,7 +28,7 @@
 ///    10    100010    R-type, Substract          0110
 ///    10    101010    R-type, Set on less than   0111
 ////////////////////////////////////////////////////////////////////////////////
-class ALUControl : public ProcessorComponent
+class ALUControl : public AbstractProcessorComponent<8, 4>
 {
   public:
 
@@ -81,15 +80,6 @@ class ALUControl : public ProcessorComponent
     /// @return FUNC_START_ID
     int funcStartID()  { return FUNC_START_ID; }
 
-    /// @return bit in output bits with _line_id
-    bool getOutput(int _line_id);
-
-    /// @brief Set the bit of an input line
-    /// @details Calls updateOutputs() once all input lines have been set
-    /// @param  _line_id   ID of input line
-    /// @param  _bit       bit of input line
-    void setInput(int _line_id, bool _bit);
-
     /// @brief Updates output bits depending on aluOp and function code
     void updateOutputs();
 
@@ -100,15 +90,6 @@ class ALUControl : public ProcessorComponent
 
     ///< Bitmask
     static const std::bitset<NUM_INPUTS> ALU_OP_MASK;
-
-    ///< All input bit wires
-    std::bitset<NUM_INPUTS> m_inputs;
-
-    ///< All output bit wires
-    std::bitset<NUM_OUTPUTS> m_outputs;
-
-    ///< To keep track of updated input wires
-    std::bitset<NUM_INPUTS> m_updated_inputs;
 };
 
 #endif
