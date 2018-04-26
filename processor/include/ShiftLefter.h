@@ -1,10 +1,9 @@
 #ifndef SHIFT_LEFTER_H_
 #define SHIFT_LEFTER_H_
 
-#include "ProcessorComponent.h"
+#include "AbstractProcessorComponent.h"
 
 // STL
-#include <bitset>
 #include <string>
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -17,8 +16,12 @@
 /// Line ID corresponds to the bit index in integer
 ////////////////////////////////////////////////////////////////////////////////
 template <std::size_t NUM_INPUTS>
-class ShiftLefter : public ProcessorComponent
+class ShiftLefter : public AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>
 {
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_inputs;
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_outputs;
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_logger;
+  
   public:
 
     ////////////////////////////////////////////////////////////////////////////
@@ -34,21 +37,13 @@ class ShiftLefter : public ProcessorComponent
     /// @name Accessors/Manipulators
     /// @{
 
-    void setInput(int _line_id, bool _bit);
-
-    bool getOutput(int _line_id);
-
-    /// @brief Sign extends the most significant bit and fires outputs
-    void updateOutput();
+    /// @brief output = input << 2
+    void updateOutputs();
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
 
   private:
-
-    std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
-
-    std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
 
     std::string m_name;
 };
@@ -57,49 +52,26 @@ class ShiftLefter : public ProcessorComponent
 template <std::size_t NUM_INPUTS>
 ShiftLefter<NUM_INPUTS>::
 ShiftLefter(std::string _name) 
-  : ProcessorComponent(NUM_INPUTS, NUM_INPUTS + 2),
+  : AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>(),
     m_name(_name)    
 {
 }
 
-
 template <std::size_t NUM_INPUTS>
 void
 ShiftLefter<NUM_INPUTS>::
-setInput(int _line_id, bool _bit)
+updateOutputs()
 {
-  m_inputs.set(_line_id, _bit);
+  m_outputs = std::bitset<NUM_INPUTS+2>(m_inputs.to_string());
+  m_outputs <<= 2;
 
-  m_updated_inputs.set(_line_id);
-  if (m_updated_inputs.all())
-    updateOutput();
-}
-
-
-template <std::size_t NUM_INPUTS>
-bool
-ShiftLefter<NUM_INPUTS>::
-getOutput(int _line_id)
-{
-  return (_line_id < 2)? 0 : m_inputs[_line_id - 2];
-}
-
-
-template <std::size_t NUM_INPUTS>
-void
-ShiftLefter<NUM_INPUTS>::
-updateOutput()
-{
+  // Log inputs/outputs
   m_logger->log("--------------------------------------------------");
   m_logger->log(m_name);
   m_logger->log("  Input:");
   m_logger->log("  input", m_inputs.to_ulong());
   m_logger->log("  Output:");
   m_logger->log("  output" , m_inputs.to_ulong() << 2);
-
-  m_updated_inputs.reset();
-
-  fireAllOutputs();
 }
 
 #endif // SHIFT_LEFTER_H_

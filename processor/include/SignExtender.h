@@ -1,10 +1,7 @@
 #ifndef SIGN_EXTENDER_H_
 #define SIGN_EXTENDER_H_
 
-#include "ProcessorComponent.h"
-
-// STL
-#include <bitset>
+#include "AbstractProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @ingroup Processor
@@ -15,7 +12,7 @@
 /// Output: 32 lines
 /// Line ID corresponds to the bit index in integer
 ////////////////////////////////////////////////////////////////////////////////
-class SignExtender : public ProcessorComponent
+class SignExtender : public AbstractProcessorComponent<16, 32>
 {
   public:
 
@@ -43,23 +40,12 @@ class SignExtender : public ProcessorComponent
     /// @name Accessors/Manipulators
     /// @{
 
-    void setInput(int _line_id, bool _bit);
-
-    bool getOutput(int _line_id);
-
     /// @brief Sign extends the most significant bit and fires outputs
-    void updateOutput();
+    void updateOutputs();
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
 
-  private:
-
-    std::bitset<NUM_INPUTS>  m_inputs; ///< Input bits
-
-    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
-
-    std::bitset<NUM_INPUTS>  m_updated_inputs; ///< keep track of which inputs are updated
 };
 
 #endif // SIGN_EXTENDER_H_
