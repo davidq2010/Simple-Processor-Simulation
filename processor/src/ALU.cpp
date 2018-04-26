@@ -7,32 +7,13 @@ const std::bitset<ALU::NUM_INPUTS> ALU::CONTROL_BIT_MASK (0xFul);
 
 
 ALU::
-ALU(std::string _name) : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS),
-  m_name(_name) {}
-
-
-void
-ALU::
-setInput(int _line_id, bool _bit)
-{
-  m_inputs.set(_line_id, _bit);
-  m_updated_inputs.set(_line_id);
-  if (m_updated_inputs.all())
-    updateOutput();
-}
-
-
-bool
-ALU::
-getOutput(int _line_id)
-{
-  return m_outputs.test(_line_id);
-}
-
+ALU(std::string _name) 
+  : AbstractProcessorComponent<NUM_INPUTS, NUM_OUTPUTS>(),
+    m_name(_name) {}
 
 void
 ALU::
-updateOutput()
+updateOutputs()
 {
   unsigned long a =
     ((m_inputs >> operandStartID(0)) & FULL_BIT_MASK_32).to_ulong();
@@ -80,8 +61,4 @@ updateOutput()
   m_logger->log("  action", action, Logger::DEBUG);
   m_logger->log("  result", result);
   m_logger->log("  zero", zero);
-
-  // update
-  m_updated_inputs.reset();
-  fireAllOutputs();
 }

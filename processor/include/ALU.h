@@ -26,8 +26,12 @@
 /// When the control lines don't match exactly any of the instruction supported,
 /// ALU's behavior is undefined.
 ////////////////////////////////////////////////////////////////////////////////
-class ALU : public ProcessorComponent
+class ALU : public AbstractProcessorComponent<68, 33>
 {
+  using AbstractProcessorComponent<68, 33>::m_inputs;
+  using AbstractProcessorComponent<68, 33>::m_outputs;
+  using AbstractProcessorComponent<68, 33>::m_logger;
+
   public:
 
     ////////////////////////////////////////////////////////////////////////////
@@ -74,12 +78,8 @@ class ALU : public ProcessorComponent
 
     int zeroID()  { return ZERO_ID; }
 
-    void setInput(int _line_id, bool _bit);
-
-    bool getOutput(int _line_id);
-
     /// @brief Updates output bits depending on ALU control code
-    void updateOutput();
+    void updateOutputs();
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
@@ -90,13 +90,6 @@ class ALU : public ProcessorComponent
     static const std::bitset<NUM_INPUTS> FULL_BIT_MASK_32;
 
     static const std::bitset<NUM_INPUTS> CONTROL_BIT_MASK;
-
-    std::bitset<NUM_INPUTS>  m_inputs;  ///< Input bits
-
-    std::bitset<NUM_OUTPUTS> m_outputs; ///< Output bits
-
-    ///< keep track of which inputs are updated
-    std::bitset<NUM_INPUTS>  m_updated_inputs;
 
     std::string m_name;   ///< name of the component, for logging
 };
