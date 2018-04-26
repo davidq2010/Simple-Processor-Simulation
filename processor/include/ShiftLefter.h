@@ -19,6 +19,10 @@
 template <std::size_t NUM_INPUTS>
 class ShiftLefter : public AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>
 {
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_inputs;
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_outputs;
+  using AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2>::m_logger;
+  
   public:
 
     ////////////////////////////////////////////////////////////////////////////
@@ -35,7 +39,7 @@ class ShiftLefter : public AbstractProcessorComponent<NUM_INPUTS, NUM_INPUTS + 2
     /// @{
 
     /// @brief output = input << 2
-    void updateOutput();
+    void updateOutputs();
 
     /// @}
     ////////////////////////////////////////////////////////////////////////////
@@ -57,9 +61,9 @@ ShiftLefter(std::string _name)
 template <std::size_t NUM_INPUTS>
 void
 ShiftLefter<NUM_INPUTS>::
-updateOutput()
+updateOutputs()
 {
-  m_outputs = m_inputs.to_string();
+  m_outputs = std::bitset<NUM_INPUTS+2>(m_inputs.to_string());
   m_outputs <<= 2;
 
   // Log inputs/outputs

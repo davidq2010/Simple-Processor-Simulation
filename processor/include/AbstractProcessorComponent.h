@@ -77,8 +77,9 @@ setInput(int _line_id, bool _bit)
   m_inputs.set(_line_id, _bit);
 
   m_updated_inputs.set(_line_id);
-  if (m_updated_inputs.all()) {
-    updateOutput();
+  if (m_updated_inputs.all()) 
+  {
+    updateOutputs();
     m_updated_inputs.reset();
     fireAllOutputs();
   }
