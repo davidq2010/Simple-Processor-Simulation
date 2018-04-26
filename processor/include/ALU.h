@@ -3,7 +3,7 @@
 
 #include <bitset>
 #include <string>
-#include "ProcessorComponent.h"
+#include "AbstractProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @ingroup Processor
