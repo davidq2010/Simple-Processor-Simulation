@@ -1,8 +1,5 @@
 #include "SignExtender.h"
 
-//TODO: Delete this
-#include <iostream>
-
 SignExtender::
 SignExtender() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {};
 
