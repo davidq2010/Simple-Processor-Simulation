@@ -1,5 +1,6 @@
-// STL
-#include <bitset>
+#ifndef SIGN_EXTENDER_H_
+#define SIGN_EXTENDER_H_
+
 #include "AbstractProcessorComponent.h"
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -2,7 +2,7 @@
 
 
 SignExtender::
-SignExtender() : ProcessorComponent(NUM_INPUTS, NUM_OUTPUTS) {};
+SignExtender() : AbstractProcessorComponent<NUM_INPUTS, NUM_OUTPUTS>() {};
 
 
 void

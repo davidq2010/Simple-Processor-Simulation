@@ -2,7 +2,6 @@
 #define AND_GATE_H_
 
 #include "AbstractProcessorComponent.h"
-#include <bitset>
 
 ////////////////////////////////////////////////////////////////////////////////
 /// @ingroup Processor
